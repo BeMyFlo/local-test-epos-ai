@@ -27,6 +27,10 @@ src/wp-content/plugins/hello.php
 # Zippy owner plugins (not needed)
 src/wp-content/plugins/zippy-*
 
+# Third-party plugins (install manually or via Composer)
+src/wp-content/plugins/woocommerce
+src/wp-content/plugins/advanced-custom-fields-pro
+
 # WordPress uploads and cache
 src/wp-content/uploads
 src/wp-content/upgrade
@@ -35,3 +39,6 @@ src/wp-content/cache
 # OS files
 .DS_Store
 Thumbs.db
+
+# Windows NTFS Alternate Data Streams (created when copying files from Windows to WSL)
+*:Zone.Identifier
