@@ -1,0 +1,1207 @@
+@use "variables" as *;
+
+// =============================================================================
+// Single Product Page
+// Prefix: zp__ / zp- (Zippy Product)
+// =============================================================================
+
+// =============================================================================
+// Breadcrumbs (single product page only — shop hero version is in _shop.scss)
+// =============================================================================
+.single-product {
+  .wc-block-breadcrumbs {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .woocommerce-breadcrumb {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: $c-primary; // current-page text (the bolder color)
+    line-height: 1.5;
+
+    a {
+      color: $c-muted; // intermediate links — softer
+      font-weight: 500;
+      text-decoration: none;
+      @include transition(color);
+
+      &:hover {
+        color: $c-primary;
+      }
+    }
+  }
+
+  // Chevron separator (PHP filter wraps each separator in this span)
+  .zp-bc-sep {
+    display: inline-block;
+    margin: 0 0.55rem;
+    color: $c-border;
+    font-size: 0.85rem;
+    font-weight: 400;
+    transform: translateY(-1px);
+  }
+
+  // Mobile back link (built in JS from the original trail)
+  .zp-bc-back {
+    display: none;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 0;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $c-primary;
+    text-decoration: none;
+    @include transition(color);
+
+    svg {
+      color: $c-muted;
+      @include transition(color);
+    }
+
+    &:hover {
+      color: $c-accent;
+      svg {
+        color: $c-accent;
+        transform: translateX(-2px);
+        transition: transform 0.2s;
+      }
+    }
+  }
+
+  // On mobile: hide the full trail, show the back link
+  @include until(md) {
+    .wc-block-breadcrumbs {
+      margin-bottom: 1rem !important;
+    }
+    .woocommerce-breadcrumb {
+      display: none;
+    }
+    .zp-bc-back {
+      display: inline-flex;
+    }
+  }
+}
+
+// ---- Layout adjustments to the FSE template ----
+.single-product main.wp-block-group {
+  .wp-block-columns {
+    gap: 3rem;
+
+    @include until(md) {
+      gap: 1.5rem;
+    }
+  }
+
+  // Sticky image gallery on desktop
+  @include from(lg) {
+    .wp-block-column:first-child {
+      position: sticky;
+      top: 1.5rem;
+      align-self: flex-start;
+    }
+  }
+}
+
+// =============================================================================
+// Image gallery — flexslider-driven (main image + thumbnail strip below)
+// =============================================================================
+// WC's flexslider library converts stacked .woocommerce-product-gallery__image
+// divs into a carousel with thumbnails. We restyle its defaults to match our
+// design system: rounded main image, accent ring on the active thumbnail.
+
+.woocommerce-product-gallery {
+  position: relative;
+
+  // WC sets opacity:0 inline until flexslider initializes. If JS fails, this
+  // fallback ensures the gallery is still visible.
+  &[style*="opacity: 0"]:not(.woocommerce-product-gallery--initialized) {
+    opacity: 1 !important;
+  }
+
+  // Main image (first .woocommerce-product-gallery__image; others slide in)
+  .woocommerce-product-gallery__image {
+    overflow: hidden;
+    border-radius: $border-radius-lg;
+    background: $c-secondary;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block;
+      @include transition(transform);
+    }
+
+    &:hover img {
+      transform: scale(1.02);
+    }
+  }
+
+  // Magnifier trigger (top-right of main image)
+  .woocommerce-product-gallery__trigger {
+    top: 1rem;
+    right: 1rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: $c-white;
+    color: $c-primary;
+    border-radius: 50%;
+    text-indent: 0;
+    font-size: 0;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    @include transition((transform, box-shadow));
+
+    &::before {
+      content: '🔍';
+      font-size: 1rem;
+    }
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  // Flexslider thumbnail strip — small images below the main image. Accent
+  // ring (matching our card thumbnail pattern) marks the active one.
+  .flex-control-nav.flex-control-thumbs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.85rem 0 0 !important;
+    margin: 0 !important;
+    list-style: none;
+		overflow: unset !important;
+
+    li {
+      width: calc(20% - 0.4rem); // 5 thumbs per row
+      margin: 0;
+      cursor: pointer;
+
+      @include until(md) {
+        width: calc(25% - 0.375rem); // 4 thumbs per row on tablet
+      }
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      opacity: 0.6;
+      @include transition((opacity, box-shadow));
+
+      &:hover {
+        opacity: 0.85;
+      }
+
+      &.flex-active {
+        opacity: 1;
+        box-shadow:
+          0 0 0 2px $c-white,
+          0 0 0 4px $c-accent;
+      }
+    }
+  }
+
+  // Hide flexslider's default prev/next arrows — thumbnails are the nav
+  .flex-direction-nav {
+    display: none;
+  }
+}
+
+// =============================================================================
+// Summary (right column)
+// =============================================================================
+.zp-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  p {
+    margin: 0px !important;
+  }
+	::after,::before{
+		display: none !important;
+	}
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    color: $c-primary;
+    margin: 0;
+
+    @include from(md) {
+      font-size: 2rem;
+    }
+  }
+
+  // Wraps __price + the inline stock pill on the same row
+  &__price-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    // The stock indicator inside this row drops its own bottom margin so
+    // it sits cleanly with the price.
+    .zp-stock {
+      margin: 0;
+    }
+  }
+
+  &__price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $c-primary;
+    line-height: 1;
+
+    // WC's default markup
+    ins,
+    .woocommerce-Price-amount {
+      text-decoration: none;
+      background: transparent;
+      color: $c-primary;
+    }
+
+    del,
+    .wc-block-components-product-price__regular {
+      color: $c-muted;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+  }
+
+  &__discount {
+    display: inline-block;
+    background: $c-danger;
+    color: $c-white;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 0.2rem 0.5rem;
+    border-radius: 100px;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+
+  &__excerpt {
+    color: $c-muted;
+    font-size: 0.95rem;
+    line-height: 1.6;
+
+    p {
+      margin: 0 0 0.5rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__meta {
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid $c-border;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.zp-meta-row {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  flex-wrap: wrap;
+}
+
+.zp-meta-label {
+  color: $c-muted;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.zp-meta-value {
+  color: $c-primary;
+}
+
+.zp-meta-pills a {
+  display: inline-block;
+  padding: 0.15rem 0.55rem;
+  background: $c-secondary;
+  border-radius: 100px;
+  font-size: 0.75rem;
+  color: $c-primary;
+  text-decoration: none;
+  margin-right: 0.25rem;
+  @include transition((background, color));
+
+  &:hover {
+    background: $c-primary;
+    color: $c-white;
+  }
+}
+
+// =============================================================================
+// Stock indicator
+// =============================================================================
+.zp-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 600;
+
+  &--in {
+    background: rgba(76, 175, 80, 0.1);
+    color: #2e7d32;
+  }
+
+  &--low {
+    background: rgba(255, 152, 0, 0.12);
+    color: #ef6c00;
+  }
+
+  &--out {
+    background: rgba(229, 57, 53, 0.1);
+    color: $c-danger;
+  }
+}
+
+// =============================================================================
+// Variations
+// =============================================================================
+.zp-variations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+	margin-bottom: 0px !important;
+}
+
+.zp-variation {
+  &__head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $c-primary;
+  }
+
+  &__value {
+    font-size: 0.85rem;
+    color: $c-muted;
+  }
+
+  &__select {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid $c-border;
+    border-radius: $border-radius;
+    font-size: 0.875rem;
+    color: $c-primary;
+    background: $c-white;
+    @include transition(border-color);
+
+    &:focus {
+      outline: none;
+      border-color: $c-primary;
+      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+
+.zp-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.zp-swatch {
+  background: none;
+  border: 2px solid $c-border;
+  border-radius: $border-radius;
+  cursor: pointer;
+  @include transition((border-color, background, color, transform));
+  font-family: inherit;
+
+  &:hover {
+    border-color: $c-primary;
+  }
+
+  &:focus-visible {
+    outline: none;
+    border-color: $c-primary;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+
+  &.is-selected {
+    border-color: $c-primary;
+    background: $c-primary;
+    color: $c-white;
+  }
+
+  // --- Color swatches ---
+  &--color {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .zp-swatch__dot {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    &.is-selected {
+      background: transparent;
+      border-color: $c-primary;
+      border-width: 2px;
+      transform: scale(1.05);
+    }
+  }
+
+  // --- Button swatches (size etc.) ---
+  &--button {
+    min-width: 44px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+}
+
+.zp-variation-reset {
+  background: none;
+  border: none;
+  color: $c-muted;
+  font-size: 0.78rem;
+  text-decoration: underline;
+  cursor: pointer;
+  align-self: flex-start;
+  padding: 0;
+  margin-top: 0.25rem;
+
+  &:hover {
+    color: $c-primary;
+  }
+}
+
+.single_variation_wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 0.5rem;
+	width: 100%;
+}
+
+.single_variation {
+  // WC populates variation-specific price/availability here.
+  // Hide WC's default price display since we update .zp-summary__price ourselves.
+  display: contents; // collapse the wrapper so empty content takes no layout space
+
+  .woocommerce-variation-price,
+  .woocommerce-variation-availability,
+  .woocommerce-variation-description {
+    display: none;
+  }
+}
+
+// WC variation add-to-cart row: qty stepper + button on one line.
+// Mirrors .zp-add-form so variable products get the same sizing as simple
+// products (button fills remaining width, qty stretches to button height).
+.woocommerce-variation-add-to-cart {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+// =============================================================================
+// Quantity stepper
+// =============================================================================
+.zp-qty {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid $c-border;
+  border-radius: $border-radius;
+  overflow: hidden;
+  background: $c-white;
+
+  &__btn {
+    width: 38px;
+    background: $c-secondary;
+    border: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: $c-primary;
+    cursor: pointer;
+    @include transition(background);
+
+    &:hover {
+      background: darken(#f5f5f5, 5%);
+    }
+    &:active {
+      background: darken(#f5f5f5, 8%);
+    }
+  }
+
+  &__input {
+    width: 56px;
+    border: none;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $c-primary;
+    background: transparent;
+    padding: 0;
+    appearance: textfield;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+// =============================================================================
+// Add-to-cart form + button
+// =============================================================================
+// align-items: stretch makes the qty stepper height-match the Add to Cart
+// button. The button's padding sets the row height; qty stretches to fit.
+.zp-add-form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin: 0 !important;
+}
+
+.zp-add-btn {
+  flex: 1 1 auto;
+  min-width: 180px;
+  // Fill remaining row width next to the qty stepper.
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.5rem;
+  background: $c-primary;
+  color: $c-white !important;
+  border: none;
+  border-radius: $border-radius;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  position: relative;
+  @include transition((background, transform, box-shadow));
+
+  // Icon BEFORE text: standard "🛒 Add to cart" reading order
+  .zp-add-btn__icon {
+    order: -1;
+  }
+
+  &:hover {
+    background: #333;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:disabled,
+  &.disabled {
+    background: $c-muted;
+    cursor: not-allowed;
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+    display: block; // remove inline baseline gap
+    vertical-align: middle;
+  }
+
+  &__text {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1; // collapse line-height so flex centering is accurate
+  }
+
+  &__spinner {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: $c-white;
+    border-radius: 50%;
+    animation: zp-spin 0.7s linear infinite;
+  }
+
+  &.is-loading {
+    .zp-add-btn__icon {
+      display: none;
+    }
+    .zp-add-btn__spinner {
+      display: inline-block;
+    }
+  }
+}
+
+@keyframes zp-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// =============================================================================
+// Buy Now button — outline variant, sits below the primary Add to Cart
+// =============================================================================
+.zp-buy-now {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.25rem; // shorter than Add-to-Cart so secondary feel
+  background: $c-white;
+  color: $c-primary !important;
+  border: 1.5px solid $c-primary;
+  border-radius: $border-radius;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none; // we handle focus visually via :focus-visible below
+  -webkit-tap-highlight-color: transparent; // disable mobile green/blue tap flash
+  @include transition((background, color, border-color, transform));
+
+  &:hover,
+  &:focus,
+  &:active,
+  &:focus-visible {
+    background: $c-primary;
+    color: $c-white !important;
+    border-color: $c-primary;
+    outline: none;
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  }
+
+  &.is-disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  @include until(md) {
+    max-width: none; // full width on mobile (matches Add-to-Cart)
+  }
+}
+
+// =============================================================================
+// Trust badges row (hardcoded — Secure Checkout + Fast Delivery)
+// =============================================================================
+.zp-trust {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+
+  @include until(sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.zp-trust__item {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.7rem 0.85rem;
+  background: $c-secondary;
+  border-radius: $border-radius;
+}
+
+.zp-trust__icon {
+  color: $c-primary;
+  flex-shrink: 0;
+  display: inline-flex;
+}
+
+.zp-trust__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: $c-primary;
+}
+
+// =============================================================================
+// "Best Seller" ribbon — shown on featured products' gallery image
+// Positioned on the gallery container via CSS-only attachment, gated by
+// body.is-featured-product (added by AccountAssets when product is featured).
+// =============================================================================
+body.is-featured-product .single-product .wc-block-product-image-gallery,
+body.is-featured-product .single-product .woocommerce-product-gallery,
+body.is-featured-product.single-product .wc-block-product-image-gallery,
+body.is-featured-product.single-product .woocommerce-product-gallery {
+  position: relative;
+
+  &::before {
+    content: "BEST SELLER";
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    z-index: 3;
+    padding: 0.4rem 0.85rem;
+    background: $c-orange;
+    color: $c-white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// =============================================================================
+// Custom tabs (replaces wc:woocommerce/product-details)
+// =============================================================================
+.zp-tabs {
+  margin-top: 3rem;
+  border-top: 1px solid $c-border;
+  padding-top: 2rem;
+
+  &__nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    border-bottom: 1px solid $c-border;
+    margin-bottom: 1.5rem;
+  }
+
+  &__tab {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: $c-muted;
+    cursor: pointer;
+    position: relative;
+    font-family: inherit;
+    @include transition(color);
+
+    &:hover {
+      color: $c-primary;
+    }
+
+    &.is-active {
+      color: $c-primary;
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: $c-primary;
+      }
+    }
+  }
+
+  &__panel {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: $c-primary;
+    animation: zp-fade-in 0.2s ease-out;
+
+    &[hidden] {
+      display: none;
+    }
+
+    p {
+      margin: 0 0 1rem;
+    }
+    h2,
+    h3,
+    h4 {
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+}
+
+@keyframes zp-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.zp-attrs {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid $c-border;
+  }
+
+  th {
+    font-weight: 600;
+    color: $c-primary;
+    background: $c-secondary;
+    width: 30%;
+  }
+
+  td {
+    color: $c-primary;
+  }
+
+  tr:last-child {
+    th,
+    td {
+      border-bottom: none;
+    }
+  }
+}
+
+// =============================================================================
+// Mobile sticky add-to-cart bar
+// =============================================================================
+.zp-sticky-cart {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: $c-white;
+  border-top: 1px solid $c-border;
+  box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(100%);
+  transition: transform 0.3s $transition-ease;
+
+  &.is-visible {
+    transform: translateY(0);
+  }
+
+  &__thumb {
+    width: 44px;
+    height: 44px;
+    border-radius: $border-radius;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  &__info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: $c-primary;
+    @include truncate(1);
+  }
+
+  &__price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: $c-primary;
+
+    del {
+      color: $c-muted;
+      font-weight: 400;
+      font-size: 0.75rem;
+    }
+  }
+
+  &__btn {
+    padding: 0.65rem 1.25rem;
+    background: $c-primary;
+    color: $c-white;
+    border: none;
+    border-radius: $border-radius;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+    @include transition(background);
+
+    &:hover {
+      background: #333;
+    }
+  }
+
+  @include from(md) {
+    display: none;
+  }
+}
+
+// =============================================================================
+// Lightbox (custom tiny — ~3 KB)
+// =============================================================================
+.zp-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.2s ease,
+    visibility 0.2s ease;
+
+  &.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__stage {
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__img {
+    max-width: 100%;
+    max-height: 90vh;
+    object-fit: contain;
+    display: block;
+  }
+
+  &__close,
+  &__nav {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: $c-white;
+    cursor: pointer;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    @include transition(background);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &__close {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  &__nav {
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 2rem;
+
+    &--prev {
+      left: 1rem;
+    }
+    &--next {
+      right: 1rem;
+    }
+  }
+
+  &__counter {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    padding: 0.35rem 0.85rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 100px;
+  }
+}
+
+body.zp-lightbox-open {
+  overflow: hidden;
+}
+
+// =============================================================================
+// Lazy-loaded related products section
+// =============================================================================
+[data-lazy-related] {
+  min-height: 280px; // Reserve space to prevent CLS
+  transition: opacity 0.3s ease;
+}
+
+// =============================================================================
+// Related products — slim card variant + grid
+// =============================================================================
+.zp-related {
+  &__grid {
+    display: grid;
+    gap: 1.5rem;
+
+    @include until(lg) {
+      // Falls back to 3 columns on tablet
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    @include until(md) {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 1rem;
+    }
+  }
+}
+
+// Slim card variant — used in related products. The base .sf__card styles
+// (border, hover lift) come from _product-card.scss; this block overrides
+// only what's different for the "browse-only" slim variant: square image,
+// truncated title, no Add-to-Cart actions.
+.sf__card--slim {
+  // The slim card is itself an <a>, not a wrapper around interactive children
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border: none; // slim has no border (cleaner, used in dense grids)
+  background: $c-white;
+
+  &:hover {
+    .sf__card-image > img {
+      transform: scale(1.04);
+    }
+    .sf__card-title {
+      color: $c-accent;
+    }
+  }
+
+  .sf__card-image {
+    aspect-ratio: 1 / 1;
+    border-radius: $border-radius-lg;
+
+    // Slim variant uses a single <img> directly inside .sf__card-image
+    // (not wrapped in <a>), so target the direct child
+    > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      padding: 0; // override the full card's 1rem padding
+      aspect-ratio: 1 / 1;
+      @include transition(transform);
+    }
+  }
+
+  .sf__badge {
+    left: auto;
+    right: 0.65rem; // slim badges sit top-RIGHT (no wishlist there)
+  }
+
+  .sf__card-info {
+    padding: 0.75rem 0.25rem 0.25rem;
+    gap: 0.35rem;
+  }
+
+  .sf__card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: $c-primary;
+    line-height: 1.4;
+    @include truncate(2);
+    @include transition(color);
+  }
+
+  .sf__card-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+}
+
+// =============================================================================
+// Responsive
+// =============================================================================
+@include until(md) {
+  .zp-summary {
+    gap: 1rem;
+
+    &__title {
+      font-size: 1.5rem;
+    }
+    &__price {
+      font-size: 1.25rem;
+    }
+  }
+
+  .zp-add-btn {
+    width: 100%;
+  }
+
+  .zp-tabs {
+    margin-top: 2rem;
+
+    &__tab {
+      padding: 0.65rem 1rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  // Reserve bottom padding so the sticky bar doesn't cover footer content
+  body.single-product {
+    padding-bottom: 80px;
+  }
+}

@@ -1,0 +1,347 @@
+@use "variables" as *;
+
+// =============================================================================
+// Product Card (.sf__card)
+// =============================================================================
+// Single source of truth for product cards across the site:
+//   - Shop filter React app  (src/js/frontend/shop-filter/shop-filter.scss → @uses this)
+//   - Product Showcase block (src/blocks/product-showcase/style.scss → @uses this)
+//   - Server-rendered cards via AiZippy\Product\Cards::renderFull
+//
+// Uses global theme tokens (no shop-filter-local vars) so it bundles cleanly
+// into either consumer.
+// =============================================================================
+
+.sf__card {
+	border: 1px solid #eee;
+	border-radius: 12px;
+	overflow: hidden;
+	background: #fff;
+	@include transition((transform, box-shadow));
+	display: flex;
+	flex-direction: column;
+
+	.sf__grid--list & {
+		flex-direction: row;
+	}
+
+	&:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+	}
+}
+
+// Image area
+.sf__card-image {
+	position: relative;
+	overflow: hidden;
+	background: #f8f8f8;
+
+	> a {
+		display: block;
+		overflow: hidden;
+	}
+
+	> a > img {
+		width: 100%;
+		aspect-ratio: 1 / 1;
+		object-fit: contain;
+		display: block;
+		padding: 1rem;
+		transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	.sf__grid--list & {
+		width: 220px;
+		min-width: 220px;
+
+		> a > img {
+			height: 100%;
+			aspect-ratio: auto;
+		}
+	}
+
+	.sf__card:hover & > a > img {
+		transform: scale(1.06);
+	}
+}
+
+// Badges
+.sf__badge {
+	position: absolute;
+	top: 0.6rem;
+	left: 0.6rem;
+	padding: 0.3rem 0.75rem;
+	border-radius: 6px;
+	font-size: 0.65rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	z-index: 2;
+
+	&--sale {
+		background: $c-orange;
+		color: $c-white;
+	}
+	&--oos {
+		background: #666;
+		color: $c-white;
+	}
+}
+
+// Wishlist button (top-right of image)
+.sf__card-wish {
+	position: absolute;
+	top: 0.6rem;
+	right: 0.6rem;
+	width: 32px;
+	height: 32px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: $c-white;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	color: #ccc;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+	@include transition((color, transform));
+	z-index: 2;
+
+	&:hover,
+	&.is-active {
+		color: $c-orange;
+	}
+
+	&.is-active svg {
+		filter: drop-shadow(0 0 2px rgba(255, 107, 0, 0.3));
+	}
+}
+
+// Gallery thumbnails (bottom of image area)
+//
+// Active state uses an offset outer ring (box-shadow trick) instead of a
+// border — keeps the image area uncropped and gives the thumb visual breathing
+// room. Hover gets a softer gray ring so it's distinguishable from active.
+.sf__card-thumbs {
+	display: flex;
+	gap: 0.5rem;
+	padding: 0.65rem 0.85rem 0.9rem;
+	position: relative;
+	z-index: 2;
+}
+
+.sf__card-thumb {
+	width: 40px;
+	height: 40px;
+	border: none;
+	border-radius: 8px;
+	overflow: hidden;
+	cursor: pointer;
+	background: $c-white;
+	padding: 2px;
+	position: relative;
+
+	// Offset outer ring — lives in box-shadow so it doesn't shift the image.
+	// White inner ring creates the gap between thumb and outer ring.
+	@include transition(box-shadow);
+
+	&:hover {
+		// Soft gray ring on hover — visually different from active
+		box-shadow:
+			0 0 0 2px $c-white,
+			0 0 0 4px rgba(0, 0, 0, 0.12);
+	}
+
+	&.is-active {
+		box-shadow:
+			0 0 0 2px $c-white,
+			0 0 0 4px $c-accent;
+
+		// Override hover-when-active so the active state always reads as accent
+		&:hover {
+			box-shadow:
+				0 0 0 2px $c-white,
+				0 0 0 4px $c-accent;
+		}
+	}
+
+	img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		display: block;
+		border-radius: 6px;
+	}
+
+	&--more {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 0.72rem;
+		font-weight: 700;
+		color: $c-muted;
+		text-decoration: none;
+		background: $c-secondary;
+
+		&:hover {
+			color: $c-primary;
+			box-shadow:
+				0 0 0 2px $c-white,
+				0 0 0 4px $c-border;
+		}
+	}
+}
+
+// Larger tap targets on mobile
+@include until(md) {
+	.sf__card-thumb {
+		width: 44px;
+		height: 44px;
+	}
+}
+
+// Card info
+.sf__card-info {
+	padding: 0.85rem 1rem 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+	flex: 1;
+}
+
+.sf__card-cat {
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	color: $c-orange;
+	font-weight: 600;
+}
+
+.sf__card-title {
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: $c-primary;
+	text-decoration: none;
+	line-height: 1.3;
+	@include transition(color);
+
+	&:hover {
+		color: $c-accent;
+	}
+}
+
+.sf__card-rating {
+	display: flex;
+	align-items: center;
+	gap: 0.3rem;
+}
+
+.sf__stars {
+	color: #f5a623;
+	font-size: 0.8rem;
+	letter-spacing: 1px;
+}
+
+.sf__card-rating-count {
+	font-size: 0.7rem;
+	color: #999;
+}
+
+.sf__card-sku {
+	font-size: 0.7rem;
+	color: #bbb;
+}
+
+.sf__card-desc {
+	font-size: 0.8rem;
+	color: #666;
+	line-height: 1.5;
+	margin: 0.25rem 0;
+}
+
+// Price
+.sf__card-pricing {
+	margin-top: 0.25rem;
+}
+
+.sf__card-price {
+	font-size: 1.1rem;
+	font-weight: 700;
+	color: $c-primary;
+
+	del {
+		color: #bbb;
+		font-size: 0.85em;
+		font-weight: 400;
+		margin-left: 0.35rem;
+	}
+	ins {
+		text-decoration: none;
+	}
+}
+
+// Actions row (add to cart + wishlist)
+.sf__card-actions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: auto;
+	padding-top: 0.75rem;
+}
+
+.sf__card-btn {
+	flex: 1;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 0.65rem 1rem;
+	background: $c-navy;
+	color: $c-white !important;
+	border: none;
+	border-radius: $border-radius;
+	font-size: 0.7rem;
+	font-weight: 700;
+	letter-spacing: 0.5px;
+	text-transform: uppercase;
+	text-decoration: none;
+	cursor: pointer;
+	@include transition((background, transform));
+
+	&:hover {
+		background: #2a3d66;
+		transform: translateY(-1px);
+	}
+}
+
+// Responsive overrides for list-mode card (used inside shop filter only)
+@include until(md) {
+	.sf__grid--list .sf__card { grid-template-columns: 140px 1fr; }
+}
+
+@include until(sm) {
+	.sf__grid--list .sf__card { grid-template-columns: 1fr; }
+}
+
+// Small wishlist button (in actions row)
+.sf__card-wish-sm {
+	width: 38px;
+	height: 38px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: none;
+	border: 1px solid #eee;
+	border-radius: $border-radius;
+	cursor: pointer;
+	color: #ccc;
+	@include transition((color, border-color));
+	flex-shrink: 0;
+
+	&:hover,
+	&.is-active {
+		color: $c-orange;
+		border-color: $c-orange;
+	}
+}

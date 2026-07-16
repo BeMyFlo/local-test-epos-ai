@@ -1,0 +1,321 @@
+// =============================================================================
+// Audit Log admin panel — scoped under .zaud
+// =============================================================================
+@use "sass:color";
+
+// Tokens (mirrors theme palette without depending on parent SCSS @use chain)
+$accent:  #c8a97e;
+$danger:  #d63638;
+$warning: #dba617;
+$success: #46b450;
+$info:    #2271b1;
+$muted:   #757575;
+$border:  #e0e0e0;
+$bg:      #f6f7f7;
+
+#ai-zippy-audit-log-app {
+	max-width: 1400px;
+	margin-top: 1rem;
+}
+
+.zaud {
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+		gap: 1rem;
+		flex-wrap: wrap;
+
+		h1 {
+			margin: 0;
+			font-size: 1.6rem;
+		}
+	}
+
+	&__header-actions {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	&__loading {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 2rem;
+		color: $muted;
+	}
+}
+
+// -----------------------------------------------------------------------
+// Stats cards
+// -----------------------------------------------------------------------
+
+.zaud-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
+
+	&__card {
+		background: #fff;
+		border: 1px solid $border;
+		border-left-width: 3px;
+		border-radius: 6px;
+		padding: 0.9rem 1rem;
+		min-height: 80px;
+
+		&--neutral { border-left-color: $info; }
+		&--accent  { border-left-color: $accent; }
+		&--danger  { border-left-color: $danger; }
+		&--muted   { border-left-color: $muted; }
+	}
+
+	&__value {
+		font-size: 1.6rem;
+		font-weight: 700;
+		color: #1d2327;
+		line-height: 1.1;
+	}
+
+	&__label {
+		margin-top: 0.25rem;
+		font-size: 0.8rem;
+		color: $muted;
+		font-weight: 500;
+	}
+}
+
+// -----------------------------------------------------------------------
+// Settings panel (collapsible)
+// -----------------------------------------------------------------------
+
+.zaud-settings {
+	background: #fff;
+	border: 1px solid $border;
+	border-radius: 6px;
+	padding: 1rem 1.25rem;
+	margin-bottom: 1rem;
+
+	&__row {
+		display: flex;
+		gap: 1rem;
+		align-items: flex-end;
+		flex-wrap: wrap;
+
+		.components-base-control {
+			flex: 1;
+			min-width: 200px;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		gap: 0.5rem;
+	}
+}
+
+// -----------------------------------------------------------------------
+// Filter bar
+// -----------------------------------------------------------------------
+
+.zaud-filters {
+	background: #fff;
+	border: 1px solid $border;
+	border-radius: 6px;
+	padding: 1rem 1.25rem;
+	margin-bottom: 1rem;
+
+	&__row {
+		display: flex;
+		gap: 1rem;
+		align-items: flex-end;
+		flex-wrap: wrap;
+
+		.components-base-control {
+			flex: 1 1 160px;
+			min-width: 140px;
+			margin-bottom: 0;
+		}
+	}
+}
+
+// -----------------------------------------------------------------------
+// Log table
+// -----------------------------------------------------------------------
+
+.zaud-table-wrap {
+	background: #fff;
+	border: 1px solid $border;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.zaud-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 0.875rem;
+
+	th {
+		text-align: left;
+		padding: 0.75rem 1rem;
+		background: $bg;
+		border-bottom: 1px solid $border;
+		font-weight: 600;
+		color: #1d2327;
+	}
+
+	td {
+		padding: 0.75rem 1rem;
+		border-bottom: 1px solid #f0f0f0;
+		vertical-align: top;
+	}
+
+	&__row:hover {
+		background: $bg;
+	}
+
+	&__time {
+		white-space: nowrap;
+		color: #50575e;
+		font-variant-numeric: tabular-nums;
+		width: 1%;
+	}
+
+	&__actor {
+		font-weight: 500;
+		min-width: 140px;
+	}
+
+	&__ip {
+		font-size: 0.72rem;
+		color: $muted;
+		font-family: monospace;
+		margin-top: 2px;
+	}
+
+	&__object {
+		max-width: 300px;
+		word-break: break-word;
+	}
+
+	&__obj-id {
+		display: inline-block;
+		margin-left: 0.4rem;
+		padding: 0 5px;
+		background: #f0f0f0;
+		border-radius: 3px;
+		color: $muted;
+		font-size: 0.72rem;
+		font-family: monospace;
+	}
+
+	&__meta-toggle {
+		font-size: 0.78rem;
+		color: $info;
+	}
+
+	&__muted {
+		color: #c0c0c0;
+	}
+
+	&__detail-row {
+		background: #fafafa;
+
+		td {
+			padding: 0.5rem 1rem;
+		}
+	}
+
+	&__detail {
+		margin: 0;
+		font-size: 0.78rem;
+		color: #333;
+		background: #fff;
+		border: 1px solid $border;
+		border-radius: 4px;
+		padding: 0.5rem 0.75rem;
+		max-height: 200px;
+		overflow: auto;
+		white-space: pre-wrap;
+		word-break: break-word;
+	}
+}
+
+// -----------------------------------------------------------------------
+// Pills (event types)
+// -----------------------------------------------------------------------
+
+.zaud-pill {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 100px;
+	font-size: 0.72rem;
+	font-weight: 600;
+	white-space: nowrap;
+
+	&--success  { background: rgba($success, 0.12); color: color.adjust($success, $lightness: -12%); }
+	&--info     { background: rgba($info, 0.12);    color: $info; }
+	&--danger   { background: rgba($danger, 0.12);  color: $danger; }
+	&--warning  { background: rgba($warning, 0.18); color: color.adjust($warning, $lightness: -18%); }
+	&--neutral  { background: #f0f0f0;              color: #50575e; }
+}
+
+// -----------------------------------------------------------------------
+// Pagination
+// -----------------------------------------------------------------------
+
+.zaud-pagination {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0.75rem 1rem;
+	background: $bg;
+	border-top: 1px solid $border;
+
+	&__info {
+		font-size: 0.85rem;
+		color: $muted;
+	}
+
+	&__buttons {
+		display: flex;
+		gap: 0.5rem;
+	}
+}
+
+// -----------------------------------------------------------------------
+// Empty state
+// -----------------------------------------------------------------------
+
+.zaud-empty {
+	background: #fff;
+	border: 1px solid $border;
+	border-radius: 6px;
+	padding: 3rem 1rem;
+	text-align: center;
+	color: $muted;
+
+	&__icon {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		width: 80px;
+		height: 80px;
+		border-radius: 50%;
+		background: $bg;
+		color: $muted;
+		margin-bottom: 1rem;
+	}
+
+	h2 {
+		font-size: 1.1rem;
+		margin: 0 0 0.5rem;
+		color: #1d2327;
+	}
+
+	p {
+		margin: 0 0 1rem;
+		font-size: 0.9rem;
+	}
+}
