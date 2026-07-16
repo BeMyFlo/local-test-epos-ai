@@ -20,16 +20,10 @@ src/wp-content/themes/twentytwentythree
 src/wp-content/themes/twentytwentyfour
 src/wp-content/themes/twentytwentyfive
 
-# WordPress default plugins (not needed)
-src/wp-content/plugins/akismet
-src/wp-content/plugins/hello.php
-
-# Zippy owner plugins (not needed)
-src/wp-content/plugins/zippy-*
-
-# Third-party plugins (install manually or via Composer)
-src/wp-content/plugins/woocommerce
-src/wp-content/plugins/advanced-custom-fields-pro
+# Ignore ALL plugins (install manually, via Composer, or WP admin)
+# Only keep the WordPress silence file (index.php)
+src/wp-content/plugins/*
+!src/wp-content/plugins/index.php
 
 # WordPress uploads and cache
 src/wp-content/uploads
