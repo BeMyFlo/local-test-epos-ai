@@ -1,0 +1,64 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/course-intro",
+	"version": "1.0.0",
+	"title": "Course Intro",
+	"category": "achiever-course",
+	"icon": "welcome-learn-more",
+	"description": "Foundation Art Course page — all course info in one block.",
+	"keywords": ["course", "intro", "foundation", "art"],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": "Foundation\nART Course"
+		},
+		"description": {
+			"type": "string",
+			"default": "Specially designed for our little Picassos, our program focuses on refining fine motor skills, mastering pen control, and grasping fundamental art theories and concepts through creative expression.\n\nYour child will have the opportunity to explore a plethora of mediums, including acrylic paints, watercolours, oil pastels, clay, and beyond, all while fostering confidence in their creative abilities.\n\nJoin us in nurturing the budding artist within your child!"
+		},
+		"infoBox": {
+			"type": "object",
+			"default": {
+				"lessons": "Each Term: 8 Lessons",
+				"duration": "Each Session: 60mins",
+				"ageRange": "Age 3 - 5"
+			}
+		},
+		"terms": {
+			"type": "array",
+			"default": [
+				"There are a total of 6 terms to complete.",
+				"Each term consists of 8 lessons.",
+				"Following through all 6 terms is non-compulsory.",
+				"One time registration fees is applicable.",
+				"A T-shirt, Apron, & Bag will be given to new sign ups."
+			]
+		},
+		"suppliesText": {
+			"type": "string",
+			"default": "Due to hygiene concerns, students are required to bring their own supplies.\nConnect with us to know if the supplies you owned are compatible!\nWe do sell them in our studio should you need them."
+		},
+		"programmeContent": {
+			"type": "array",
+			"default": [
+				"Exploration on Different Mediums",
+				"Techniques of Mediums (Acrylic Paints, Oil Pastels, Soft Pastel, Watercolour, Clay, etc)",
+				"Pen-Control and Motor Skills",
+				"Element of Art",
+				"Shading and Styles",
+				"Principle of Art",
+				"Observation"
+			]
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

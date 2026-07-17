@@ -1,0 +1,75 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/home-hero",
+  "version": "2.0.0",
+  "title": "Home Hero",
+  "category": "achiever-home",
+  "description": "Watercolor hero slider with multiple banners, tagline, and decorative images.",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.scss",
+  "viewScript": "file:./view.js",
+  "style": "file:./style.scss",
+  "render": "file:./render.php",
+  "attributes": {
+    "tagline": {
+      "type": "string",
+      "default": "Let's Artventure"
+    },
+    "taglineSubtitle": {
+      "type": "string",
+      "default": "Discover your creative journey through art classes, camps, short courses and workshops for all ages."
+    },
+    "slides": {
+      "type": "array",
+      "default": [
+        {
+          "heading": "REGULAR\nART CLASSES",
+          "description": "Structured weekly art programmes that build strong creative foundations through guided lessons, progressive skill development, and exploration of different art mediums.",
+          "ctaText": "BOOK NOW",
+          "ctaUrl": "/regular-art-classes/"
+        },
+        {
+          "heading": "ART CAMPS\nAND COURSES",
+          "description": "Creative holiday programmes filled with drawing, painting, crafting, and hands-on projects for young artists of all levels.",
+          "ctaText": "VIEW CAMPS",
+          "ctaUrl": "/camps-courses/"
+        },
+        {
+          "heading": "ART WORKSHOPS\nFOR EVERYONE",
+          "description": "Single-session workshops for kids, families, and friends who want a playful creative experience without a weekly commitment.",
+          "ctaText": "EXPLORE WORKSHOPS",
+          "ctaUrl": "/single-session-art-classes/"
+        }
+      ]
+    },
+    "autoplay": {
+      "type": "boolean",
+      "default": true
+    },
+    "autoplaySpeed": {
+      "type": "number",
+      "default": 5000
+    },
+    "backgroundImage": {
+      "type": "string",
+      "default": ""
+    },
+    "decorLeftImage": {
+      "type": "string",
+      "default": ""
+    },
+    "decorRightImage": {
+      "type": "string",
+      "default": ""
+    },
+    "decorBottomImage": {
+      "type": "string",
+      "default": ""
+    }
+  }
+}

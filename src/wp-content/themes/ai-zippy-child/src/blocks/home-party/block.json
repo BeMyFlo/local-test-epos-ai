@@ -1,0 +1,79 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/home-party",
+	"version": "2.0.0",
+	"title": "Home Party",
+	"category": "achiever-home",
+	"icon": "megaphone",
+	"description": "It's PARTY TIME! section with photo slider and decorative illustrations.",
+	"keywords": [
+		"party",
+		"events",
+		"birthday",
+		"corporate"
+	],
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"attributes": {
+		"preHeading": {
+			"type": "string",
+			"default": "IT'S"
+		},
+		"heading": {
+			"type": "string",
+			"default": "PARTY TIME!"
+		},
+		"subtitle": {
+			"type": "string",
+			"default": "BIRTHDAYS \u00b7 GROUP BOOKINGS \u00b7 CORPORATE EVENTS \u00b7 TEAM BONDING"
+		},
+		"images": {
+			"type": "array",
+			"default": [
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"alt": "Party 1"
+				},
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"alt": "Party 2"
+				},
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"alt": "Party 3"
+				},
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"alt": "Party 4"
+				}
+			]
+		},
+		"decorLeftImage": {
+			"type": "string",
+			"default": ""
+		},
+		"decorRightImage": {
+			"type": "string",
+			"default": ""
+		},
+		"ctaText": {
+			"type": "string",
+			"default": "VIEW MORE WORKSHOP"
+		},
+		"ctaUrl": {
+			"type": "string",
+			"default": "/arty-events-parties/"
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

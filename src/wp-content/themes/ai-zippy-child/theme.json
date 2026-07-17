@@ -2,7 +2,33 @@
 	"$schema": "https://schemas.wp.org/trunk/theme.json",
 	"version": 3,
 	"settings": {
-		"appearanceTools": true
+		"appearanceTools": true,
+		"color": {
+			"palette": [
+				{ "slug": "achiever-pink", "color": "#E91E8C", "name": "Achiever Pink" },
+				{ "slug": "achiever-navy", "color": "#1A1040", "name": "Achiever Navy" },
+				{ "slug": "achiever-yellow", "color": "#FFD93D", "name": "Achiever Yellow" },
+				{ "slug": "achiever-blush", "color": "#FFF0F5", "name": "Achiever Blush" },
+				{ "slug": "white", "color": "#FFFFFF", "name": "White" }
+			]
+		}
 	},
-	"styles": {}
+	"styles": {},
+	"customTemplates": [
+		{ "name": "page-home", "title": "Home", "postTypes": ["page"] },
+		{ "name": "page-classes", "title": "Regular Art Classes", "postTypes": ["page"] },
+		{ "name": "page-course", "title": "Foundation Art Course", "postTypes": ["page"] },
+		{ "name": "page-about", "title": "About Us", "postTypes": ["page"] },
+		{ "name": "page-single-session", "title": "Single-Session Art Classes", "postTypes": ["page"] },
+		{ "name": "page-express-art", "title": "Express Art Classes", "postTypes": ["page"] },
+		{ "name": "page-camps-courses", "title": "Our Camps & Courses", "postTypes": ["page"] },
+		{ "name": "page-events", "title": "Arty Events & Parties", "postTypes": ["page"] },
+		{ "name": "page-contact", "title": "Contact Us", "postTypes": ["page"] },
+		{ "name": "page-studios", "title": "Our Studios", "postTypes": ["page"] },
+		{ "name": "page-shop", "title": "Shop", "postTypes": ["page"] }
+	],
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	]
 }

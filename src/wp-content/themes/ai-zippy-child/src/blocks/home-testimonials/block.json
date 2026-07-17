@@ -1,0 +1,41 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/home-testimonials",
+	"version": "1.0.0",
+	"title": "Home Testimonials",
+	"category": "achiever-home",
+	"icon": "format-quote",
+	"description": "What our clients love about us — testimonials section.",
+	"keywords": ["testimonials", "reviews", "clients", "quotes"],
+	"supports": {
+		"html": false,
+		"align": ["wide", "full"]
+	},
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": "WHAT OUR CLIENT\nLOVE ABOUT US"
+		},
+		"testimonials": {
+			"type": "array",
+			"default": [
+				{
+					"name": "Apple Chan",
+					"quote": "My child recently attended a trial lesson at Achievers and absolutely enjoyed it! The teacher was patient, engaging, and made the lesson interesting and interactive. The class environment felt positive and encouraging, which helped my child feel comfortable right away.",
+					"avatar": ""
+				},
+				{
+					"name": "Shiying Lim",
+					"quote": "My girl had been always looking forward to her weekly class at Achiever Arts. Her drawing, colouring and painting shown significant improvements. The teachers are also patient and caring in guiding her and allowing her to show creativity in her artwork.",
+					"avatar": ""
+				}
+			]
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

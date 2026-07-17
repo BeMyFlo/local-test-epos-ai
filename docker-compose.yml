@@ -1,4 +1,3 @@
-version: "5.0"
 services:
   wordpress:
     container_name: ${PROJECT_ID}
@@ -44,4 +43,4 @@ services:
 networks:
   webnet:
     name: webnet
-    driver: bridge
+    external: true

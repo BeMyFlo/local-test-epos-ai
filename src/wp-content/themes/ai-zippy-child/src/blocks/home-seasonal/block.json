@@ -1,0 +1,76 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/home-seasonal",
+	"version": "1.0.0",
+	"title": "Home Seasonal Special",
+	"category": "achiever-home",
+	"description": "Seasonal special product grid with 4 product cards.",
+	"supports": {
+		"html": false
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./editor.scss",
+	"style": "file:./style.scss",
+	"render": "file:./render.php",
+	"attributes": {
+		"sectionTitle": {
+			"type": "string",
+			"default": "seasonal special"
+		},
+		"products": {
+			"type": "array",
+			"default": [
+				{
+					"name": "Name of Product",
+					"category": "Category",
+					"ageTime": "Age + Time Workshop",
+					"image": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"ctaUrl": "#"
+				},
+				{
+					"name": "Name of Product",
+					"category": "Category",
+					"ageTime": "Age + Time Workshop",
+					"image": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"ctaUrl": "#"
+				},
+				{
+					"name": "Name of Product",
+					"category": "Category",
+					"ageTime": "Age + Time Workshop",
+					"image": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"ctaUrl": "#"
+				},
+				{
+					"name": "Name of Product",
+					"category": "Category",
+					"ageTime": "Age + Time Workshop",
+					"image": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"ctaUrl": "#"
+				}
+			]
+		},
+		"ctaText": {
+			"type": "string",
+			"default": "VIEW MORE WORKSHOP"
+		},
+		"ctaUrl": {
+			"type": "string",
+			"default": "/shop/"
+		},
+		"badgeImage": {
+			"type": "string",
+			"default": ""
+		},
+		"decorRightImage": {
+			"type": "string",
+			"default": ""
+		},
+		"decorBottomImage": {
+			"type": "string",
+			"default": ""
+		}
+	}
+}

@@ -1,0 +1,67 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/home-instagram",
+	"version": "1.0.0",
+	"title": "Home Instagram",
+	"category": "achiever-home",
+	"icon": "instagram",
+	"description": "Follow us on Instagram image grid section.",
+	"keywords": [
+		"instagram",
+		"social",
+		"gallery",
+		"feed"
+	],
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": "fOLLOW US ON INSTAGRAM"
+		},
+		"images": {
+			"type": "array",
+			"default": [
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"alt": "Instagram 1"
+				},
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-2.png",
+					"alt": "Instagram 2"
+				},
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-3.png",
+					"alt": "Instagram 3"
+				},
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"alt": "Instagram 4"
+				},
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-2.png",
+					"alt": "Instagram 5"
+				},
+				{
+					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-3.png",
+					"alt": "Instagram 6"
+				}
+			]
+		},
+		"instagramUrl": {
+			"type": "string",
+			"default": "https://www.instagram.com/achieverart/"
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/home-brands",
+  "version": "1.0.0",
+  "title": "Home Brands",
+  "category": "achiever-home",
+  "description": "Beyond The Canvas brands showcase with 6 brand items.",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.scss",
+  "style": "file:./style.scss",
+  "render": "file:./render.php",
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Beyond\nThe Canvas"
+    },
+    "description": {
+      "type": "string",
+      "default": "Beyond The Canvas by The Artivity Collective brings together a unique family of creative brands and experiences designed to inspire self-expression, hands-on learning, and artistic exploration for all ages. From sensory play and abstract art to handmade crafts and young entrepreneurship, there's a creative journey waiting for everyone."
+    },
+    "brands": {
+      "type": "array",
+      "default": [
+        { "name": "Expressive abstract art experiences", "icon": "" },
+        { "name": "Handmade charms & creative accessories", "icon": "" },
+        { "name": "Sensory play and messy art exploration for children", "icon": "" },
+        { "name": "Custom hand-painted press-on nail artistry", "icon": "" },
+        { "name": "Curated art gallery & professional art showcases", "icon": "" },
+        { "name": "Young creator & mini entrepreneurship programmes", "icon": "" }
+      ]
+    },
+    "ctaText": {
+      "type": "string",
+      "default": "CLICK TO SEE MORE"
+    },
+    "ctaUrl": {
+      "type": "string",
+      "default": "#"
+    }
+  }
+}

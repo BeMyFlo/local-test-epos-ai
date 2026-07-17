@@ -1,0 +1,75 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/home-best-sellers",
+	"version": "1.0.0",
+	"title": "Home Best Sellers",
+	"category": "achiever-home",
+	"icon": "star-filled",
+	"description": "Our best sellers product grid section with 4 products.",
+	"keywords": [
+		"best sellers",
+		"products",
+		"grid",
+		"workshop"
+	],
+	"supports": {
+		"html": false,
+		"align": [
+			"wide",
+			"full"
+		]
+	},
+	"attributes": {
+		"sectionTitle": {
+			"type": "string",
+			"default": "our best sellers"
+		},
+		"products": {
+			"type": "array",
+			"default": [
+				{
+					"name": "Name of Product",
+					"category": "Category",
+					"ageTime": "Age + Time Workshop",
+					"image": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"ctaUrl": "#"
+				},
+				{
+					"name": "Name of Product",
+					"category": "Category",
+					"ageTime": "Age + Time Workshop",
+					"image": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"ctaUrl": "#"
+				},
+				{
+					"name": "Name of Product",
+					"category": "Category",
+					"ageTime": "Age + Time Workshop",
+					"image": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"ctaUrl": "#"
+				},
+				{
+					"name": "Name of Product",
+					"category": "Category",
+					"ageTime": "Age + Time Workshop",
+					"image": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
+					"ctaUrl": "#"
+				}
+			]
+		},
+		"ctaText": {
+			"type": "string",
+			"default": "VIEW MORE WORKSHOP"
+		},
+		"ctaUrl": {
+			"type": "string",
+			"default": "/shop/"
+		}
+	},
+	"textdomain": "ai-zippy",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
