@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "ai-zippy/home-brands",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "title": "Home Brands",
   "category": "achiever-home",
   "description": "Beyond The Canvas brands showcase with 6 brand items.",
@@ -17,26 +17,36 @@
   "attributes": {
     "heading": {
       "type": "string",
-      "default": "Beyond\nThe Canvas"
+      "default": "BEYOND\nTHE CANVAS"
     },
     "description": {
       "type": "string",
-      "default": "Beyond The Canvas by The Artivity Collective brings together a unique family of creative brands and experiences designed to inspire self-expression, hands-on learning, and artistic exploration for all ages. From sensory play and abstract art to handmade crafts and young entrepreneurship, there's a creative journey waiting for everyone."
+      "default": "Beyond The Canvas by The Artivity Collective brings together a unique family of creative brands and experiences designed to inspire self-expression, hands-on learning, and artistic exploration for all ages."
     },
+    "decorImage": { "type": "string", "default": "" },
+    "decorAlt": { "type": "string", "default": "Cat decoration" },
     "brands": {
       "type": "array",
       "default": [
-        { "name": "Expressive abstract art experiences", "icon": "" },
-        { "name": "Handmade charms & creative accessories", "icon": "" },
-        { "name": "Sensory play and messy art exploration for children", "icon": "" },
-        { "name": "Custom hand-painted press-on nail artistry", "icon": "" },
-        { "name": "Curated art gallery & professional art showcases", "icon": "" },
-        { "name": "Young creator & mini entrepreneurship programmes", "icon": "" }
+        { "name": "Abstract Art", "icon": "", "alt": "Abstract Art icon" },
+        { "name": "Charms & Accessories", "icon": "", "alt": "Charms and Accessories icon" },
+        { "name": "Sensory Play", "icon": "", "alt": "Sensory Play icon" },
+        { "name": "Press-on Nails", "icon": "", "alt": "Press-on Nails icon" },
+        { "name": "Art Gallery", "icon": "", "alt": "Art Gallery icon" },
+        { "name": "Young Entrepreneurship", "icon": "", "alt": "Young Entrepreneurship icon" }
+      ]
+    },
+    "galleryImages": {
+      "type": "array",
+      "default": [
+        { "url": "", "alt": "Studio moment photo 1" },
+        { "url": "", "alt": "Studio moment photo 2" },
+        { "url": "", "alt": "Studio moment photo 3" }
       ]
     },
     "ctaText": {
       "type": "string",
-      "default": "CLICK TO SEE MORE"
+      "default": "SEE MORE"
     },
     "ctaUrl": {
       "type": "string",

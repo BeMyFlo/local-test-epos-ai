@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/events-content",
+  "version": "1.0.0",
+  "title": "Events Content",
+  "category": "achiever-events",
+  "icon": "megaphone",
+  "description": "Editable event and private party offerings.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "offerings": {
+      "type": "array",
+      "default": [
+        {
+          "sectionLabel": "Arty Time",
+          "title": "Themed Art Events",
+          "age": "Ages 4 & up",
+          "tagline": "Create, Play, and Explore Magical Worlds",
+          "description": "Step into a world of imagination with our Themed Art Events — from exciting Pokémon adventures to magical princess tales, jungle mysteries, and festive celebrations. Each session is a fun-filled, story-driven experience where children craft, play, and explore through creativity.",
+          "features": ["Hands-on craft activities & themed creative projects", "Interactive storytelling, games & adventure-based play", "All materials provided", "Beginner-friendly — no experience needed", "Fun, engaging & memorable experiences for kids"],
+          "image": "", "alt": "", "ctaText": "Book Now", "ctaUrl": "#course-enquiry"
+        },
+        {
+          "sectionLabel": "Private Parties / Events",
+          "title": "Art Parties & Events",
+          "age": "Ages 4 & up",
+          "tagline": "Celebrate, Create, and Party with Art",
+          "description": "Turn your special occasion into an unforgettable Arty Party! From birthdays to school outings and corporate events, our art-based celebrations bring people together through fun, creativity, and hands-on experiences in a lively studio setting.",
+          "features": ["Guided art workshops with a wide selection of painting & craft options", "Flexible party packages with different durations & activities", "Choose your preferred theme or customise your own", "Optional add-ons like goodie bags & e-invite cards", "Fun, engaging & hassle-free party experience for all"],
+          "image": "", "alt": "", "ctaText": "Book Now", "ctaUrl": "#course-enquiry"
+        }
+      ]
+    }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

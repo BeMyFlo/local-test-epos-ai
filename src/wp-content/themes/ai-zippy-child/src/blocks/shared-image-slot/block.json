@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/shared-image-slot",
+  "version": "1.0.0",
+  "title": "Shared Image Slot",
+  "category": "achiever-shared",
+  "icon": "format-image",
+  "description": "Editable image slot for shared template decorations.",
+  "supports": { "html": false, "className": true },
+  "attributes": {
+    "imageId": { "type": "number", "default": 0 },
+    "imageUrl": { "type": "string", "default": "" },
+    "alt": { "type": "string", "default": "" }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "render": "file:./render.php"
+}

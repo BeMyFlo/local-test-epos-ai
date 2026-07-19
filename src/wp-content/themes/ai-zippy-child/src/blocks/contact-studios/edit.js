@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, TextControl, TextareaControl, Button } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
@@ -17,7 +17,7 @@ export default function Edit({ attributes, setAttributes }) {
 		setAttributes({
 			studios: [
 				...studios,
-				{ name: '', phone: '', address: '', hours: '' },
+				{ name: '', phone: '', address: '', hours: '', mapUrl: '', mapText: '', image: '', alt: '' },
 			],
 		});
 	};
@@ -60,6 +60,15 @@ export default function Edit({ attributes, setAttributes }) {
 							onChange={(val) => updateStudio(index, 'address', val)}
 							help={__('Use new lines to separate address parts.', 'ai-zippy')}
 						/>
+						<TextControl label={__('Map URL', 'ai-zippy')} value={studio.mapUrl || ''} onChange={(val) => updateStudio(index, 'mapUrl', val)} />
+						<TextControl label={__('Map Link Text', 'ai-zippy')} value={studio.mapText || ''} onChange={(val) => updateStudio(index, 'mapText', val)} />
+						<MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => {
+							const updated = [...studios];
+							updated[index] = { ...updated[index], image: media.url, alt: media.alt || '' };
+							setAttributes({ studios: updated });
+						}} render={({ open }) => <Button variant="secondary" onClick={open}>{studio.image ? __('Change Image', 'ai-zippy') : __('Select Image', 'ai-zippy')}</Button>} /></MediaUploadCheck>
+						<TextControl label={__('Image URL', 'ai-zippy')} value={studio.image || ''} onChange={(val) => updateStudio(index, 'image', val)} />
+						<TextControl label={__('Image Alt Text', 'ai-zippy')} value={studio.alt || ''} onChange={(val) => updateStudio(index, 'alt', val)} />
 						<TextareaControl
 							label={__('Opening Hours', 'ai-zippy')}
 							value={studio.hours}

@@ -41,7 +41,7 @@ class ProductShortcode
      */
     public static function startOutputBuffer(): void
     {
-        if (!is_product()) {
+        if (!function_exists('is_product') || !is_product()) {
             return;
         }
         ob_start([self::class, 'cleanProductPageOutput']);

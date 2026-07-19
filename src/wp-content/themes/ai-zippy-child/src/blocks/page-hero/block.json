@@ -24,6 +24,34 @@
       "type": "string",
       "default": "Discover your creative journey through art."
     },
+    "breadcrumbHomeText": {
+      "type": "string",
+      "default": "Home"
+    },
+    "breadcrumbHomeUrl": {
+      "type": "string",
+      "default": "/"
+    },
+    "breadcrumbCurrent": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundImage": {
+      "type": "string",
+      "default": ""
+    },
+    "backgroundAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "mascotImage": {
+      "type": "string",
+      "default": ""
+    },
+    "mascotAlt": {
+      "type": "string",
+      "default": ""
+    },
     "ctaText": {
       "type": "string",
       "default": ""

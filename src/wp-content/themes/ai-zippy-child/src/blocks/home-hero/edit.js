@@ -1,117 +1,75 @@
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, TextareaControl, Button, ToggleControl, RangeControl } from '@wordpress/components';
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { Button, PanelBody, RangeControl, TextControl, TextareaControl, ToggleControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
-  const { slides = [], tagline, taglineSubtitle, autoplay, autoplaySpeed } = attributes;
+  const slides = attributes.slides || [];
 
   const updateSlide = (index, field, value) => {
-    const updated = [...slides];
-    updated[index] = { ...updated[index], [field]: value };
-    setAttributes({ slides: updated });
+    const updatedSlides = slides.map((slide, slideIndex) => (
+      slideIndex === index ? { ...slide, [field]: value } : slide
+    ));
+    setAttributes({ slides: updatedSlides });
   };
 
   const addSlide = () => {
     setAttributes({
-      slides: [...slides, { heading: 'NEW SLIDE', description: '', ctaText: 'LEARN MORE', ctaUrl: '/' }],
+      slides: [
+        ...slides,
+        {
+          heading: 'NEW SLIDE',
+          description: '',
+          ctaText: 'LEARN MORE',
+          ctaUrl: '#',
+        },
+      ],
     });
   };
 
   const removeSlide = (index) => {
-    const updated = slides.filter((_, i) => i !== index);
-    setAttributes({ slides: updated });
+    setAttributes({ slides: slides.filter((_, slideIndex) => slideIndex !== index) });
   };
 
   return (
     <>
       <InspectorControls>
         <PanelBody title="Tagline" initialOpen={true}>
-          <TextControl
-            label="Tagline"
-            value={tagline}
-            onChange={(v) => setAttributes({ tagline: v })}
-          />
-          <TextareaControl
-            label="Tagline Subtitle"
-            value={taglineSubtitle}
-            onChange={(v) => setAttributes({ taglineSubtitle: v })}
-          />
+          <TextControl label="Tagline" value={attributes.tagline || ''} onChange={(tagline) => setAttributes({ tagline })} />
+          <TextareaControl label="Tagline description" value={attributes.taglineDescription || ''} onChange={(taglineDescription) => setAttributes({ taglineDescription })} />
         </PanelBody>
-
-        <PanelBody title="Slider Settings" initialOpen={true}>
-          <ToggleControl
-            label="Autoplay"
-            checked={autoplay}
-            onChange={(v) => setAttributes({ autoplay: v })}
-          />
-          {autoplay && (
+        <PanelBody title="Decoration" initialOpen={true}>
+          <TextControl label="Paint jar image URL" value={attributes.paintJarImage || ''} onChange={(paintJarImage) => setAttributes({ paintJarImage })} />
+          <TextControl label="Paint jar alt text" value={attributes.paintJarAlt || ''} onChange={(paintJarAlt) => setAttributes({ paintJarAlt })} />
+        </PanelBody>
+        <PanelBody title="Slider settings" initialOpen={true}>
+          <ToggleControl label="Autoplay" checked={attributes.autoplay === true} onChange={(autoplay) => setAttributes({ autoplay })} />
+          {attributes.autoplay === true && (
             <RangeControl
-              label="Speed (ms)"
-              value={autoplaySpeed}
-              onChange={(v) => setAttributes({ autoplaySpeed: v })}
+              label="Autoplay speed (milliseconds)"
+              value={attributes.autoplaySpeed || 5000}
+              onChange={(autoplaySpeed) => setAttributes({ autoplaySpeed })}
               min={2000}
               max={10000}
               step={500}
             />
           )}
         </PanelBody>
-
         {slides.map((slide, index) => (
           <PanelBody key={index} title={`Slide ${index + 1}`} initialOpen={index === 0}>
-            <TextareaControl
-              label="Heading"
-              value={slide.heading}
-              onChange={(v) => updateSlide(index, 'heading', v)}
-            />
-            <TextareaControl
-              label="Description"
-              value={slide.description}
-              onChange={(v) => updateSlide(index, 'description', v)}
-            />
-            <TextControl
-              label="CTA Text"
-              value={slide.ctaText}
-              onChange={(v) => updateSlide(index, 'ctaText', v)}
-            />
-            <TextControl
-              label="CTA URL"
-              value={slide.ctaUrl}
-              onChange={(v) => updateSlide(index, 'ctaUrl', v)}
-            />
+            <TextareaControl label="Heading" value={slide.heading || ''} onChange={(heading) => updateSlide(index, 'heading', heading)} />
+            <TextareaControl label="Description" value={slide.description || ''} onChange={(description) => updateSlide(index, 'description', description)} />
+            <TextControl label="CTA text" value={slide.ctaText || ''} onChange={(ctaText) => updateSlide(index, 'ctaText', ctaText)} />
+            <TextControl label="CTA URL" value={slide.ctaUrl || ''} onChange={(ctaUrl) => updateSlide(index, 'ctaUrl', ctaUrl)} />
             {slides.length > 1 && (
-              <Button isDestructive variant="secondary" onClick={() => removeSlide(index)}>
-                Remove Slide
+              <Button variant="secondary" isDestructive onClick={() => removeSlide(index)}>
+                Remove slide
               </Button>
             )}
           </PanelBody>
         ))}
-
-        <PanelBody title="Add Slide" initialOpen={false}>
-          <Button variant="primary" onClick={addSlide}>+ Add New Slide</Button>
-        </PanelBody>
-
-        <PanelBody title="Images" initialOpen={false}>
-          <TextControl
-            label="Background Image URL"
-            value={attributes.backgroundImage}
-            onChange={(v) => setAttributes({ backgroundImage: v })}
-          />
-          <TextControl
-            label="Decor Left Image URL"
-            value={attributes.decorLeftImage}
-            onChange={(v) => setAttributes({ decorLeftImage: v })}
-          />
-          <TextControl
-            label="Decor Right Image URL"
-            value={attributes.decorRightImage}
-            onChange={(v) => setAttributes({ decorRightImage: v })}
-          />
-          <TextControl
-            label="Decor Bottom Image URL"
-            value={attributes.decorBottomImage}
-            onChange={(v) => setAttributes({ decorBottomImage: v })}
-          />
+        <PanelBody title="Add slide" initialOpen={false}>
+          <Button variant="primary" onClick={addSlide}>Add new slide</Button>
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>

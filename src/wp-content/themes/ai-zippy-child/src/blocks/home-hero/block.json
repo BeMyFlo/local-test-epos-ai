@@ -2,10 +2,10 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "ai-zippy/home-hero",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "title": "Home Hero",
   "category": "achiever-home",
-  "description": "Watercolor hero slider with multiple banners, tagline, and decorative images.",
+  "description": "Editable multi-slide home hero with a shared tagline.",
   "supports": {
     "html": false
   },
@@ -16,60 +16,40 @@
   "style": "file:./style.scss",
   "render": "file:./render.php",
   "attributes": {
-    "tagline": {
-      "type": "string",
-      "default": "Let's Artventure"
-    },
-    "taglineSubtitle": {
-      "type": "string",
-      "default": "Discover your creative journey through art classes, camps, short courses and workshops for all ages."
-    },
+    "tagline": { "type": "string", "default": "Let's Artventure" },
+    "taglineDescription": { "type": "string", "default": "Discover our creative journey through art classes, camps, courses and more, designed for artists of all ages." },
+    "paintJarImage": { "type": "string", "default": "" },
+    "paintJarAlt": { "type": "string", "default": "Paint jar decoration" },
     "slides": {
       "type": "array",
       "default": [
         {
           "heading": "REGULAR\nART CLASSES",
-          "description": "Structured weekly art programmes that build strong creative foundations through guided lessons, progressive skill development, and exploration of different art mediums.",
+          "description": "Weekly guided lessons that build strong creative foundations through progressive skill development and exploration of different art mediums.",
           "ctaText": "BOOK NOW",
-          "ctaUrl": "/regular-art-classes/"
+          "ctaUrl": "#"
         },
         {
-          "heading": "ART CAMPS\nAND COURSES",
-          "description": "Creative holiday programmes filled with drawing, painting, crafting, and hands-on projects for young artists of all levels.",
-          "ctaText": "VIEW CAMPS",
-          "ctaUrl": "/camps-courses/"
+          "heading": "ARTY EVENTS\n& PARTIES",
+          "description": "Birthday parties, group bookings, and corporate events full of creativity, laughter and hands-on art fun.",
+          "ctaText": "ENQUIRE NOW",
+          "ctaUrl": "#"
         },
         {
-          "heading": "ART WORKSHOPS\nFOR EVERYONE",
-          "description": "Single-session workshops for kids, families, and friends who want a playful creative experience without a weekly commitment.",
-          "ctaText": "EXPLORE WORKSHOPS",
-          "ctaUrl": "/single-session-art-classes/"
+          "heading": "CAMPS &\nCOURSES",
+          "description": "Holiday camps and short courses designed to spark imagination and build new skills in a fun, immersive setting.",
+          "ctaText": "EXPLORE NOW",
+          "ctaUrl": "#"
         }
       ]
     },
     "autoplay": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "autoplaySpeed": {
       "type": "number",
       "default": 5000
-    },
-    "backgroundImage": {
-      "type": "string",
-      "default": ""
-    },
-    "decorLeftImage": {
-      "type": "string",
-      "default": ""
-    },
-    "decorRightImage": {
-      "type": "string",
-      "default": ""
-    },
-    "decorBottomImage": {
-      "type": "string",
-      "default": ""
     }
   }
 }

@@ -2,11 +2,11 @@
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 3,
 	"name": "ai-zippy/home-party",
-	"version": "2.0.0",
+	"version": "3.0.0",
 	"title": "Home Party",
 	"category": "achiever-home",
 	"icon": "megaphone",
-	"description": "It's PARTY TIME! section with photo slider and decorative illustrations.",
+	"description": "Source-faithful party section with two event photos.",
 	"keywords": [
 		"party",
 		"events",
@@ -33,42 +33,30 @@
 			"type": "string",
 			"default": "BIRTHDAYS \u00b7 GROUP BOOKINGS \u00b7 CORPORATE EVENTS \u00b7 TEAM BONDING"
 		},
+		"decorLeftImage": { "type": "string", "default": "" },
+		"decorLeftAlt": { "type": "string", "default": "Party character decoration" },
+		"decorRightImage": { "type": "string", "default": "" },
+		"decorRightAlt": { "type": "string", "default": "Cake decoration" },
 		"images": {
 			"type": "array",
 			"default": [
 				{
-					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
-					"alt": "Party 1"
+					"url": "",
+					"alt": "Birthday party photo"
 				},
 				{
-					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
-					"alt": "Party 2"
-				},
-				{
-					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
-					"alt": "Party 3"
-				},
-				{
-					"url": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png",
-					"alt": "Party 4"
+					"url": "",
+					"alt": "Group event photo"
 				}
 			]
 		},
-		"decorLeftImage": {
-			"type": "string",
-			"default": ""
-		},
-		"decorRightImage": {
-			"type": "string",
-			"default": ""
-		},
 		"ctaText": {
 			"type": "string",
-			"default": "VIEW MORE WORKSHOP"
+			"default": "ADVANCED BOOK NOW"
 		},
 		"ctaUrl": {
 			"type": "string",
-			"default": "/arty-events-parties/"
+			"default": "#"
 		}
 	},
 	"textdomain": "ai-zippy",

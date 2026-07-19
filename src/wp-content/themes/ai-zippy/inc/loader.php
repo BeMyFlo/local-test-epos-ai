@@ -83,23 +83,26 @@ AiZippy\Audit\Listeners\LoginListener::register();
 AiZippy\Audit\Listeners\PluginListener::register();
 AiZippy\Audit\LoginGuard::register();
 
-// Account
-AiZippy\Account\AccountAssets::register();
+// WooCommerce modules are optional. Register them only when WooCommerce is active.
+if (class_exists('WooCommerce')) {
+    // Account
+    AiZippy\Account\AccountAssets::register();
 
-// Product (single product page)
-AiZippy\Product\ProductShortcode::register();
-AiZippy\Product\ProductAssets::register();
-AiZippy\Product\RelatedProductsShortcode::register();
+    // Product (single product page)
+    AiZippy\Product\ProductShortcode::register();
+    AiZippy\Product\ProductAssets::register();
+    AiZippy\Product\RelatedProductsShortcode::register();
 
-// Shop
-AiZippy\Shop\ShopAssets::register();
+    // Shop
+    AiZippy\Shop\ShopAssets::register();
 
-// Cart
-AiZippy\Cart\CartAssets::register();
+    // Cart
+    AiZippy\Cart\CartAssets::register();
 
-// Checkout
-AiZippy\Checkout\CheckoutSettings::register();
-AiZippy\Checkout\CheckoutShortcode::register();
-AiZippy\Checkout\OrderConfirmationShortcode::register();
-AiZippy\Checkout\CheckoutValidation::register();
-AiZippy\Checkout\CheckoutAssets::register();
+    // Checkout
+    AiZippy\Checkout\CheckoutSettings::register();
+    AiZippy\Checkout\CheckoutShortcode::register();
+    AiZippy\Checkout\OrderConfirmationShortcode::register();
+    AiZippy\Checkout\CheckoutValidation::register();
+    AiZippy\Checkout\CheckoutAssets::register();
+}

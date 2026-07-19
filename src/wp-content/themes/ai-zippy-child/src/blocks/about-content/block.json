@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/about-content",
+  "version": "1.0.0",
+  "title": "About Content",
+  "category": "achiever-shared",
+  "icon": "heart",
+  "description": "About introduction, values, and gallery from the approved content skeleton.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "heading": { "type": "string", "default": "About Achievers’ Art" },
+    "description": { "type": "string", "default": "Achievers Art is a creative enrichment studio dedicated to inspiring imagination, confidence, and self-expression through meaningful, hands-on art experiences. Beyond traditional art classes, we offer a diverse range of programmes—from crafting and sensory play to creative entrepreneurship—designed to nurture creativity for learners of all ages in a supportive and engaging environment." },
+    "logoImage": { "type": "string", "default": "" },
+    "logoAlt": { "type": "string", "default": "" },
+    "values": {
+      "type": "array",
+      "default": [
+        { "title": "Creative Beyond Art Classes", "description": "We go beyond traditional art lessons by offering diverse, hands-on experiences across art, crafting, sensory play, and entrepreneurship to spark imagination and exploration.", "icon": "", "alt": "" },
+        { "title": "Curated Multi-Experience Programmes", "description": "Our ecosystem of programmes brings together art, design, play, and business-inspired activities, allowing learners to explore creativity in different, meaningful ways.", "icon": "", "alt": "" },
+        { "title": "Safe & Supportive Creative Environment", "description": "We provide a nurturing space where learners of all ages can express themselves freely, build confidence, and grow creatively under guided support.", "icon": "", "alt": "" }
+      ]
+    },
+    "galleryTitle": { "type": "string", "default": "Your Smile, Our Passion" },
+    "galleryImages": { "type": "array", "default": [] }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

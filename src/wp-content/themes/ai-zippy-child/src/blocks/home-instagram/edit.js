@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { Button, PanelBody, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { heading, images, instagramUrl } = attributes;
+  const { heading } = attributes;
+  const images = attributes.images || [];
   const blockProps = useBlockProps();
 
   return (
@@ -15,11 +16,6 @@ export default function Edit({ attributes, setAttributes }) {
             label={__('Heading', 'ai-zippy')}
             value={heading}
             onChange={(val) => setAttributes({ heading: val })}
-          />
-          <TextControl
-            label={__('Instagram URL', 'ai-zippy')}
-            value={instagramUrl}
-            onChange={(val) => setAttributes({ instagramUrl: val })}
           />
         </PanelBody>
         <PanelBody title={__('Images', 'ai-zippy')} initialOpen={false}>
@@ -43,8 +39,11 @@ export default function Edit({ attributes, setAttributes }) {
                   setAttributes({ images: updated });
                 }}
               />
+              <TextControl label={__('Link URL ', 'ai-zippy') + (index + 1)} value={image.link || ''} onChange={(val) => { const updated = [...images]; updated[index] = { ...updated[index], link: val }; setAttributes({ images: updated }); }} />
+              <Button isDestructive variant="secondary" onClick={() => setAttributes({ images: images.filter((_, i) => i !== index) })}>Remove image</Button>
             </div>
           ))}
+          <Button variant="primary" onClick={() => setAttributes({ images: [...images, { url: '', alt: '', link: '' }] })}>Add image</Button>
         </PanelBody>
       </InspectorControls>
 

@@ -1,12 +1,12 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { Button, PanelBody, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
 
   const updateProduct = (index, key, value) => {
-    const updated = [...attributes.products];
+    const updated = [...(attributes.products || [])];
     updated[index] = { ...updated[index], [key]: value };
     setAttributes({ products: updated });
   };
@@ -20,6 +20,8 @@ export default function Edit({ attributes, setAttributes, name }) {
             value={attributes.sectionTitle}
             onChange={(v) => setAttributes({ sectionTitle: v })}
           />
+          <TextControl label="Decoration image URL" value={attributes.decorImage || ''} onChange={(decorImage) => setAttributes({ decorImage })} />
+          <TextControl label="Decoration alt text" value={attributes.decorAlt || ''} onChange={(decorAlt) => setAttributes({ decorAlt })} />
           <TextControl
             label="CTA Text"
             value={attributes.ctaText}
@@ -31,7 +33,7 @@ export default function Edit({ attributes, setAttributes, name }) {
             onChange={(v) => setAttributes({ ctaUrl: v })}
           />
         </PanelBody>
-        {attributes.products.map((product, i) => (
+        {(attributes.products || []).map((product, i) => (
           <PanelBody key={i} title={`Product ${i + 1}: ${product.name}`} initialOpen={false}>
             <TextControl
               label="Name"
@@ -50,16 +52,21 @@ export default function Edit({ attributes, setAttributes, name }) {
             />
             <TextControl
               label="Image URL"
-              value={product.image}
+              value={product.image || ''}
               onChange={(v) => updateProduct(i, 'image', v)}
             />
             <TextControl
-              label="CTA URL"
-              value={product.ctaUrl}
-              onChange={(v) => updateProduct(i, 'ctaUrl', v)}
+              label="Image alt text"
+              value={product.alt || ''}
+              onChange={(v) => updateProduct(i, 'alt', v)}
             />
+            <TextControl label="Product URL" value={product.url || ''} onChange={(v) => updateProduct(i, 'url', v)} />
+            <Button isDestructive variant="secondary" onClick={() => setAttributes({ products: attributes.products.filter((_, index) => index !== i) })}>Remove product</Button>
           </PanelBody>
         ))}
+        <PanelBody title="Add product" initialOpen={false}>
+          <Button variant="primary" onClick={() => setAttributes({ products: [...(attributes.products || []), { name: '', category: '', ageTime: '', image: '', alt: '', url: '' }] })}>Add product</Button>
+        </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
         <ServerSideRender block={name} attributes={attributes} />

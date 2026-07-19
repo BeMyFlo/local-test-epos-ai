@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/contact-overview",
+  "version": "1.0.0",
+  "title": "Contact Overview",
+  "category": "achiever-contact",
+  "icon": "phone",
+  "description": "Editable general contact details and opening hours.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "heading": { "type": "string", "default": "Ask us questions" },
+    "subheading": { "type": "string", "default": "Book an appointment with us to save time!" },
+    "phoneLabel": { "type": "string", "default": "Contact us at" },
+    "phone": { "type": "string", "default": "+65 9123 4537" },
+    "emailLabel": { "type": "string", "default": "Email" },
+    "email": { "type": "string", "default": "info@achieversarts.com" },
+    "hoursTitle": { "type": "string", "default": "Opening Hours" },
+    "hours": {
+      "type": "array",
+      "default": [
+        { "days": "Wednesdays to Fridays", "time": "12:00pm to 9:00pm" },
+        { "days": "Saturdays", "time": "9:00am to 6:00pm" },
+        { "days": "Sundays", "time": "9:00am to 5:30pm" }
+      ]
+    }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

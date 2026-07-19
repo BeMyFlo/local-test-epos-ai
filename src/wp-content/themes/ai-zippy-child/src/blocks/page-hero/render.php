@@ -10,6 +10,13 @@ defined('ABSPATH') || exit;
 $eyebrow  = $attributes['eyebrow'] ?? "Achiever's Art";
 $heading  = $attributes['heading'] ?? 'Page Title';
 $subtitle = $attributes['subtitle'] ?? 'Discover your creative journey through art.';
+$breadcrumb_home_text = $attributes['breadcrumbHomeText'] ?? 'Home';
+$breadcrumb_home_url  = $attributes['breadcrumbHomeUrl'] ?? '/';
+$breadcrumb_current   = $attributes['breadcrumbCurrent'] ?? '';
+$background_image     = $attributes['backgroundImage'] ?? '';
+$background_alt       = $attributes['backgroundAlt'] ?? '';
+$mascot_image          = $attributes['mascotImage'] ?: home_url('/wp-content/uploads/2026/07/ArtivityDoodle_XS-scaled.png');
+$mascot_alt            = $attributes['mascotAlt'] ?: 'Achiever Art mascot doodle';
 $cta_text = $attributes['ctaText'] ?? '';
 $cta_url  = $attributes['ctaUrl'] ?? '#';
 $variant  = $attributes['variant'] ?? 'pink';
@@ -20,10 +27,15 @@ $wrapper_attributes = get_block_wrapper_attributes([
 ?>
 
 <section <?php echo $wrapper_attributes; ?>>
+    <?php if ($background_image) : ?>
+        <img class="achiever-page-hero__background" src="<?php echo esc_url($background_image); ?>" alt="<?php echo esc_attr($background_alt); ?>" loading="eager" fetchpriority="high" />
+    <?php endif; ?>
     <div class="achiever-page-hero__clouds" aria-hidden="true"></div>
-    <div class="achiever-page-hero__rainbow" aria-hidden="true"></div>
-    <div class="achiever-page-hero__mascot" aria-hidden="true">♡</div>
-    <div class="achiever-page-hero__pencils" aria-hidden="true"></div>
+    <?php if ($mascot_image) : ?>
+        <img class="achiever-page-hero__mascot achiever-page-hero__mascot--image" src="<?php echo esc_url($mascot_image); ?>" alt="<?php echo esc_attr($mascot_alt); ?>" loading="lazy" />
+    <?php else : ?>
+        <div class="achiever-page-hero__mascot" aria-hidden="true">♡</div>
+    <?php endif; ?>
 
     <div class="achiever-page-hero__inner">
         <?php if ($eyebrow) : ?>
@@ -31,6 +43,14 @@ $wrapper_attributes = get_block_wrapper_attributes([
         <?php endif; ?>
 
         <h1 class="achiever-page-hero__heading"><?php echo nl2br(esc_html($heading)); ?></h1>
+
+        <?php if ($breadcrumb_current) : ?>
+            <nav class="achiever-page-hero__breadcrumb" aria-label="Breadcrumb">
+                <a href="<?php echo esc_url($breadcrumb_home_url); ?>"><?php echo esc_html($breadcrumb_home_text); ?></a>
+                <span aria-hidden="true">&gt;</span>
+                <span aria-current="page"><?php echo esc_html($breadcrumb_current); ?></span>
+            </nav>
+        <?php endif; ?>
 
         <?php if ($subtitle) : ?>
             <p class="achiever-page-hero__subtitle"><?php echo esc_html($subtitle); ?></p>

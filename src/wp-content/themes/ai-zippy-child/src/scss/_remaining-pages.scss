@@ -1,0 +1,435 @@
+@use "@parent-scss/variables" as *;
+@use "mockup" as mockup;
+
+.achiever-page-hero {
+  &__background {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__breadcrumb {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: -16px 0 28px;
+    color: mockup.$navy;
+    font-size: 14px;
+    font-weight: 600;
+
+    a { color: inherit; }
+  }
+}
+
+.achiever-offering-listing {
+  padding: 64px 60px;
+  background: $c-white;
+
+  &__inner { max-width: 1240px; margin: 0 auto; }
+  &__heading { margin: 0 0 12px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(32px, 4vw, 48px); text-align: center; }
+  &__subheading { max-width: 720px; margin: 0 auto 32px; color: mockup.$copy; text-align: center; }
+  &__viewport { position: relative; }
+  &__track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  &--carousel &__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+  &--carousel &__track::-webkit-scrollbar { display: none; }
+  &--carousel &__card { flex: 0 0 min(320px, 78vw); scroll-snap-align: start; }
+  &__card { overflow: hidden; border-radius: $border-radius-lg; background: $c-white; box-shadow: $box-shadow; }
+  &__image { aspect-ratio: 4 / 3; overflow: hidden; background: mockup.$pink; }
+  &__image img { width: 100%; height: 100%; object-fit: cover; }
+  &__content { padding: 22px; }
+  &__category { color: mockup.$rose; font-size: 12px; font-weight: 700; text-transform: uppercase; }
+  &__content h3 { margin: 6px 0; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 24px; }
+  &__content p { display: -webkit-box; overflow: hidden; margin: 0 0 16px; color: mockup.$copy; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+  &__age { font-weight: 700; }
+  &__tagline { color: mockup.$navy !important; font-weight: 700; }
+  &__content ul { margin: 0 0 20px; padding-left: 20px; color: mockup.$copy; list-style: disc; }
+  &__arrow { display: inline-flex; position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: $c-white; color: mockup.$navy; box-shadow: $box-shadow; cursor: pointer; font-size: 22px; transform: translateY(-50%); }
+  &__arrow--prev { left: -22px; }
+  &__arrow--next { right: -22px; }
+  &__arrow:focus-visible { outline: 3px solid mockup.$rose; outline-offset: 3px; }
+  &__editor-empty { width: 100%; padding: 28px; border: 1px dashed mockup.$copy; text-align: center; }
+}
+
+.achiever-service-detail {
+  background: $c-white;
+
+  &__intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 0.85fr); gap: 48px; max-width: 1240px; margin: 0 auto; padding: 72px 60px; align-items: center; }
+  &__eyebrow { margin: 0 0 8px; color: mockup.$rose; font-weight: 700; text-transform: uppercase; }
+  &__copy h2,
+  &__related h2,
+  &__gallery h2 { margin: 0 0 16px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(30px, 4vw, 46px); }
+  &__copy h3 { margin: 28px 0 12px; color: mockup.$navy; }
+  &__copy p,
+  &__copy li { color: mockup.$copy; line-height: 1.7; }
+  &__age { color: mockup.$rose !important; font-weight: 700; }
+  &__copy ul { margin: 0 0 28px; padding-left: 20px; list-style: disc; }
+  &__image { min-height: 360px; overflow: hidden; border-radius: $border-radius-lg; background: mockup.$pink; }
+  &__image img { width: 100%; height: 100%; min-height: 360px; object-fit: cover; }
+  &__related { padding: 64px 60px; background: mockup.$pink; text-align: center; }
+  &__related-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; max-width: 1200px; margin: 28px auto 0; }
+  &__related-card { padding: 18px; border-radius: $border-radius-lg; background: $c-white; box-shadow: $box-shadow; }
+  &__related-card > div { aspect-ratio: 4 / 3; overflow: hidden; border-radius: $border-radius-lg; background: mockup.$pink; }
+  &__related-card img { width: 100%; height: 100%; object-fit: cover; }
+  &__related-card h3 { margin: 14px 0 8px; color: mockup.$navy; }
+  &__gallery { padding: 64px 60px; text-align: center; }
+  &__gallery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; max-width: 1240px; margin: 28px auto 0; }
+  &__gallery-grid > div { aspect-ratio: 1; overflow: hidden; background: mockup.$pink; }
+  &__gallery-grid img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.achiever-page--service-detail {
+  .achiever-page-hero {
+    min-height: 330px;
+    padding-block: 54px 58px;
+  }
+  .achiever-page-hero__heading {
+    max-width: 100%;
+    margin-bottom: 20px;
+    font-size: clamp(48px, 7vw, 88px);
+  }
+  .achiever-page-hero__breadcrumb { margin-block: -6px 0; }
+
+  .achiever-service-detail__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 52px;
+    padding: 56px max(60px, calc((100vw - 1240px) / 2)) 64px;
+    background: $c-white;
+  }
+  .achiever-service-detail__intro {
+    display: flex;
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    flex-direction: column;
+    gap: 30px;
+    align-items: stretch;
+  }
+  .achiever-service-detail__image {
+    min-height: 0;
+    aspect-ratio: 720 / 440;
+    border-radius: 24px;
+  }
+  .achiever-service-detail__image img,
+  .achiever-service-detail__image svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .achiever-service-detail__copy h2 { font-size: clamp(34px, 4vw, 48px); }
+
+  .achiever-service-detail__related {
+    align-self: start;
+    position: sticky;
+    top: 24px;
+    overflow: hidden;
+    padding: 0;
+    border-radius: 20px;
+    background: mockup.$blue;
+    text-align: left;
+  }
+  .achiever-service-detail__related h2 {
+    margin: 0 !important;
+    padding: 22px 24px 18px;
+    font-size: 24px;
+  }
+  .achiever-service-detail__related-grid {
+    display: flex;
+    gap: 0;
+    max-width: none;
+    margin: 0;
+    flex-direction: column;
+  }
+  .achiever-service-detail__related-card {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 15px 24px;
+    border-top: 1px solid rgba(mockup.$navy, 0.1);
+    border-radius: 0;
+    background: transparent;
+    color: mockup.$navy;
+    box-shadow: none;
+    text-decoration: none;
+    transition: background-color 160ms ease;
+  }
+  .achiever-service-detail__related-card:hover,
+  .achiever-service-detail__related-card:focus-visible { background: rgba($c-white, 0.55); }
+  .achiever-service-detail__related-card span { font-size: 14px; font-weight: 800; }
+  .achiever-service-detail__related-card small { flex: 0 0 auto; color: mockup.$copy; font-size: 11px; line-height: 1.5; }
+
+  .achiever-service-detail__gallery { padding-block: 56px; }
+  .achiever-service-detail__gallery h2 { margin-bottom: 30px; }
+  .achiever-service-detail__gallery-slider { position: relative; max-width: 1240px; margin: 0 auto; padding-inline: 38px; }
+  .achiever-service-detail__gallery-grid {
+    display: flex;
+    grid-template-columns: none;
+    gap: 18px;
+    max-width: none;
+    margin: 0;
+    overflow-x: auto;
+    padding: 2px 2px 12px;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .achiever-service-detail__gallery-grid::-webkit-scrollbar { display: none; }
+  .achiever-service-detail__gallery-grid > div {
+    flex: 0 0 calc((100% - 36px) / 3);
+    min-width: 0;
+    aspect-ratio: 4 / 3;
+    border-radius: 18px;
+    scroll-snap-align: start;
+  }
+  .achiever-service-detail__gallery-fallback,
+  .achiever-service-detail__gallery-fallback svg { display: block; width: 100%; height: 100%; }
+  .achiever-service-detail__gallery-arrow {
+    display: grid;
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    transform: translateY(-50%);
+    border: 0;
+    border-radius: 50%;
+    place-items: center;
+    background: mockup.$navy;
+    color: $c-white;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+  }
+  .achiever-service-detail__gallery-arrow--prev { left: 0; }
+  .achiever-service-detail__gallery-arrow--next { right: 0; }
+}
+
+.achiever-about-content {
+  &__heading-block { max-width: 760px; margin: 0 auto; padding: 64px 60px 0; text-align: center; }
+  &__heading-block > h2 { margin: 0 0 16px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(32px, 4vw, 46px); }
+  &__heading-block > p { margin: 0; color: mockup.$copy; line-height: 1.7; }
+  &__intro { display: grid; grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr); gap: 56px; max-width: 1200px; margin: 0 auto; padding: 48px 60px 72px; align-items: center; }
+  &__logo { display: grid; min-height: 360px; overflow: hidden; border-radius: $border-radius-lg; background: mockup.$pink; place-items: center; }
+  &__logo img { width: 100%; height: 100%; object-fit: contain; }
+  &__gallery h2 { margin: 0 0 16px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(32px, 4vw, 46px); }
+  &__value p { color: mockup.$copy; line-height: 1.7; }
+  &__values { display: grid; gap: 14px; }
+  &__value { display: grid; grid-template-columns: 64px 1fr; gap: 16px; padding: 18px; border-radius: $border-radius-lg; background: mockup.$pink; align-items: start; }
+  &__value-icon { display: grid; width: 64px; height: 64px; overflow: hidden; border-radius: 50%; background: $c-white; color: mockup.$rose; place-items: center; }
+  &__value-icon img { width: 100%; height: 100%; object-fit: cover; }
+  &__value-icon svg { width: 38px; height: 38px; overflow: visible; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+  &__value h3 { margin: 0 0 6px; color: mockup.$navy; }
+  &__gallery { padding: 64px 60px; background: mockup.$pink; text-align: center; }
+  &__gallery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; max-width: 1200px; margin: 28px auto 0; }
+  &__gallery-grid > div { aspect-ratio: 4 / 3; overflow: hidden; background: $c-white; }
+  &__gallery-grid img { width: 100%; height: 100%; object-fit: cover; }
+  &__brand-art { display: grid; width: 100%; max-width: 300px; padding: 28px; color: mockup.$navy; text-align: center; place-items: center; }
+  &__brand-art > svg { width: 100%; max-width: 240px; }
+  &__brand-rainbow { fill: none; stroke-width: 14; stroke-linecap: round; }
+  &__brand-rainbow--one { stroke: mockup.$rose; }
+  &__brand-rainbow--two { stroke: #f5c84b; }
+  &__brand-rainbow--three { stroke: #63bda7; }
+  &__brand-pencil { fill: #f5c84b; stroke: mockup.$navy; stroke-width: 3; stroke-linejoin: round; }
+  &__brand-star { fill: $c-white; stroke: mockup.$navy; stroke-width: 3; stroke-linejoin: round; }
+  &__wordmark { margin-top: -24px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 30px; font-weight: 800; line-height: 1; }
+  &__wordmark strong { color: mockup.$rose; }
+  &__wordmark small { display: block; margin-top: 10px; color: mockup.$copy; font-family: Poppins, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+}
+
+.achiever-page--about {
+  .achiever-page-hero { min-height: 330px; padding-block: 54px 58px; }
+  .achiever-page-hero__heading { max-width: 760px; margin-bottom: 20px; font-size: clamp(52px, 7vw, 88px); }
+  .achiever-page-hero__breadcrumb { margin-block: -6px 0; }
+}
+
+.achiever-events-content {
+  &__offering { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr); gap: 48px; padding: 72px max(60px, calc((100vw - 1240px) / 2)); align-items: center; }
+  &__offering:nth-child(even) { background: mockup.$pink; }
+  &__offering:nth-child(even) &__copy { order: 2; }
+  &__eyebrow { color: mockup.$rose; font-weight: 700; text-transform: uppercase; }
+  &__copy h2 { margin: 0 0 8px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(32px, 4vw, 46px); }
+  &__copy h2 span { font-size: 0.55em; }
+  &__copy h3 { color: mockup.$rose; }
+  &__copy p,
+  &__copy li { color: mockup.$copy; line-height: 1.7; }
+  &__copy ul { padding-left: 20px; list-style: disc; }
+  &__image { min-height: 340px; overflow: hidden; border-radius: $border-radius-lg; background: mockup.$pink; }
+  &__image img { width: 100%; height: 100%; min-height: 340px; object-fit: cover; }
+}
+
+.achiever-contact-overview {
+  padding: 64px 60px;
+  background: $c-white;
+
+  &__inner { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; max-width: 1200px; margin: 0 auto; }
+  &__intro h2 { margin: 0 0 10px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 36px; }
+  &__intro p { color: mockup.$copy; }
+  &__contact { display: grid; gap: 18px; }
+  &__contact div { display: flex; flex-direction: column; }
+  &__contact span,
+  &__hours h3 { color: mockup.$navy; font-weight: 700; }
+  &__contact a { color: mockup.$rose; font-size: 18px; font-weight: 700; }
+  &__hours p { display: flex; flex-direction: column; margin: 0 0 10px; color: mockup.$copy; }
+}
+
+.achiever-studios-directory {
+  padding: 72px 60px;
+  background: $c-white;
+
+  &__studio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 0.55fr); gap: 28px; max-width: 1200px; margin: 0 auto 56px; padding: 32px; border-radius: $border-radius-lg; background: mockup.$pink; }
+  &__details h2 { margin: 0 0 12px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 30px; }
+  &__details p { color: mockup.$copy; }
+  &__details a { color: mockup.$rose; font-weight: 700; }
+  &__map { display: grid; place-items: center; min-height: 180px; border-radius: $border-radius-lg; background: $c-white; }
+  &__gallery { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  &__gallery > div { aspect-ratio: 4 / 3; overflow: hidden; background: $c-white; }
+  &__gallery img { width: 100%; height: 100%; object-fit: cover; }
+}
+
+.achiever-enquiry-form {
+  &__form label { display: flex; width: 100%; flex-direction: column; gap: 6px; color: mockup.$navy; font-size: 12px; font-weight: 700; }
+  &__form select {
+    width: 100%;
+    padding: 14px 40px 14px 16px;
+    border: 0;
+    border-radius: 10px;
+    background: $c-white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%231e3a6e' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") no-repeat right 16px center;
+    background-size: 12px 8px;
+    color: mockup.$navy;
+    appearance: none;
+  }
+  &__form fieldset { margin: 0; padding: 0; border: 0; color: mockup.$navy; }
+  &__row > div { display: flex; min-width: 0; flex: 1; flex-direction: column; gap: 6px; }
+  &__checkbox { display: inline-flex !important; width: auto !important; flex-direction: row !important; align-items: center; gap: 8px; }
+  &__checkbox input { width: auto !important; }
+  &__checkbox label { display: inline-flex; width: auto; flex-direction: row; }
+}
+
+.achiever-studios__image { aspect-ratio: 4 / 3; margin: -12px -4px 20px; overflow: hidden; border-radius: $border-radius-lg; background: mockup.$pink; }
+.achiever-studios__image img { width: 100%; height: 100%; object-fit: cover; }
+
+.achiever-woo-listing {
+  padding: 64px 60px;
+  background: $c-white;
+
+  &__inner { max-width: 1240px; margin: 0 auto; }
+  &__inner > h2 { margin: 0 0 28px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(34px, 4vw, 48px); text-align: center; }
+  &__filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; align-items: center; }
+  &__filters strong { margin-right: 8px; color: mockup.$navy; }
+  &__filters a { padding: 8px 14px; border-radius: 999px; background: mockup.$pink; color: mockup.$navy; font-size: 13px; font-weight: 700; }
+  &__filters a[aria-current="page"] { background: mockup.$rose; color: $c-white; }
+  &__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  &__product { overflow: hidden; border-radius: $border-radius-lg; background: $c-white; box-shadow: $box-shadow; }
+  &__image { display: block; aspect-ratio: 1; overflow: hidden; background: mockup.$pink; }
+  &__image img { width: 100%; height: 100%; object-fit: cover; }
+  &__content { padding: 20px; }
+  &__content h3 { margin: 0 0 10px; font-family: "Baloo 2", sans-serif; font-size: 22px; }
+  &__content h3 a { color: mockup.$navy; }
+  &__price { margin-bottom: 16px; color: mockup.$rose; font-weight: 700; }
+  &__empty { padding: 28px; border-radius: $border-radius-lg; background: mockup.$pink; color: mockup.$navy; text-align: center; }
+}
+
+@media (max-width: 1023px) {
+  .achiever-offering-listing,
+  .achiever-service-detail__intro,
+  .achiever-service-detail__related,
+  .achiever-service-detail__gallery,
+  .achiever-about-content__intro,
+  .achiever-about-content__gallery,
+  .achiever-contact-overview,
+  .achiever-studios-directory { padding-inline: 20px; }
+  .achiever-woo-listing { padding-inline: 20px; }
+
+  .achiever-offering-listing__track,
+  .achiever-service-detail__related-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .achiever-woo-listing__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .achiever-service-detail__intro,
+  .achiever-about-content__intro,
+  .achiever-events-content__offering,
+  .achiever-contact-overview__inner { grid-template-columns: 1fr; }
+  .achiever-events-content__offering { padding-inline: 20px; }
+  .achiever-events-content__offering:nth-child(even) .achiever-events-content__copy { order: initial; }
+  .achiever-service-detail__gallery-grid,
+  .achiever-about-content__gallery-grid,
+  .achiever-studios-directory__gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+  .achiever-page--about {
+    .achiever-page-hero { min-height: 300px; padding-block: 48px 54px; }
+    .achiever-about-content__intro { gap: 36px; }
+    .achiever-about-content__logo { min-height: 300px; }
+    .achiever-enquiry-form__container { flex-direction: column; }
+    .achiever-enquiry-form__intro,
+    .achiever-enquiry-form__form { width: 100% !important; max-width: none !important; min-width: 0 !important; flex: 1 1 100% !important; }
+  }
+
+  .achiever-page--service-detail {
+    .achiever-service-detail__layout {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      padding: 44px 20px 52px;
+    }
+    .achiever-service-detail__related { position: static; }
+    .achiever-service-detail__gallery-grid { grid-template-columns: none; }
+    .achiever-service-detail__gallery-grid > div { flex: 0 0 calc((100% - 18px) / 2); }
+    .achiever-enquiry-form__container { flex-direction: column; flex-wrap: nowrap; }
+    .achiever-enquiry-form__intro,
+    .achiever-enquiry-form__form { width: 100%; max-width: none; min-width: 0; flex: none; }
+  }
+}
+
+@media (max-width: 600px) {
+  .achiever-offering-listing__track,
+  .achiever-service-detail__related-grid,
+  .achiever-woo-listing__grid { grid-template-columns: 1fr; }
+  .achiever-offering-listing__arrow--prev { left: -10px; }
+  .achiever-offering-listing__arrow--next { right: -10px; }
+  .achiever-service-detail__gallery-grid,
+  .achiever-about-content__gallery-grid,
+  .achiever-studios-directory__gallery { grid-template-columns: 1fr; }
+  .achiever-studios-directory__studio { grid-template-columns: 1fr; padding: 22px; }
+  .achiever-studios-directory__gallery { grid-column: auto; }
+
+  .achiever-page--about {
+    .achiever-page-hero { min-height: 260px; padding-block: 42px 48px; }
+    .achiever-page-hero__heading { font-size: 44px; letter-spacing: 0.08em; }
+    .achiever-about-content__intro { padding-block: 44px 52px; }
+    .achiever-about-content__logo { min-height: 270px; }
+    .achiever-about-content__value { grid-template-columns: 52px 1fr; padding: 16px; }
+    .achiever-about-content__value-icon { width: 52px; height: 52px; }
+    .achiever-about-content__value-icon svg { width: 31px; height: 31px; }
+    .achiever-about-content__wordmark { font-size: 27px; }
+  }
+
+
+  .achiever-page--service-detail {
+    .achiever-page-hero { min-height: 260px; padding: 42px 16px 48px; }
+    .achiever-page-hero__heading {
+      max-width: 100%;
+      font-size: clamp(34px, 10vw, 42px);
+      line-height: 1;
+      letter-spacing: 0.035em;
+      overflow-wrap: anywhere;
+    }
+    .achiever-service-detail__layout { padding-block: 36px 44px; }
+    .achiever-service-detail__image { border-radius: 18px; }
+    .achiever-service-detail__gallery { padding-block: 44px; }
+    .achiever-service-detail__gallery h2 { font-size: 30px; line-height: 1.15; }
+    .achiever-service-detail__gallery-slider { padding-inline: 32px; }
+    .achiever-service-detail__gallery-grid > div { flex-basis: 88%; }
+    .achiever-service-detail__gallery-arrow { width: 30px; height: 30px; font-size: 20px; }
+    .achiever-enquiry-form { padding-block: 44px !important; }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .achiever-offering-listing__track { scroll-behavior: auto; }
+  .achiever-offering-listing *,
+  .achiever-service-detail *,
+  .achiever-events-content * { transition-duration: 0.01ms !important; }
+}

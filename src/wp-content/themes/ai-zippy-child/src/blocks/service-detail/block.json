@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/service-detail",
+  "version": "1.0.0",
+  "title": "Service Detail",
+  "category": "achiever-shared",
+  "icon": "welcome-learn-more",
+  "description": "Reusable editable detail content for a class, workshop, or camp.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "serviceType": { "type": "string", "default": "" },
+    "heading": { "type": "string", "default": "" },
+    "ageRange": { "type": "string", "default": "" },
+    "description": { "type": "string", "default": "" },
+    "mainImage": { "type": "string", "default": "" },
+    "mainImageAlt": { "type": "string", "default": "" },
+    "infoTitle": { "type": "string", "default": "" },
+    "infoItems": { "type": "array", "default": [] },
+    "ctaText": { "type": "string", "default": "" },
+    "ctaUrl": { "type": "string", "default": "" },
+    "relatedTitle": { "type": "string", "default": "" },
+    "relatedItems": { "type": "array", "default": [] },
+    "galleryTitle": { "type": "string", "default": "" },
+    "galleryImages": { "type": "array", "default": [] }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
+}

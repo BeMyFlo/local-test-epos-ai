@@ -1,57 +1,33 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "ai-zippy/home-class-types",
-	"version": "1.0.0",
-	"title": "Home Class Types",
-	"category": "achiever-home",
-	"description": "Explore our classes section with 5 class type cards.",
-	"supports": {
-		"html": false
-	},
-	"textdomain": "ai-zippy",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./editor.scss",
-	"style": "file:./style.scss",
-	"render": "file:./render.php",
-	"attributes": {
-		"sectionTitle": {
-			"type": "string",
-			"default": "explore our classes"
-		},
-		"types": {
-			"type": "array",
-			"default": [
-				{
-					"name": "Regular Art Classes",
-					"format": "(Weekly)",
-					"icon": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png"
-				},
-				{
-					"name": "Art Camps",
-					"format": "(4/6/8 Lessons)",
-					"icon": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png"
-				},
-				{
-					"name": "Art Workshop",
-					"format": "(Single Session)",
-					"icon": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png"
-				},
-				{
-					"name": "Short Courses",
-					"format": "(Weekly)",
-					"icon": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png"
-				},
-				{
-					"name": "Express Art Classes",
-					"format": "(Single Session)",
-					"icon": "/wp-content/themes/ai-zippy-child/assets/images/achiever-home-mockup-1.png"
-				}
-			]
-		},
-		"decorImage": {
-			"type": "string",
-			"default": ""
-		}
-	}
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/home-class-types",
+  "version": "2.0.0",
+  "title": "Home Class Types",
+  "category": "achiever-home",
+  "description": "Source-faithful Explore Our Classes image list.",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./editor.scss",
+  "style": "file:./style.scss",
+  "render": "file:./render.php",
+  "attributes": {
+    "sectionTitle": {
+      "type": "string",
+      "default": "EXPLORE OUR CLASSES"
+    },
+    "types": {
+      "type": "array",
+      "default": [
+        { "label": "Foundation Art", "image": "", "alt": "Foundation Art class photo", "url": "" },
+        { "label": "Art Camp", "image": "", "alt": "Art Camp class photo", "url": "" },
+        { "label": "Mixed Media", "image": "", "alt": "Mixed Media class photo", "url": "" },
+        { "label": "Watercolour", "image": "", "alt": "Watercolour class photo", "url": "" },
+        { "label": "Acrylic Class", "image": "", "alt": "Acrylic Class photo", "url": "" }
+      ]
+    }
+  }
 }

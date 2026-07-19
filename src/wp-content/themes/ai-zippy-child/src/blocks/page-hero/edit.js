@@ -1,5 +1,5 @@
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, TextareaControl, SelectControl } from '@wordpress/components';
+import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
+import { Button, PanelBody, SelectControl, TextControl, TextareaControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes, name }) {
@@ -25,6 +25,21 @@ export default function Edit({ attributes, setAttributes, name }) {
             onChange={(value) => setAttributes({ subtitle: value })}
           />
           <TextControl
+            label="Breadcrumb Home Text"
+            value={attributes.breadcrumbHomeText}
+            onChange={(value) => setAttributes({ breadcrumbHomeText: value })}
+          />
+          <TextControl
+            label="Breadcrumb Home URL"
+            value={attributes.breadcrumbHomeUrl}
+            onChange={(value) => setAttributes({ breadcrumbHomeUrl: value })}
+          />
+          <TextControl
+            label="Breadcrumb Current Page"
+            value={attributes.breadcrumbCurrent}
+            onChange={(value) => setAttributes({ breadcrumbCurrent: value })}
+          />
+          <TextControl
             label="CTA Text"
             value={attributes.ctaText}
             onChange={(value) => setAttributes({ ctaText: value })}
@@ -44,6 +59,57 @@ export default function Edit({ attributes, setAttributes, name }) {
               { label: 'Lavender', value: 'lavender' },
             ]}
             onChange={(value) => setAttributes({ variant: value })}
+          />
+        </PanelBody>
+        <PanelBody title="Banner Image" initialOpen={false}>
+          <MediaUploadCheck>
+            <MediaUpload
+              allowedTypes={['image']}
+              onSelect={(media) => setAttributes({ backgroundImage: media.url, backgroundAlt: media.alt || '' })}
+              render={({ open }) => (
+                <Button variant="secondary" onClick={open}>
+                  {attributes.backgroundImage ? 'Change image' : 'Select image'}
+                </Button>
+              )}
+            />
+          </MediaUploadCheck>
+          <TextControl
+            label="Image URL"
+            value={attributes.backgroundImage}
+            onChange={(value) => setAttributes({ backgroundImage: value })}
+          />
+          <TextControl
+            label="Image Alt Text"
+            value={attributes.backgroundAlt}
+            onChange={(value) => setAttributes({ backgroundAlt: value })}
+          />
+        </PanelBody>
+        <PanelBody title="Mascot Image" initialOpen={false}>
+          <MediaUploadCheck>
+            <MediaUpload
+              allowedTypes={['image']}
+              onSelect={(media) => setAttributes({ mascotImage: media.url, mascotAlt: media.alt || '' })}
+              render={({ open }) => (
+                <Button variant="secondary" onClick={open}>
+                  {attributes.mascotImage ? 'Change image' : 'Select image'}
+                </Button>
+              )}
+            />
+          </MediaUploadCheck>
+          {attributes.mascotImage && (
+            <Button variant="link" isDestructive onClick={() => setAttributes({ mascotImage: '', mascotAlt: '' })}>
+              Remove image
+            </Button>
+          )}
+          <TextControl
+            label="Image URL"
+            value={attributes.mascotImage}
+            onChange={(value) => setAttributes({ mascotImage: value })}
+          />
+          <TextControl
+            label="Image Alt Text"
+            value={attributes.mascotAlt}
+            onChange={(value) => setAttributes({ mascotAlt: value })}
           />
         </PanelBody>
       </InspectorControls>

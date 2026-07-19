@@ -1,58 +1,106 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "ai-zippy/classes-detail",
-	"version": "1.0.0",
-	"title": "Classes Detail",
-	"category": "achiever-classes",
-	"icon": "format-gallery",
-	"description": "Alternating text+image sections for art programs with gallery.",
-	"keywords": ["classes", "detail", "gallery", "programs"],
-	"supports": {
-		"html": false,
-		"align": ["wide", "full"]
-	},
-	"attributes": {
-		"sections": {
-			"type": "array",
-			"default": [
-				{
-					"title": "FOUNDATION\nART COURSE",
-					"description": "In a short course format rather than a regular class; Foundation Art Course provides a unique and fun learning experience for little artists. It is designed to help young artists explore, enhance and develop their knowledge and fundamental skills. We believe in nurturing creativity in children and helping them develop skills that will last a lifetime.\n\nOur curriculum includes fully guided lessons on elements of art, and various mediums such as Acrylic Paints, Watercolours, Oil pastels, Clay and more. Join us today and explore the wonderful world of art.",
-					"image": "",
-					"layout": "text-left",
-					"ctaText": "SEE MORE",
-					"ctaUrl": "/foundation-art-course/"
-				},
-				{
-					"title": "Artventurer",
-					"description": "A notable program designed to allow children of ages 3 and above to immerse in a world of mixed media art. Our classes help little artists explore, enhance and further develop their creative skills by introducing exciting themes in class. Various mediums such as Acrylic Paints, Watercolours, Oil pastels and more will be introduced in this program.\n\nOur curriculum includes basic understanding of drawing, various painting techniques and exploration of texture in 2D and 3D artworks.",
-					"image": "",
-					"layout": "image-left",
-					"ctaText": "SEE MORE",
-					"ctaUrl": "/artventurer/"
-				}
-			]
-		},
-		"galleryTitle": {
-			"type": "string",
-			"default": "your smile,\nour passion."
-		},
-		"galleryImages": {
-			"type": "array",
-			"default": [
-				{ "url": "", "alt": "Gallery 1" },
-				{ "url": "", "alt": "Gallery 2" },
-				{ "url": "", "alt": "Gallery 3" },
-				{ "url": "", "alt": "Gallery 4" },
-				{ "url": "", "alt": "Gallery 5" },
-				{ "url": "", "alt": "Gallery 6" }
-			]
-		}
-	},
-	"textdomain": "ai-zippy",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/classes-detail",
+  "version": "2.0.0",
+  "title": "Classes Detail",
+  "category": "achiever-classes",
+  "icon": "format-gallery",
+  "description": "Editable class feature rows and four-image gallery.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "sections": {
+      "type": "array",
+      "default": [
+        {
+          "title": "ARTVENTURER",
+          "age": "Age 3 & up",
+          "description": "Explore the world of Arts",
+          "image": "",
+          "alt": "Artventurer class photo",
+          "ctaText": "SEE MORE",
+          "ctaUrl": "/artventurer/"
+        },
+        {
+          "title": "CANVAS WIZARD",
+          "age": "Age 6 & up",
+          "description": "For the Painters",
+          "image": "",
+          "alt": "Canvas Wizard class photo",
+          "ctaText": "SEE MORE",
+          "ctaUrl": "/canvas-wizard/"
+        },
+        {
+          "title": "FOUNDATION ART CLASS",
+          "age": "Age 4–6",
+          "description": "For Strong Art Beginnings",
+          "image": "",
+          "alt": "Foundation Art Class photo",
+          "ctaText": "SEE MORE",
+          "ctaUrl": "/foundation-art-course/"
+        },
+        {
+          "title": "SKETCHER MASTER",
+          "age": "Age 7 & up",
+          "description": "For the Sketch Enthusiast",
+          "image": "",
+          "alt": "Sketcher Master class photo",
+          "ctaText": "SEE MORE",
+          "ctaUrl": "/sketcher-master/"
+        },
+        {
+          "title": "LITTLE DRAWS",
+          "age": "Age 5 & up",
+          "description": "Joyful Little Draws",
+          "image": "",
+          "alt": "Little Draws class photo",
+          "ctaText": "SEE MORE",
+          "ctaUrl": "/little-draws/"
+        },
+        {
+          "title": "JUNIOR FINE ARTS",
+          "age": "Age 8 & up",
+          "description": "For the Prodigy",
+          "image": "",
+          "alt": "Junior Fine Arts class photo",
+          "ctaText": "SEE MORE",
+          "ctaUrl": "/junior-fine-arts/"
+        },
+        {
+          "title": "DRAWVINCI",
+          "age": "Age 6 & up",
+          "description": "The Art of Drawing",
+          "image": "",
+          "alt": "DrawVinci class photo",
+          "ctaText": "SEE MORE",
+          "ctaUrl": "/drawvinci/"
+        },
+        {
+          "title": "PORTFOLIO ART",
+          "age": "Age 10 & up",
+          "description": "For the Future Artist",
+          "image": "",
+          "alt": "Portfolio Art class photo",
+          "ctaText": "SEE MORE",
+          "ctaUrl": "/portfolio-art/"
+        }
+      ]
+    },
+    "galleryTitle": { "type": "string", "default": "YOUR SMILE, OUR PASSION." },
+    "galleryImages": {
+      "type": "array",
+      "default": [
+        { "url": "", "alt": "Student artwork photo 1" },
+        { "url": "", "alt": "Student artwork photo 2" },
+        { "url": "", "alt": "Student artwork photo 3" },
+        { "url": "", "alt": "Student artwork photo 4" }
+      ]
+    }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
 }

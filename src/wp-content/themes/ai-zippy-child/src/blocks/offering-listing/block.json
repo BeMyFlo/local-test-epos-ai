@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/offering-listing",
+  "version": "1.0.0",
+  "title": "Offering Listing",
+  "category": "achiever-shared",
+  "icon": "screenoptions",
+  "description": "Editable grid or carousel of classes, workshops, camps, or courses.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "heading": { "type": "string", "default": "" },
+    "subheading": { "type": "string", "default": "" },
+    "layout": { "type": "string", "default": "grid" },
+    "items": { "type": "array", "default": [] }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
+}

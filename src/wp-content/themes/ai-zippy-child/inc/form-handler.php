@@ -33,6 +33,7 @@ function achiever_art_handle_enquiry(WP_REST_Request $request): WP_REST_Response
     $children_age   = sanitize_text_field($params['children_age'] ?? '');
     $studio         = sanitize_text_field($params['studio'] ?? '');
     $programme_type = sanitize_text_field($params['programme_type'] ?? '');
+    $preferred_contact = sanitize_text_field($params['preferred_contact'] ?? '');
     $message        = sanitize_textarea_field($params['message'] ?? '');
 
     // Validation
@@ -87,6 +88,7 @@ function achiever_art_handle_enquiry(WP_REST_Request $request): WP_REST_Response
         "Children Age: %s\n" .
         "Studio: %s\n" .
         "Programme Type: %s\n" .
+        "Preferred Contact: %s\n" .
         "Message:\n%s\n",
         $name,
         $phone,
@@ -94,6 +96,7 @@ function achiever_art_handle_enquiry(WP_REST_Request $request): WP_REST_Response
         $children_age,
         $studio,
         $programme_type,
+        $preferred_contact,
         $message
     );
 
@@ -122,6 +125,7 @@ function achiever_art_handle_enquiry(WP_REST_Request $request): WP_REST_Response
             '_enquiry_children_age'   => $children_age,
             '_enquiry_studio'         => $studio,
             '_enquiry_programme_type' => $programme_type,
+            '_enquiry_preferred_contact' => $preferred_contact,
         ],
     ]);
 

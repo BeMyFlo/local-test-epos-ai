@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { Button, PanelBody, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { preHeading, heading, subtitle, images, ctaText, ctaUrl } = attributes;
+  const { preHeading, heading, subtitle, ctaText, ctaUrl } = attributes;
+  const images = attributes.images || [];
   const blockProps = useBlockProps();
 
   return (
@@ -26,6 +27,10 @@ export default function Edit({ attributes, setAttributes }) {
             value={subtitle}
             onChange={(val) => setAttributes({ subtitle: val })}
           />
+          <TextControl label={__('Left decoration image URL', 'ai-zippy')} value={attributes.decorLeftImage || ''} onChange={(decorLeftImage) => setAttributes({ decorLeftImage })} />
+          <TextControl label={__('Left decoration alt text', 'ai-zippy')} value={attributes.decorLeftAlt || ''} onChange={(decorLeftAlt) => setAttributes({ decorLeftAlt })} />
+          <TextControl label={__('Right decoration image URL', 'ai-zippy')} value={attributes.decorRightImage || ''} onChange={(decorRightImage) => setAttributes({ decorRightImage })} />
+          <TextControl label={__('Right decoration alt text', 'ai-zippy')} value={attributes.decorRightAlt || ''} onChange={(decorRightAlt) => setAttributes({ decorRightAlt })} />
           <TextControl
             label={__('CTA Text', 'ai-zippy')}
             value={ctaText}
@@ -58,8 +63,10 @@ export default function Edit({ attributes, setAttributes }) {
                   setAttributes({ images: updated });
                 }}
               />
+              <Button isDestructive variant="secondary" onClick={() => setAttributes({ images: images.filter((_, i) => i !== index) })}>Remove photo</Button>
             </div>
           ))}
+          <Button variant="primary" onClick={() => setAttributes({ images: [...images, { url: '', alt: '' }] })}>Add photo</Button>
         </PanelBody>
       </InspectorControls>
 

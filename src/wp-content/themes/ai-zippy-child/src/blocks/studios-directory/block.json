@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/studios-directory",
+  "version": "1.0.0",
+  "title": "Studios Directory",
+  "category": "achiever-contact",
+  "icon": "location-alt",
+  "description": "Structured editable studio directory with maps and galleries.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "studios": {
+      "type": "array",
+      "default": [
+        { "name": "Tampines Studio (OTH)", "address": "1 Tampines Walk, #02-86\nOur Tampines Hub\nSingapore 528523", "phone": "6204 1662", "hours": "", "mapUrl": "https://maps.app.goo.gl/J4xeLVfwB8xGokZn7", "mapText": "View on Google Maps", "galleryImages": [] },
+        { "name": "Pasir Ris Studio (DTE)", "address": "1 Pasir Ris Close, #03-102\nE!HUB @ Downtown East\nSingapore 519599", "phone": "6951 1732", "hours": "", "mapUrl": "https://maps.app.goo.gl/Dx8AdMfSCq46o5xx6", "mapText": "View on Google Maps", "galleryImages": [] },
+        { "name": "Bedok Studio (HBB)", "address": "11 Bedok North Street 1, #01-22\nHeartbeat @ Bedok\nSingapore 469662", "phone": "6929 3225", "hours": "", "mapUrl": "https://maps.app.goo.gl/PisTD64PSdpJT3m9A", "mapText": "View on Google Maps", "galleryImages": [] }
+      ]
+    }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

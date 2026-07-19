@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl, TextareaControl } from '@wordpress/components';
+import { Button, PanelBody, TextControl, TextareaControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { heading, testimonials } = attributes;
+  const { heading } = attributes;
+  const testimonials = attributes.testimonials || [];
   const blockProps = useBlockProps();
 
   return (
@@ -42,17 +43,12 @@ export default function Edit({ attributes, setAttributes }) {
                 setAttributes({ testimonials: updated });
               }}
             />
-            <TextControl
-              label={__('Avatar URL', 'ai-zippy')}
-              value={testimonial.avatar}
-              onChange={(val) => {
-                const updated = [...testimonials];
-                updated[index] = { ...updated[index], avatar: val };
-                setAttributes({ testimonials: updated });
-              }}
-            />
+            <Button isDestructive variant="secondary" onClick={() => setAttributes({ testimonials: testimonials.filter((_, i) => i !== index) })}>Remove testimonial</Button>
           </PanelBody>
         ))}
+        <PanelBody title={__('Add testimonial', 'ai-zippy')} initialOpen={false}>
+          <Button variant="primary" onClick={() => setAttributes({ testimonials: [...testimonials, { name: '', quote: '' }] })}>Add testimonial</Button>
+        </PanelBody>
       </InspectorControls>
 
       <div {...blockProps}>

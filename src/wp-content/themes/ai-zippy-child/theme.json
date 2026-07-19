@@ -25,7 +25,10 @@
 		{ "name": "page-events", "title": "Arty Events & Parties", "postTypes": ["page"] },
 		{ "name": "page-contact", "title": "Contact Us", "postTypes": ["page"] },
 		{ "name": "page-studios", "title": "Our Studios", "postTypes": ["page"] },
-		{ "name": "page-shop", "title": "Shop", "postTypes": ["page"] }
+		{ "name": "page-shop", "title": "Shop", "postTypes": ["page"] },
+		{ "name": "page-listing", "title": "Offering Listing", "postTypes": ["page"] },
+		{ "name": "page-service-detail", "title": "Service Detail", "postTypes": ["page"] },
+		{ "name": "page-generic-content", "title": "Generic Content", "postTypes": ["page"] }
 	],
 	"templateParts": [
 		{ "name": "header", "title": "Header", "area": "header" },

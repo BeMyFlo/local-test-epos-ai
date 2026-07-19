@@ -5,7 +5,7 @@
 (function () {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function () {
+  function initHeroSliders() {
     const heros = document.querySelectorAll('.achiever-hero');
 
     heros.forEach(function (hero) {
@@ -18,20 +18,31 @@
       const nextBtn = hero.querySelector('.achiever-hero__arrow--next');
 
       if (slides.length < 2) return;
+      if (hero.dataset.sliderInitialized === 'true') return;
+      hero.dataset.sliderInitialized = 'true';
 
       let current = 0;
       let timer = null;
       const autoplay = hero.dataset.autoplay === 'true';
-      const speed = parseInt(hero.dataset.speed, 10) || 5000;
+      const parsedSpeed = parseInt(hero.dataset.speed, 10);
+      const speed = Math.max(2000, Math.min(10000, Number.isFinite(parsedSpeed) ? parsedSpeed : 5000));
 
       function goTo(index) {
         slides[current].classList.remove('achiever-hero__slide--active');
-        if (dots[current]) dots[current].classList.remove('achiever-hero__dot--active');
+        slides[current].setAttribute('aria-hidden', 'true');
+        if (dots[current]) {
+          dots[current].classList.remove('achiever-hero__dot--active');
+          dots[current].setAttribute('aria-current', 'false');
+        }
 
         current = (index + slides.length) % slides.length;
 
         slides[current].classList.add('achiever-hero__slide--active');
-        if (dots[current]) dots[current].classList.add('achiever-hero__dot--active');
+        slides[current].setAttribute('aria-hidden', 'false');
+        if (dots[current]) {
+          dots[current].classList.add('achiever-hero__dot--active');
+          dots[current].setAttribute('aria-current', 'true');
+        }
       }
 
       function next() {
@@ -88,5 +99,11 @@
       // Start
       startAutoplay();
     });
-  });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroSliders);
+  } else {
+    initHeroSliders();
+  }
 })();

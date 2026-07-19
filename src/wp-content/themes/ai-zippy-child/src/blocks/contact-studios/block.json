@@ -24,19 +24,31 @@
           "name": "Tampines Studio (OTH)",
           "phone": "(+65) 6204 1662",
           "address": "1 Tampines Walk, #02-86\nOur Tampines Hub\nSingapore 528523",
-          "hours": "Wed–Fri: 12pm–9pm\nSat: 9am–6pm\nSun: 9am–5:30pm"
+          "hours": "Wed–Fri: 12pm–9pm\nSat: 9am–6pm\nSun: 9am–5:30pm",
+          "mapUrl": "https://maps.app.goo.gl/J4xeLVfwB8xGokZn7",
+          "mapText": "View map",
+          "image": "",
+          "alt": ""
         },
         {
           "name": "Pasir Ris Studio (DTE)",
           "phone": "(+65) 6951 1732",
           "address": "1 Pasir Ris Close, #03-102\nE!HUB @ Downtown East\nSingapore 519599",
-          "hours": "Wed–Fri: 12pm–9pm\nSat: 9am–6pm\nSun: 9am–5:30pm"
+          "hours": "Wed–Fri: 12pm–9pm\nSat: 9am–6pm\nSun: 9am–5:30pm",
+          "mapUrl": "https://maps.app.goo.gl/Dx8AdMfSCq46o5xx6",
+          "mapText": "View map",
+          "image": "",
+          "alt": ""
         },
         {
           "name": "Bedok Studio (HBB)",
           "phone": "(+65) 6929 3225",
           "address": "11 Bedok North Street 1, #01-22\nHeartbeat @ Bedok\nSingapore 469662",
-          "hours": "Wed–Fri: 12pm–9pm\nSat: 9am–6pm\nSun: 9am–5:30pm"
+          "hours": "Wed–Fri: 12pm–9pm\nSat: 9am–6pm\nSun: 9am–5:30pm",
+          "mapUrl": "https://maps.app.goo.gl/PisTD64PSdpJT3m9A",
+          "mapText": "View map",
+          "image": "",
+          "alt": ""
         }
       ]
     }

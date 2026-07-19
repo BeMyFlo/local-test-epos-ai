@@ -1,10 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { Button, PanelBody, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { sectionTitle, products, ctaText, ctaUrl } = attributes;
+  const { sectionTitle, ctaText, ctaUrl } = attributes;
+  const products = attributes.products || [];
   const blockProps = useBlockProps();
 
   return (
@@ -71,15 +72,20 @@ export default function Edit({ attributes, setAttributes }) {
             />
             <TextControl
               label={__('Product URL', 'ai-zippy')}
-              value={product.ctaUrl}
+              value={product.url || ''}
               onChange={(val) => {
                 const updated = [...products];
-                updated[index] = { ...updated[index], ctaUrl: val };
+                updated[index] = { ...updated[index], url: val };
                 setAttributes({ products: updated });
               }}
             />
+            <TextControl label={__('Image alt text', 'ai-zippy')} value={product.alt || ''} onChange={(val) => { const updated = [...products]; updated[index] = { ...updated[index], alt: val }; setAttributes({ products: updated }); }} />
+            <Button isDestructive variant="secondary" onClick={() => setAttributes({ products: products.filter((_, i) => i !== index) })}>Remove product</Button>
           </PanelBody>
         ))}
+        <PanelBody title={__('Add product', 'ai-zippy')} initialOpen={false}>
+          <Button variant="primary" onClick={() => setAttributes({ products: [...products, { name: '', category: '', ageTime: '', image: '', alt: '', url: '' }] })}>Add product</Button>
+        </PanelBody>
       </InspectorControls>
 
       <div {...blockProps}>

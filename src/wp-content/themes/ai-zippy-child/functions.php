@@ -128,7 +128,7 @@ add_action('init', function (): void {
 add_action('wp_enqueue_scripts', function (): void {
     wp_enqueue_style(
         'achiever-art-fonts',
-        'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap',
+        'https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700&display=swap',
         [],
         null
     );
@@ -138,7 +138,7 @@ add_action('wp_enqueue_scripts', function (): void {
 add_action('enqueue_block_editor_assets', function (): void {
     wp_enqueue_style(
         'achiever-art-fonts-editor',
-        'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap',
+        'https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700&display=swap',
         [],
         null
     );
@@ -156,7 +156,7 @@ add_action('enqueue_block_editor_assets', function (): void {
     }
 }, 10);
 
-// === Hide WooCommerce account icon & mini-cart from header ===
+// === Hide WooCommerce account icon & mini-cart from the source-faithful header ===
 add_action('wp_enqueue_scripts', function (): void {
     $css = '
         .wp-block-woocommerce-mini-cart,
@@ -166,130 +166,14 @@ add_action('wp_enqueue_scripts', function (): void {
         .wc-block-mini-cart__button {
             display: none !important;
         }
-        .achiever-party {
-            position: relative;
-            padding: 60px 20px 50px;
-            background: #fef9e0 !important;
-            overflow: hidden;
-            text-align: center;
-        }
-        .achiever-party__decor {
-            position: absolute;
-            z-index: 2;
-            pointer-events: none;
-        }
-        .achiever-party__decor--left {
-            top: 0; left: 0; width: 180px;
-        }
-        .achiever-party__decor--right {
-            top: 0; right: 0; width: 200px;
-        }
-        .achiever-party__header {
-            position: relative; z-index: 3; margin-bottom: 30px;
-        }
-        .achiever-party__pre-heading {
-            display: block;
-            color: #e8627c;
-            font-size: 1.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-style: italic;
-        }
-        .achiever-party__heading {
-            color: #e8627c;
-            font-size: 3rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            margin: 0;
-            line-height: 1.1;
-        }
-        .achiever-party__slider {
-            position: relative;
-            margin: 0 auto 30px;
-            max-width: 1100px;
-        }
-        .achiever-party__track {
-            display: flex;
-            gap: 12px;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            padding: 10px 0;
-        }
-        .achiever-party__track::-webkit-scrollbar { display: none; }
-        .achiever-party__slide {
-            flex: 0 0 calc(33.333% - 8px);
-            scroll-snap-align: start;
-            border-radius: 12px;
-            overflow: hidden;
-            aspect-ratio: 4/3;
-        }
-        .achiever-party__slide img {
-            width: 100%; height: 100%; object-fit: cover;
-        }
-        .achiever-party__slide-placeholder {
-            width: 100%; height: 100%;
-            background: linear-gradient(135deg, #f8d7da 0%, #fef3cd 100%);
-        }
-        .achiever-party__arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 5;
-            width: 36px; height: 36px;
-            border: none;
-            background: rgba(255,255,255,0.85);
-            color: #1a2a4a;
-            font-size: 1.5rem;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .achiever-party__arrow--prev { left: 8px; }
-        .achiever-party__arrow--next { right: 8px; }
-        .achiever-party__subtitle {
-            color: #1a2a4a;
-            font-size: 0.85rem;
-            font-weight: 700;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-        }
-        .achiever-party__heading,
-        .achiever-party__pre-heading {
-            color: #e8627c !important;
-        }
     ';
     wp_add_inline_style('wp-block-library', $css);
 }, 99);
+
+// === Hide the default WooCommerce shop archive title (page-hero banner already shows it) ===
+add_filter('woocommerce_show_page_title', '__return_false');
 
 $form_handler = get_stylesheet_directory() . '/inc/form-handler.php';
 if (file_exists($form_handler)) {
     require_once $form_handler;
 }
-
-// === Party slider arrows JS ===
-add_action('wp_footer', function (): void {
-    ?>
-    <script>
-    (function(){
-        const slider = document.querySelector('[data-party-slider]');
-        if (!slider) return;
-        const track = slider.querySelector('.achiever-party__track');
-        const prev = slider.querySelector('.achiever-party__arrow--prev');
-        const next = slider.querySelector('.achiever-party__arrow--next');
-        if (!track || !prev || !next) return;
-        const getScrollAmount = () => {
-            const slide = track.querySelector('.achiever-party__slide');
-            return slide ? slide.offsetWidth + 12 : 300;
-        };
-        prev.addEventListener('click', () => {
-            track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
-        });
-        next.addEventListener('click', () => {
-            track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
-        });
-    })();
-    </script>
-    <?php
-}, 99);

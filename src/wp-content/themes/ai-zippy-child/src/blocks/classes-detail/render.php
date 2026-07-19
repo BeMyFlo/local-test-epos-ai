@@ -1,70 +1,63 @@
 <?php
-
 /**
  * Server-side render for Classes Detail block.
  *
- * @var array    $attributes Block attributes.
- * @var string   $content    Block inner content.
- * @var WP_Block $block      Block instance.
+ * @var array $attributes Block attributes.
  */
 
+defined('ABSPATH') || exit;
+
 $sections       = $attributes['sections'] ?? [];
-$gallery_title  = nl2br( esc_html( $attributes['galleryTitle'] ?? '' ) );
+$gallery_title  = $attributes['galleryTitle'] ?? 'YOUR SMILE, OUR PASSION.';
 $gallery_images = $attributes['galleryImages'] ?? [];
+$gallery_track_id = wp_unique_id('achiever-classes-gallery-track-');
 
-$wrapper_attributes = get_block_wrapper_attributes();
+$wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-classes-detail']);
 ?>
-
 <div <?php echo $wrapper_attributes; ?>>
-	<div class="achiever-classes-detail">
-		<div class="achiever-classes-detail__container">
-			<?php foreach ( $sections as $index => $section ) :
-				$title       = nl2br( esc_html( $section['title'] ?? '' ) );
-				$description = wp_kses_post( nl2br( esc_html( $section['description'] ?? '' ) ) );
-				$image       = esc_url( $section['image'] ?? '' );
-				$layout      = esc_attr( $section['layout'] ?? 'text-left' );
-				$cta_text    = esc_html( $section['ctaText'] ?? '' );
-				$cta_url     = esc_url( $section['ctaUrl'] ?? '#' );
-			?>
-				<div class="achiever-classes-detail__section achiever-classes-detail__section--<?php echo $layout; ?>">
-					<div class="achiever-classes-detail__text">
-						<h2 class="achiever-classes-detail__title"><?php echo $title; ?></h2>
-						<div class="achiever-classes-detail__description"><?php echo $description; ?></div>
-						<?php if ( $cta_text ) : ?>
-							<a href="<?php echo $cta_url; ?>" class="achiever-btn achiever-btn--outline"><?php echo $cta_text; ?></a>
-						<?php endif; ?>
-					</div>
-					<div class="achiever-classes-detail__image">
-						<?php if ( $image ) : ?>
-							<img src="<?php echo $image; ?>" alt="<?php echo esc_attr( $section['title'] ?? '' ); ?>" />
-						<?php else : ?>
-							<div class="achiever-classes-detail__image-placeholder"></div>
-						<?php endif; ?>
-					</div>
-				</div>
-			<?php endforeach; ?>
+  <?php foreach ($sections as $index => $section) :
+    $title       = $section['title'] ?? '';
+    $age         = $section['age'] ?? '';
+    $description = $section['description'] ?? '';
+    $image       = $section['image'] ?? '';
+    $alt         = $section['alt'] ?? $title;
+    $cta_text    = $section['ctaText'] ?? '';
+    $cta_url     = $section['ctaUrl'] ?? '#';
+  ?>
+    <section class="achiever-classes-detail__feature achiever-classes-detail__feature--<?php echo esc_attr((string) ($index + 1)); ?>">
+      <div class="achiever-classes-detail__inner">
+        <div class="achiever-classes-detail__image-slot">
+          <?php if ($image) : ?>
+            <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($alt); ?>" loading="lazy" />
+          <?php else : ?>
+            <svg class="achiever-classes-detail__fallback-art achiever-classes-detail__fallback-art--<?php echo esc_attr((string) (($index % 4) + 1)); ?>" viewBox="0 0 640 360" aria-hidden="true" focusable="false"><path d="M64 278 188 126l91 106 69-76 128 122Z"/><circle cx="444" cy="102" r="46"/><path d="M102 81c68-38 132-43 192-16M83 116c49-32 97-47 143-46"/><path d="m492 244 36-76 36 76-36 36Z"/></svg>
+          <?php endif; ?>
+        </div>
+        <div class="achiever-classes-detail__copy">
+          <?php if ($age) : ?><p class="achiever-classes-detail__age"><?php echo esc_html($age); ?></p><?php endif; ?>
+          <h2><?php echo esc_html($title); ?></h2>
+          <p><?php echo esc_html($description); ?></p>
+          <?php if ($cta_text) : ?><a class="achiever-btn" href="<?php echo esc_url($cta_url); ?>"><?php echo esc_html($cta_text); ?></a><?php endif; ?>
+        </div>
+      </div>
+    </section>
+  <?php endforeach; ?>
 
-			<?php if ( $gallery_title || ! empty( $gallery_images ) ) : ?>
-				<div class="achiever-classes-detail__gallery">
-					<?php if ( $gallery_title ) : ?>
-						<h2 class="achiever-classes-detail__gallery-title"><?php echo $gallery_title; ?></h2>
-					<?php endif; ?>
-					<div class="achiever-classes-detail__gallery-grid">
-						<?php foreach ( $gallery_images as $img ) :
-							$url = esc_url( $img['url'] ?? '' );
-							$alt = esc_attr( $img['alt'] ?? '' );
-						?>
-							<?php if ( $url ) : ?>
-								<div class="achiever-classes-detail__gallery-item">
-									<img src="<?php echo $url; ?>" alt="<?php echo $alt; ?>" />
-								</div>
-							<?php else : ?>
-								<div class="achiever-classes-detail__gallery-item achiever-classes-detail__gallery-item--placeholder"></div>
-							<?php endif; ?>
-						<?php endforeach; ?>
-					</div>
-				</div>
-			<?php endif; ?>
-		</div>
-	</div>
+  <section class="achiever-classes-detail__gallery">
+    <h2><?php echo esc_html($gallery_title); ?></h2>
+    <div class="achiever-classes-detail__gallery-slider" data-classes-gallery-slider>
+      <button class="achiever-classes-detail__gallery-arrow achiever-classes-detail__gallery-arrow--prev" type="button" aria-label="Previous gallery images" aria-controls="<?php echo esc_attr($gallery_track_id); ?>" data-classes-gallery-prev>‹</button>
+      <div class="achiever-classes-detail__gallery-grid" id="<?php echo esc_attr($gallery_track_id); ?>" role="list" tabindex="0" aria-label="Student artwork gallery" data-classes-gallery-track>
+      <?php foreach ($gallery_images as $index => $image) :
+        $url = $image['url'] ?? '';
+        $alt = $image['alt'] ?? '';
+      ?>
+        <div class="achiever-classes-detail__gallery-item" role="listitem">
+          <?php if ($url) : ?><img src="<?php echo esc_url($url); ?>" alt="<?php echo esc_attr($alt); ?>" loading="lazy" /><?php else : ?><svg class="achiever-classes-detail__gallery-fallback achiever-classes-detail__gallery-fallback--<?php echo esc_attr((string) (($index % 4) + 1)); ?>" viewBox="0 0 360 260" role="img" aria-label="<?php echo esc_attr($alt); ?>"><path d="M30 209 112 104l60 72 47-53 96 86Z"/><circle cx="270" cy="66" r="31"/><path d="M69 59c42-24 86-28 126-12M55 82c31-21 64-30 95-29"/></svg><?php endif; ?>
+        </div>
+      <?php endforeach; ?>
+      </div>
+      <button class="achiever-classes-detail__gallery-arrow achiever-classes-detail__gallery-arrow--next" type="button" aria-label="Next gallery images" aria-controls="<?php echo esc_attr($gallery_track_id); ?>" data-classes-gallery-next>›</button>
+    </div>
+  </section>
 </div>

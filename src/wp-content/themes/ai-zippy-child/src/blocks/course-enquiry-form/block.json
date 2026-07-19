@@ -1,61 +1,58 @@
 {
-	"$schema": "https://schemas.wp.org/trunk/block.json",
-	"apiVersion": 3,
-	"name": "ai-zippy/course-enquiry-form",
-	"version": "1.0.0",
-	"title": "Course Enquiry Form",
-	"category": "achiever-shared",
-	"icon": "email",
-	"description": "Enquiry form with fields for name, phone, email, children age, studio, programme type, and message.",
-	"keywords": ["enquiry", "form", "contact", "course"],
-	"supports": {
-		"html": false,
-		"align": ["wide", "full"]
-	},
-	"attributes": {
-		"heading": {
-			"type": "string",
-			"default": "Ask us\nquestions"
-		},
-		"subheading": {
-			"type": "string",
-			"default": "Book an appointment"
-		},
-		"ctaLabel": {
-			"type": "string",
-			"default": "ENQUIRY NOW"
-		},
-		"submitText": {
-			"type": "string",
-			"default": "SEND ENQUIRY"
-		},
-		"successMessage": {
-			"type": "string",
-			"default": "Thank you! We will get back to you soon."
-		},
-		"studios": {
-			"type": "array",
-			"default": [
-				"Tampines Studio (OTH)",
-				"Pasir Ris Studio (DTE)",
-				"Bedok Studio (HBB)"
-			]
-		},
-		"programmeTypes": {
-			"type": "array",
-			"default": [
-				"Foundation Art Course",
-				"Artventurer",
-				"Canvas Wizard",
-				"Art Camp",
-				"Art Workshop"
-			]
-		}
-	},
-	"textdomain": "ai-zippy",
-	"editorScript": "file:./index.js",
-	"editorStyle": "file:./index.css",
-	"style": "file:./style-index.css",
-	"render": "file:./render.php",
-	"viewScript": "file:./view.js"
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/course-enquiry-form",
+  "version": "2.0.0",
+  "title": "Course Enquiry Form",
+  "category": "achiever-shared",
+  "icon": "email",
+  "description": "Editable course enquiry heading, fields and submit message.",
+  "supports": { "html": false, "anchor": true, "align": ["wide", "full"] },
+  "attributes": {
+    "heading": { "type": "string", "default": "ASK US QUESTIONS" },
+    "subheading": { "type": "string", "default": "Book an appointment" },
+    "submitText": { "type": "string", "default": "SEND ENQUIRY" },
+    "successMessage": { "type": "string", "default": "Thanks! We'll get back to you shortly." },
+    "labels": {
+      "type": "object",
+      "default": {
+        "name": "Name",
+        "phone": "Phone Number",
+        "email": "Email",
+        "childAge": "Child's Age",
+        "preferredContact": "Preferred Mode of Contact",
+        "studio": "Our Studio",
+        "programType": "Programme Type",
+        "message": "Message"
+      }
+    },
+    "preferredContactOption": { "type": "string", "default": "WhatsApp" },
+    "studioOptions": {
+      "type": "array",
+      "default": ["Tampines Studio (Our Tampines Hub)", "Pasir Ris Studio (Downtown East)", "Bedok Studio (Heartbeat @ Bedok)"]
+    },
+    "programmeOptions": {
+      "type": "array",
+      "default": ["Regular Art Class", "Art Workshop", "Art Camp", "Art Short Course", "Beyond the Canvas", "Parties / Events"]
+    },
+    "selectedProgramme": { "type": "string", "default": "" },
+    "placeholders": {
+      "type": "object",
+      "default": {
+        "name": "Name",
+        "phone": "Phone Number",
+        "email": "Email",
+        "childAge": "Children Age",
+        "studio": "Our Studio",
+        "programType": "Programme Type",
+        "message": "Messages"
+      }
+    }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
 }

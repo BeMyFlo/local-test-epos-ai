@@ -1239,7 +1239,7 @@ p {
   }
 
   &__pre-heading {
-    display: block;
+    display: inline;
     color: #e8627c;
     font-size: 1.75rem;
     font-weight: 800;
@@ -1811,86 +1811,6 @@ p {
 // =============================================================================
 // Classes Detail (Alternating Layouts)
 // =============================================================================
-
-.achiever-classes-detail {
-  padding: 80px 0;
-
-  @include from(lg) {
-    padding: 100px 0;
-  }
-
-  &__item {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-    align-items: center;
-    margin-bottom: 60px;
-
-    @include from(md) {
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-    }
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-
-    &--reverse {
-      @include from(md) {
-        direction: rtl;
-
-        > * {
-          direction: ltr;
-        }
-      }
-    }
-  }
-
-  &__image {
-    border-radius: $achiever-radius-lg;
-    overflow: hidden;
-    box-shadow: $achiever-shadow-lg;
-
-    img {
-      width: 100%;
-      height: auto;
-    }
-  }
-
-  &__content {
-    padding: 0;
-  }
-
-  &__title {
-    color: $achiever-navy;
-    margin-bottom: 16px;
-  }
-
-  &__text {
-    color: $achiever-muted;
-    margin-bottom: 24px;
-  }
-
-  &__features {
-    margin-bottom: 24px;
-  }
-
-  &__feature {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 12px;
-    font-size: 0.9375rem;
-    color: $achiever-text;
-
-    &::before {
-      content: '✓';
-      color: $achiever-pink;
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-  }
-}
 
 // =============================================================================
 // Course Intro
@@ -2762,7 +2682,7 @@ p {
   opacity: .9;
 }
 .achiever-hero::after {
-  content: ;
+  content: "";
   position: absolute;
   right: 26px;
   bottom: 8px;
@@ -3092,39 +3012,39 @@ p {
 .achiever-page-hero {
   position: relative;
   isolation: isolate;
-  min-height: 430px;
-  padding: 64px 20px 72px;
+  display: flex;
+  min-height: 300px;
+  padding: 40px 20px 46px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   text-align: center;
-  background:
-    radial-gradient(circle at 10% 0%, rgba(251, 201, 216, 0.75) 0 120px, transparent 220px),
-    radial-gradient(circle at 94% 2%, rgba(255, 236, 145, 0.75) 0 122px, transparent 220px),
-    linear-gradient(180deg, #fff 0%, #fff 86%, #f9d9e8 86%, #f9d9e8 100%);
+  background: radial-gradient(circle at 4% 20%, rgba(255, 186, 204, .45) 0 9%, transparent 10%),
+    radial-gradient(circle at 92% 12%, rgba(255, 235, 161, .75) 0 9%, transparent 10%),
+    linear-gradient(180deg, #fff7fb 0%, #ffffff 48%, #fff0f6 100%);
 
   @include from(md) {
-    min-height: 470px;
-    padding: 74px 40px 84px;
+    min-height: 330px;
+    padding: 48px 40px 54px;
   }
 
   &--blue {
-    background:
-      radial-gradient(circle at 10% 0%, rgba(202, 234, 248, 0.86) 0 130px, transparent 230px),
-      radial-gradient(circle at 94% 2%, rgba(255, 236, 145, 0.72) 0 122px, transparent 220px),
-      linear-gradient(180deg, #fff 0%, #fff 86%, #cfeeff 86%, #cfeeff 100%);
+    background: radial-gradient(circle at 4% 20%, rgba(186, 224, 255, .5) 0 9%, transparent 10%),
+      radial-gradient(circle at 92% 12%, rgba(255, 235, 161, .65) 0 9%, transparent 10%),
+      linear-gradient(180deg, #f5fbff 0%, #ffffff 48%, #eaf7ff 100%);
   }
 
   &--yellow {
-    background:
-      radial-gradient(circle at 10% 0%, rgba(251, 201, 216, 0.64) 0 124px, transparent 220px),
-      radial-gradient(circle at 94% 2%, rgba(255, 246, 157, 0.82) 0 130px, transparent 230px),
-      linear-gradient(180deg, #fff 0%, #fff 86%, #fff8c9 86%, #fff8c9 100%);
+    background: radial-gradient(circle at 4% 20%, rgba(255, 186, 204, .4) 0 9%, transparent 10%),
+      radial-gradient(circle at 92% 12%, rgba(255, 235, 161, .85) 0 9%, transparent 10%),
+      linear-gradient(180deg, #fffdf5 0%, #ffffff 48%, #fff8d9 100%);
   }
 
   &--lavender {
-    background:
-      radial-gradient(circle at 10% 0%, rgba(232, 216, 255, 0.78) 0 124px, transparent 220px),
-      radial-gradient(circle at 94% 2%, rgba(251, 201, 216, 0.7) 0 122px, transparent 220px),
-      linear-gradient(180deg, #fff 0%, #fff 86%, #eadfff 86%, #eadfff 100%);
+    background: radial-gradient(circle at 4% 20%, rgba(216, 194, 255, .5) 0 9%, transparent 10%),
+      radial-gradient(circle at 92% 12%, rgba(255, 186, 204, .5) 0 9%, transparent 10%),
+      linear-gradient(180deg, #faf6ff 0%, #ffffff 48%, #f2e9ff 100%);
   }
 
   &__clouds {
@@ -3139,22 +3059,6 @@ p {
       radial-gradient(ellipse at 61% 5%, rgba(255, 235, 145, 0.58) 0 72px, transparent 74px),
       radial-gradient(ellipse at 76% 12%, rgba(246, 198, 226, 0.62) 0 78px, transparent 80px);
     opacity: 0.9;
-  }
-
-  &__rainbow {
-    position: absolute;
-    left: -76px;
-    top: 34px;
-    width: 220px;
-    height: 220px;
-    border-radius: 50%;
-    border: 18px solid rgba(246, 119, 157, 0.45);
-    box-shadow:
-      0 0 0 18px rgba(255, 238, 144, 0.58),
-      0 0 0 36px rgba(169, 232, 209, 0.48),
-      0 0 0 54px rgba(196, 181, 255, 0.46);
-    clip-path: inset(0 0 46% 0);
-    transform: rotate(-18deg);
   }
 
   &__mascot {
@@ -3194,35 +3098,29 @@ p {
     &::after {
       right: 18px;
     }
-  }
 
-  &__pencils {
-    position: absolute;
-    right: 9%;
-    bottom: -12px;
-    width: 210px;
-    height: 72px;
-    border-radius: 0 0 46px 46px;
-    background: #df5d2c;
-    transform: skewX(-12deg);
+    &--image {
+      display: block;
+      width: 140px;
+      height: 140px;
+      border: 0;
+      border-radius: 24px;
+      background: none;
+      box-shadow: none;
+      object-fit: contain;
+      transform: none;
 
-    &::before {
-      content: "";
-      position: absolute;
-      left: 20px;
-      right: 20px;
-      bottom: 48px;
-      height: 82px;
-      background:
-        linear-gradient(72deg, transparent 0 8%, #2db36c 8% 13%, transparent 13% 17%, #f07a38 17% 22%, transparent 22% 27%, #416ec2 27% 32%, transparent 32% 38%, #f5c342 38% 43%, transparent 43% 49%, #d94b69 49% 54%, transparent 54% 60%, #3768b5 60% 65%, transparent 65%);
-      transform: skewX(12deg);
+      &::before,
+      &::after {
+        content: none;
+      }
     }
   }
 
   &__inner {
     position: relative;
     z-index: 1;
-    max-width: 980px;
+    max-width: 1240px;
     margin: 0 auto;
   }
 
@@ -3238,10 +3136,10 @@ p {
   &__heading {
     margin: 0 auto 28px;
     color: $achiever-pink;
-    font-size: clamp(48px, 8.4vw, 112px);
+    font-size: clamp(32px, 4vw, 56px);
     font-weight: 900;
-    line-height: 0.95;
-    letter-spacing: 0.12em;
+    line-height: 1.1;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
   }
 
@@ -3282,17 +3180,10 @@ p {
 
 @media (max-width: 760px) {
   .achiever-page-hero {
-    min-height: 380px;
-    padding: 58px 18px 70px;
+    min-height: 260px;
+    padding: 36px 18px 42px;
 
-    &__rainbow {
-      left: -104px;
-      top: 52px;
-      transform: scale(0.7) rotate(-18deg);
-    }
-
-    &__mascot,
-    &__pencils {
+    &__mascot {
       display: none;
     }
 
