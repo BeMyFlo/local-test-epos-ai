@@ -19,18 +19,40 @@
 		},
 		"decorLeftImage": { "type": "string", "default": "" },
 		"decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+		"decorLeftDesktopX": { "type": "number", "default": 8 },
+		"decorLeftDesktopY": { "type": "number", "default": 85 },
+		"decorLeftDesktopSize": { "type": "number", "default": 110 },
+		"decorLeftMobileX": { "type": "number", "default": 12 },
+		"decorLeftMobileY": { "type": "number", "default": 85 },
+		"decorLeftMobileSize": { "type": "number", "default": 75 },
+		"decorLeftZIndex": { "type": "number", "default": 5 },
 		"decorRightImage": { "type": "string", "default": "" },
 		"decorRightAlt": { "type": "string", "default": "Pencil cartoon right decoration" },
+		"decorRightDesktopX": { "type": "number", "default": 92 },
+		"decorRightDesktopY": { "type": "number", "default": 85 },
+		"decorRightDesktopSize": { "type": "number", "default": 110 },
+		"decorRightMobileX": { "type": "number", "default": 88 },
+		"decorRightMobileY": { "type": "number", "default": 85 },
+		"decorRightMobileSize": { "type": "number", "default": 75 },
+		"decorRightZIndex": { "type": "number", "default": 5 },
 		"testimonials": {
 			"type": "array",
 			"default": [
 				{
-					"name": "Aiden's Mom",
-					"quote": "My child recently attended a trial lesson at Achievers and absolutely enjoyed it! The teacher was patient, engaging, and made the lesson interesting and interactive."
+					"name": "Sarah L. (Parent of 6 y/o)",
+					"quote": "My daughter looks forward to her weekly art class every single week! The instructors are patient, nurturing, and truly inspire creativity."
 				},
 				{
-					"name": "Shiying Lim",
-					"quote": "My girl had been always looking forward to her weekly class at Achiever Arts. Her drawing, colouring and painting shown significant improvements."
+					"name": "David Tan (Parent of 10 y/o)",
+					"quote": "The holiday camps are fantastic. My son learned so many new techniques in manga drawing and built confidence in his artistic abilities."
+				},
+				{
+					"name": "Michelle K. (Birthday Party Host)",
+					"quote": "We hosted my daughter’s 8th birthday party here. Everything was seamlessly managed, creative, and all the kids had an absolute blast!"
+				},
+				{
+					"name": "Rachel Ng (Parent of 8 y/o)",
+					"quote": "The studio environment is so warm and welcoming. My child has developed real artistic confidence and loves showing off her projects."
 				}
 			]
 		}

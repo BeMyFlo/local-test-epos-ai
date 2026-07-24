@@ -25,10 +25,31 @@
     },
     "decorImage": { "type": "string", "default": "" },
     "decorAlt": { "type": "string", "default": "Cat decoration" },
+    "decorDesktopX": { "type": "number", "default": 8 },
+    "decorDesktopY": { "type": "number", "default": 15 },
+    "decorDesktopSize": { "type": "number", "default": 60 },
+    "decorMobileX": { "type": "number", "default": 12 },
+    "decorMobileY": { "type": "number", "default": 12 },
+    "decorMobileSize": { "type": "number", "default": 60 },
+    "decorZIndex": { "type": "number", "default": 5 },
     "decorLeftImage": { "type": "string", "default": "" },
     "decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+    "decorLeftDesktopX": { "type": "number", "default": 8 },
+    "decorLeftDesktopY": { "type": "number", "default": 85 },
+    "decorLeftDesktopSize": { "type": "number", "default": 120 },
+    "decorLeftMobileX": { "type": "number", "default": 12 },
+    "decorLeftMobileY": { "type": "number", "default": 85 },
+    "decorLeftMobileSize": { "type": "number", "default": 75 },
+    "decorLeftZIndex": { "type": "number", "default": 5 },
     "decorRightImage": { "type": "string", "default": "" },
     "decorRightAlt": { "type": "string", "default": "Cartoon mascot right decoration" },
+    "decorRightDesktopX": { "type": "number", "default": 92 },
+    "decorRightDesktopY": { "type": "number", "default": 15 },
+    "decorRightDesktopSize": { "type": "number", "default": 120 },
+    "decorRightMobileX": { "type": "number", "default": 88 },
+    "decorRightMobileY": { "type": "number", "default": 15 },
+    "decorRightMobileSize": { "type": "number", "default": 75 },
+    "decorRightZIndex": { "type": "number", "default": 5 },
     "brands": {
       "type": "array",
       "default": [
@@ -45,7 +66,20 @@
       "default": [
         { "url": "", "alt": "Studio moment photo 1" },
         { "url": "", "alt": "Studio moment photo 2" },
-        { "url": "", "alt": "Studio moment photo 3" }
+        { "url": "", "alt": "Studio moment photo 3" },
+        { "url": "", "alt": "Studio moment photo 4" },
+        { "url": "", "alt": "Studio moment photo 5" }
+      ]
+    },
+    "features": {
+      "type": "array",
+      "default": [
+        { "icon": "", "label": "Expressive abstract art experiences" },
+        { "icon": "", "label": "Custom hand-painted press-on nail artistry" },
+        { "icon": "", "label": "Handmade charms & creative accessories" },
+        { "icon": "", "label": "Young creator & mini entrepreneurship programmes" },
+        { "icon": "", "label": "Curated art gallery & professional art showcases" },
+        { "icon": "", "label": "Sensory play and messy art exploration for children" }
       ]
     },
     "ctaText": {

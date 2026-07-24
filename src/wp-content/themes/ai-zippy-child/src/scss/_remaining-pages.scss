@@ -25,31 +25,165 @@
 }
 
 .achiever-offering-listing {
-  padding: 64px 60px;
-  background: $c-white;
+  padding: clamp(56px, 7vw, 92px) clamp(20px, 4vw, 60px);
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
 
   &__inner { max-width: 1240px; margin: 0 auto; }
-  &__heading { margin: 0 0 12px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(32px, 4vw, 48px); text-align: center; }
-  &__subheading { max-width: 720px; margin: 0 auto 32px; color: mockup.$copy; text-align: center; }
+  &__heading {
+    margin: 0 0 14px;
+    color: mockup.$navy;
+    font-family: "Baloo 2", sans-serif;
+    font-size: clamp(34px, 4.5vw, 54px);
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: -0.01em;
+  }
+  &__subheading {
+    max-width: 720px;
+    margin: 0 auto 48px;
+    color: mockup.$copy;
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: center;
+  }
   &__viewport { position: relative; }
-  &__track { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  &__track {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 32px;
+  }
   &--carousel &__track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
   &--carousel &__track::-webkit-scrollbar { display: none; }
-  &--carousel &__card { flex: 0 0 min(320px, 78vw); scroll-snap-align: start; }
-  &__card { overflow: hidden; border-radius: $border-radius-lg; background: $c-white; box-shadow: $box-shadow; }
-  &__image { aspect-ratio: 4 / 3; overflow: hidden; background: mockup.$pink; }
-  &__image img { width: 100%; height: 100%; object-fit: cover; }
-  &__content { padding: 22px; }
-  &__category { color: mockup.$rose; font-size: 12px; font-weight: 700; text-transform: uppercase; }
-  &__content h3 { margin: 6px 0; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 24px; }
-  &__content p { display: -webkit-box; overflow: hidden; margin: 0 0 16px; color: mockup.$copy; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
-  &__age { font-weight: 700; }
-  &__tagline { color: mockup.$navy !important; font-weight: 700; }
-  &__content ul { margin: 0 0 20px; padding-left: 20px; color: mockup.$copy; list-style: disc; }
-  &__arrow { display: inline-flex; position: absolute; top: 50%; z-index: 2; width: 44px; height: 44px; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: $c-white; color: mockup.$navy; box-shadow: $box-shadow; cursor: pointer; font-size: 22px; transform: translateY(-50%); }
-  &__arrow--prev { left: -22px; }
-  &__arrow--next { right: -22px; }
-  &__arrow:focus-visible { outline: 3px solid mockup.$rose; outline-offset: 3px; }
+  &--carousel &__card { flex: 0 0 min(340px, 82vw); scroll-snap-align: start; }
+  
+  &__card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid rgba(225, 232, 245, 0.8);
+    border-radius: 24px;
+    background: $c-white;
+    box-shadow: 0 10px 30px rgba(30, 58, 110, 0.05);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 48px rgba(30, 58, 110, 0.12);
+    }
+  }
+
+  &__image {
+    position: relative;
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+    background: linear-gradient(135deg, mockup.$pink 0%, mockup.$blue 100%);
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+  }
+
+  &__card:hover &__image img {
+    transform: scale(1.06);
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 26px 24px 28px;
+  }
+
+  &__category {
+    align-self: flex-start;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: rgba(242, 112, 138, 0.12);
+    color: mockup.$rose;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  &__content h3 {
+    margin: 0 0 10px;
+    color: mockup.$navy;
+    font-family: "Baloo 2", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+
+  &__age {
+    display: inline-flex !important;
+    align-items: center;
+    align-self: flex-start;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: #eef5ff;
+    color: #4b6cb7 !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    margin-bottom: 12px !important;
+  }
+
+  &__tagline {
+    color: mockup.$navy !important;
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 10px !important;
+  }
+
+  &__content p {
+    display: -webkit-box;
+    overflow: hidden;
+    margin: 0 0 20px;
+    color: mockup.$copy;
+    font-size: 14.5px;
+    line-height: 1.6;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  &__content .achiever-btn {
+    margin-top: auto;
+    width: 100%;
+    text-align: center;
+    border-radius: 14px;
+    font-weight: 700;
+  }
+
+  &__arrow {
+    display: inline-flex;
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: $c-white;
+    color: mockup.$navy;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    font-size: 24px;
+    transform: translateY(-50%);
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+
+    &:hover {
+      background: mockup.$rose;
+      color: #fff;
+      transform: translateY(-50%) scale(1.08);
+    }
+  }
+
   &__editor-empty { width: 100%; padding: 28px; border: 1px dashed mockup.$copy; text-align: center; }
 }
 
@@ -211,23 +345,25 @@
 }
 
 .achiever-about-content {
-  &__heading-block { max-width: 760px; margin: 0 auto; padding: 64px 60px 0; text-align: center; }
-  &__heading-block > h2 { margin: 0 0 16px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(32px, 4vw, 46px); }
-  &__heading-block > p { margin: 0; color: mockup.$copy; line-height: 1.7; }
-  &__intro { display: grid; grid-template-columns: minmax(280px, 0.42fr) minmax(0, 1fr); gap: 56px; max-width: 1200px; margin: 0 auto; padding: 48px 60px 72px; align-items: center; }
-  &__logo { display: grid; min-height: 360px; overflow: hidden; border-radius: $border-radius-lg; background: mockup.$pink; place-items: center; }
-  &__logo img { width: 100%; height: 100%; object-fit: contain; }
-  &__gallery h2 { margin: 0 0 16px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(32px, 4vw, 46px); }
-  &__value p { color: mockup.$copy; line-height: 1.7; }
-  &__values { display: grid; gap: 14px; }
-  &__value { display: grid; grid-template-columns: 64px 1fr; gap: 16px; padding: 18px; border-radius: $border-radius-lg; background: mockup.$pink; align-items: start; }
-  &__value-icon { display: grid; width: 64px; height: 64px; overflow: hidden; border-radius: 50%; background: $c-white; color: mockup.$rose; place-items: center; }
+  &__heading-block { max-width: 800px; margin: 0 auto; padding: 72px 60px 0; text-align: center; }
+  &__heading-block > h2 { margin: 0 0 18px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(34px, 4.5vw, 52px); font-weight: 800; letter-spacing: -0.01em; }
+  &__heading-block > p { margin: 0; color: mockup.$copy; font-size: 16.5px; line-height: 1.7; }
+  &__intro { display: grid; grid-template-columns: minmax(300px, 0.42fr) minmax(0, 1fr); gap: 56px; max-width: 1240px; margin: 0 auto; padding: 56px 60px 80px; align-items: center; }
+  &__logo { display: grid; min-height: 380px; overflow: hidden; border-radius: 28px; background: linear-gradient(135deg, mockup.$pink 0%, mockup.$blue 100%); place-items: center; box-shadow: 0 16px 40px rgba(30, 58, 110, 0.08); }
+  &__logo img { width: 100%; height: 100%; object-fit: contain; padding: 24px; }
+  &__gallery h2 { margin: 0 0 20px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(34px, 4vw, 48px); font-weight: 800; }
+  &__value p { color: mockup.$copy; line-height: 1.7; font-size: 15px; }
+  &__values { display: grid; gap: 18px; }
+  &__value { display: grid; grid-template-columns: 68px 1fr; gap: 20px; padding: 22px; border-radius: 20px; background: rgba(254, 237, 242, 0.6); border: 1px solid rgba(242, 112, 138, 0.15); align-items: start; transition: transform 0.25s, box-shadow 0.25s; }
+  &__value:hover { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(242, 112, 138, 0.12); }
+  &__value-icon { display: grid; width: 68px; height: 68px; overflow: hidden; border-radius: 50%; background: $c-white; color: mockup.$rose; place-items: center; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06); }
   &__value-icon img { width: 100%; height: 100%; object-fit: cover; }
   &__value-icon svg { width: 38px; height: 38px; overflow: visible; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
-  &__value h3 { margin: 0 0 6px; color: mockup.$navy; }
-  &__gallery { padding: 64px 60px; background: mockup.$pink; text-align: center; }
-  &__gallery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; max-width: 1200px; margin: 28px auto 0; }
-  &__gallery-grid > div { aspect-ratio: 4 / 3; overflow: hidden; background: $c-white; }
+  &__value h3 { margin: 0 0 6px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 22px; font-weight: 700; }
+  &__gallery { padding: 72px 60px; background: linear-gradient(180deg, mockup.$pink 0%, #fff 100%); text-align: center; }
+  &__gallery-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 22px; max-width: 1240px; margin: 32px auto 0; }
+  &__gallery-grid > div { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 20px; background: $c-white; box-shadow: 0 10px 24px rgba(30, 58, 110, 0.08); transition: transform 0.35s ease; }
+  &__gallery-grid > div:hover { transform: scale(1.04); }
   &__gallery-grid img { width: 100%; height: 100%; object-fit: cover; }
   &__brand-art { display: grid; width: 100%; max-width: 300px; padding: 28px; color: mockup.$navy; text-align: center; place-items: center; }
   &__brand-art > svg { width: 100%; max-width: 240px; }
@@ -249,46 +385,49 @@
 }
 
 .achiever-events-content {
-  &__offering { display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 0.8fr); gap: 48px; padding: 72px max(60px, calc((100vw - 1240px) / 2)); align-items: center; }
-  &__offering:nth-child(even) { background: mockup.$pink; }
+  &__offering { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, 0.85fr); gap: 56px; padding: 80px max(60px, calc((100vw - 1240px) / 2)); align-items: center; }
+  &__offering:nth-child(even) { background: linear-gradient(180deg, #fff9fb 0%, mockup.$pink 100%); }
   &__offering:nth-child(even) &__copy { order: 2; }
-  &__eyebrow { color: mockup.$rose; font-weight: 700; text-transform: uppercase; }
-  &__copy h2 { margin: 0 0 8px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(32px, 4vw, 46px); }
-  &__copy h2 span { font-size: 0.55em; }
-  &__copy h3 { color: mockup.$rose; }
+  &__eyebrow { display: inline-block; padding: 4px 12px; border-radius: 999px; background: rgba(242, 112, 138, 0.12); color: mockup.$rose; font-size: 12px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  &__copy h2 { margin: 0 0 12px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(34px, 4.5vw, 50px); font-weight: 800; }
+  &__copy h2 span { font-size: 0.55em; color: mockup.$rose; }
+  &__copy h3 { color: mockup.$rose; font-family: "Baloo 2", sans-serif; font-size: 24px; margin-bottom: 14px; }
   &__copy p,
-  &__copy li { color: mockup.$copy; line-height: 1.7; }
-  &__copy ul { padding-left: 20px; list-style: disc; }
-  &__image { min-height: 340px; overflow: hidden; border-radius: $border-radius-lg; background: mockup.$pink; }
-  &__image img { width: 100%; height: 100%; min-height: 340px; object-fit: cover; }
+  &__copy li { color: mockup.$copy; line-height: 1.7; font-size: 15.5px; }
+  &__copy ul { padding-left: 20px; list-style: disc; margin-bottom: 24px; }
+  &__image { min-height: 380px; overflow: hidden; border-radius: 28px; background: mockup.$pink; box-shadow: 0 16px 40px rgba(30, 58, 110, 0.08); transition: transform 0.4s ease; }
+  &__image:hover { transform: scale(1.02); }
+  &__image img { width: 100%; height: 100%; min-height: 380px; object-fit: cover; }
 }
 
 .achiever-contact-overview {
-  padding: 64px 60px;
-  background: $c-white;
+  padding: 76px 60px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
 
-  &__inner { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; max-width: 1200px; margin: 0 auto; }
-  &__intro h2 { margin: 0 0 10px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 36px; }
-  &__intro p { color: mockup.$copy; }
-  &__contact { display: grid; gap: 18px; }
-  &__contact div { display: flex; flex-direction: column; }
+  &__inner { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 36px; max-width: 1240px; margin: 0 auto; }
+  &__intro h2 { margin: 0 0 14px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 40px; font-weight: 800; }
+  &__intro p { color: mockup.$copy; font-size: 16px; line-height: 1.6; }
+  &__contact { display: grid; gap: 20px; }
+  &__contact div { display: flex; flex-direction: column; gap: 4px; padding: 18px; border-radius: 16px; background: $c-white; border: 1px solid rgba(225, 232, 245, 0.8); box-shadow: 0 8px 24px rgba(30, 58, 110, 0.04); }
   &__contact span,
-  &__hours h3 { color: mockup.$navy; font-weight: 700; }
-  &__contact a { color: mockup.$rose; font-size: 18px; font-weight: 700; }
-  &__hours p { display: flex; flex-direction: column; margin: 0 0 10px; color: mockup.$copy; }
+  &__hours h3 { color: mockup.$navy; font-weight: 700; font-family: "Baloo 2", sans-serif; font-size: 20px; }
+  &__contact a { color: mockup.$rose; font-size: 18px; font-weight: 700; text-decoration: none; }
+  &__contact a:hover { text-decoration: underline; }
+  &__hours p { display: flex; flex-direction: column; margin: 0 0 10px; color: mockup.$copy; line-height: 1.6; }
 }
 
 .achiever-studios-directory {
-  padding: 72px 60px;
-  background: $c-white;
+  padding: 80px 60px;
+  background: linear-gradient(180deg, #ffffff 0%, #fff8fb 100%);
 
-  &__studio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 0.55fr); gap: 28px; max-width: 1200px; margin: 0 auto 56px; padding: 32px; border-radius: $border-radius-lg; background: mockup.$pink; }
-  &__details h2 { margin: 0 0 12px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 30px; }
-  &__details p { color: mockup.$copy; }
-  &__details a { color: mockup.$rose; font-weight: 700; }
-  &__map { display: grid; place-items: center; min-height: 180px; border-radius: $border-radius-lg; background: $c-white; }
-  &__gallery { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  &__gallery > div { aspect-ratio: 4 / 3; overflow: hidden; background: $c-white; }
+  &__studio { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 0.55fr); gap: 32px; max-width: 1240px; margin: 0 auto 60px; padding: 40px; border-radius: 28px; background: $c-white; border: 1px solid rgba(242, 112, 138, 0.15); box-shadow: 0 16px 40px rgba(30, 58, 110, 0.06); }
+  &__details h2 { margin: 0 0 14px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: 32px; font-weight: 800; }
+  &__details p { color: mockup.$copy; line-height: 1.6.5; font-size: 15.5px; }
+  &__details a { color: mockup.$rose; font-weight: 700; font-size: 16px; }
+  &__map { display: grid; place-items: center; min-height: 200px; border-radius: 20px; background: mockup.$pink; overflow: hidden; }
+  &__gallery { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 10px; }
+  &__gallery > div { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 16px; background: $c-white; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06); transition: transform 0.3s ease; }
+  &__gallery > div:hover { transform: scale(1.04); }
   &__gallery img { width: 100%; height: 100%; object-fit: cover; }
 }
 
@@ -311,28 +450,31 @@
   &__checkbox label { display: inline-flex; width: auto; flex-direction: row; }
 }
 
-.achiever-studios__image { aspect-ratio: 4 / 3; margin: -12px -4px 20px; overflow: hidden; border-radius: $border-radius-lg; background: mockup.$pink; }
+.achiever-studios__image { aspect-ratio: 4 / 3; margin: -12px -4px 20px; overflow: hidden; border-radius: 20px; background: mockup.$pink; }
 .achiever-studios__image img { width: 100%; height: 100%; object-fit: cover; }
 
 .achiever-woo-listing {
-  padding: 64px 60px;
-  background: $c-white;
+  padding: 76px 60px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
 
   &__inner { max-width: 1240px; margin: 0 auto; }
-  &__inner > h2 { margin: 0 0 28px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(34px, 4vw, 48px); text-align: center; }
-  &__filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; align-items: center; }
-  &__filters strong { margin-right: 8px; color: mockup.$navy; }
-  &__filters a { padding: 8px 14px; border-radius: 999px; background: mockup.$pink; color: mockup.$navy; font-size: 13px; font-weight: 700; }
-  &__filters a[aria-current="page"] { background: mockup.$rose; color: $c-white; }
-  &__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
-  &__product { overflow: hidden; border-radius: $border-radius-lg; background: $c-white; box-shadow: $box-shadow; }
+  &__inner > h2 { margin: 0 0 32px; color: mockup.$navy; font-family: "Baloo 2", sans-serif; font-size: clamp(36px, 4.5vw, 52px); font-weight: 800; text-align: center; letter-spacing: -0.01em; }
+  &__filters { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 36px; align-items: center; justify-content: center; }
+  &__filters strong { margin-right: 8px; color: mockup.$navy; font-size: 15px; }
+  &__filters a { padding: 10px 20px; border-radius: 999px; background: $c-white; color: mockup.$navy; font-size: 14px; font-weight: 700; border: 1px solid rgba(225, 232, 245, 0.9); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04); transition: background 0.2s, color 0.2s, transform 0.2s; }
+  &__filters a:hover { transform: translateY(-2px); background: mockup.$pink; }
+  &__filters a[aria-current="page"] { background: mockup.$rose; color: $c-white; border-color: mockup.$rose; }
+  &__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  &__product { overflow: hidden; border-radius: 24px; background: $c-white; border: 1px solid rgba(225, 232, 245, 0.8); box-shadow: 0 10px 30px rgba(30, 58, 110, 0.05); transition: transform 0.35s ease, box-shadow 0.35s ease; }
+  &__product:hover { transform: translateY(-8px); box-shadow: 0 24px 48px rgba(30, 58, 110, 0.12); }
   &__image { display: block; aspect-ratio: 1; overflow: hidden; background: mockup.$pink; }
-  &__image img { width: 100%; height: 100%; object-fit: cover; }
-  &__content { padding: 20px; }
-  &__content h3 { margin: 0 0 10px; font-family: "Baloo 2", sans-serif; font-size: 22px; }
-  &__content h3 a { color: mockup.$navy; }
-  &__price { margin-bottom: 16px; color: mockup.$rose; font-weight: 700; }
-  &__empty { padding: 28px; border-radius: $border-radius-lg; background: mockup.$pink; color: mockup.$navy; text-align: center; }
+  &__image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+  &__product:hover &__image img { transform: scale(1.06); }
+  &__content { padding: 24px; }
+  &__content h3 { margin: 0 0 10px; font-family: "Baloo 2", sans-serif; font-size: 24px; font-weight: 700; }
+  &__content h3 a { color: mockup.$navy; text-decoration: none; }
+  &__price { margin-bottom: 18px; color: mockup.$rose; font-size: 18px; font-weight: 800; }
+  &__empty { padding: 36px; border-radius: 24px; background: mockup.$pink; color: mockup.$navy; text-align: center; font-size: 16px; font-weight: 600; }
 }
 
 @media (max-width: 1023px) {

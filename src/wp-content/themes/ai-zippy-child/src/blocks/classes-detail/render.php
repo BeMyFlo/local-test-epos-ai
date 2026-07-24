@@ -25,26 +25,53 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-classes
     $cta_url     = $section['ctaUrl'] ?? '#';
   ?>
     <section class="achiever-classes-detail__feature achiever-classes-detail__feature--<?php echo esc_attr((string) ($index + 1)); ?>">
+      <?php if ($index === 0) : ?>
+        <svg class="achiever-classes-detail__decor-pencil achiever-classes-detail__decor-pencil--top" viewBox="0 0 160 30" aria-hidden="true" focusable="false"><path d="M10 20L130 5L150 15L130 25L10 20Z" fill="#7b61ff"/><path d="M10 20L30 18L30 22Z" fill="#ffb800"/></svg>
+        <svg class="achiever-classes-detail__decor-pencil achiever-classes-detail__decor-pencil--left" viewBox="0 0 80 30" aria-hidden="true" focusable="false"><path d="M0 15L60 5L75 15L60 25L0 15Z" fill="#2ecc71"/><path d="M75 15L85 15L75 20Z" fill="#ffb800"/></svg>
+      <?php endif; ?>
+
       <div class="achiever-classes-detail__inner">
-        <div class="achiever-classes-detail__image-slot">
-          <?php if ($image) : ?>
-            <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($alt); ?>" loading="lazy" />
-          <?php else : ?>
-            <svg class="achiever-classes-detail__fallback-art achiever-classes-detail__fallback-art--<?php echo esc_attr((string) (($index % 4) + 1)); ?>" viewBox="0 0 640 360" aria-hidden="true" focusable="false"><path d="M64 278 188 126l91 106 69-76 128 122Z"/><circle cx="444" cy="102" r="46"/><path d="M102 81c68-38 132-43 192-16M83 116c49-32 97-47 143-46"/><path d="m492 244 36-76 36 76-36 36Z"/></svg>
-          <?php endif; ?>
-        </div>
+        <?php if ($index % 2 === 1) : ?>
+          <div class="achiever-classes-detail__image-slot">
+            <?php if ($image) : ?>
+              <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($alt); ?>" loading="lazy" />
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
+
         <div class="achiever-classes-detail__copy">
           <?php if ($age) : ?><p class="achiever-classes-detail__age"><?php echo esc_html($age); ?></p><?php endif; ?>
           <h2><?php echo esc_html($title); ?></h2>
-          <p><?php echo esc_html($description); ?></p>
+          <p><?php echo nl2br(esc_html($description)); ?></p>
           <?php if ($cta_text) : ?><a class="achiever-btn" href="<?php echo esc_url($cta_url); ?>"><?php echo esc_html($cta_text); ?></a><?php endif; ?>
         </div>
+
+        <?php if ($index % 2 === 0) : ?>
+          <div class="achiever-classes-detail__image-slot">
+            <?php if ($image) : ?>
+              <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($alt); ?>" loading="lazy" />
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
       </div>
+
+      <?php if ($index === 0) : ?>
+        <div class="achiever-classes-detail__decor-scissors" aria-hidden="true">
+          <svg viewBox="0 0 100 80" width="90" height="72"><path d="M20 20C10 20 5 30 15 40L45 45L15 50C5 60 10 70 20 70C30 70 35 55 45 45L75 75L85 65L45 45L85 25L75 15L45 45C35 35 30 20 20 20Z" fill="#ff4d6d"/><circle cx="20" cy="30" r="5" fill="#ffffff"/><circle cx="20" cy="60" r="5" fill="#ffffff"/><polygon points="45,45 95,50 85,75" fill="#fff59d"/></svg>
+        </div>
+      <?php endif; ?>
+
+      <?php if ($index === 1) : ?>
+        <svg class="achiever-classes-detail__decor-pencil achiever-classes-detail__decor-pencil--bottom" viewBox="0 0 120 30" aria-hidden="true" focusable="false"><path d="M0 15L100 5L115 15L100 25L0 15Z" fill="#9b51e0"/><path d="M115 15L125 15L115 20Z" fill="#ffb800"/></svg>
+      <?php endif; ?>
     </section>
   <?php endforeach; ?>
 
   <section class="achiever-classes-detail__gallery">
-    <h2><?php echo esc_html($gallery_title); ?></h2>
+    <div class="achiever-classes-detail__gallery-header">
+      <img class="achiever-classes-detail__mascot-sticker" src="/wp-content/uploads/2026/07/Sensory-Playhaus_STICKER.png" alt="Mascot" width="100" height="100" loading="lazy" />
+      <h2><?php echo esc_html($gallery_title); ?></h2>
+    </div>
     <div class="achiever-classes-detail__gallery-slider" data-classes-gallery-slider>
       <button class="achiever-classes-detail__gallery-arrow achiever-classes-detail__gallery-arrow--prev" type="button" aria-label="Previous gallery images" aria-controls="<?php echo esc_attr($gallery_track_id); ?>" data-classes-gallery-prev>‹</button>
       <div class="achiever-classes-detail__gallery-grid" id="<?php echo esc_attr($gallery_track_id); ?>" role="list" tabindex="0" aria-label="Student artwork gallery" data-classes-gallery-track>

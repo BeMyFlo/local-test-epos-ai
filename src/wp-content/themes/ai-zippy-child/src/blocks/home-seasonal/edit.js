@@ -1,6 +1,7 @@
 import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { Button, PanelBody, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
+import DecorPositionControls from '../_shared/DecorPositionControls.js';
 
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
@@ -21,20 +22,25 @@ export default function Edit({ attributes, setAttributes, name }) {
             onChange={(v) => setAttributes({ sectionTitle: v })}
           />
           <TextControl
-            label="CTA Text"
-            value={attributes.ctaText}
-            onChange={(v) => setAttributes({ ctaText: v })}
+            label="Card Button Text"
+            value={attributes.cardCtaText ?? 'BOOK NOW'}
+            onChange={(cardCtaText) => setAttributes({ cardCtaText })}
           />
           <TextControl
-            label="CTA URL"
-            value={attributes.ctaUrl}
-            onChange={(v) => setAttributes({ ctaUrl: v })}
+            label="Bottom CTA Text"
+            value={attributes.ctaText ?? 'VIEW MORE WORKSHOP'}
+            onChange={(ctaText) => setAttributes({ ctaText })}
+          />
+          <TextControl
+            label="Bottom CTA URL"
+            value={attributes.ctaUrl ?? '#'}
+            onChange={(ctaUrl) => setAttributes({ ctaUrl })}
           />
         </PanelBody>
 
         <PanelBody title="Decoration / Cartoon Images" initialOpen={true}>
           <div style={{ marginBottom: '15px' }}>
-            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Brush Decor Image</label>
+            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Top Left Mascot Image</label>
             <MediaUploadCheck>
               <MediaUpload
                 allowedTypes={['image']}
@@ -58,11 +64,17 @@ export default function Edit({ attributes, setAttributes, name }) {
                 )}
               />
             </MediaUploadCheck>
-            <TextControl label="Brush Decor Alt" value={attributes.decorAlt || ''} onChange={(decorAlt) => setAttributes({ decorAlt })} style={{ marginTop: '8px' }} />
+            <TextControl label="Top Left Mascot Alt" value={attributes.decorAlt || ''} onChange={(decorAlt) => setAttributes({ decorAlt })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decor"
+              defaults={{ desktopX: 12, desktopY: 12, desktopSize: 278, mobileX: 15, mobileY: 10, mobileSize: 150, zIndex: 5 }}
+            />
           </div>
 
           <div style={{ marginBottom: '15px' }}>
-            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Decor Left Image (Bottom/Left mascot)</label>
+            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Bottom Left Mascot Image</label>
             <MediaUploadCheck>
               <MediaUpload
                 allowedTypes={['image']}
@@ -87,10 +99,16 @@ export default function Edit({ attributes, setAttributes, name }) {
               />
             </MediaUploadCheck>
             <TextControl label="Decor Left Alt" value={attributes.decorLeftAlt || ''} onChange={(decorLeftAlt) => setAttributes({ decorLeftAlt })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decorLeft"
+              defaults={{ desktopX: 18, desktopY: 92, desktopSize: 405, mobileX: 20, mobileY: 92, mobileSize: 220, zIndex: 5 }}
+            />
           </div>
 
           <div style={{ marginBottom: '15px' }}>
-            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Decor Right Image (Top/Right mascot)</label>
+            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Top Right Pencils Image</label>
             <MediaUploadCheck>
               <MediaUpload
                 allowedTypes={['image']}
@@ -115,6 +133,12 @@ export default function Edit({ attributes, setAttributes, name }) {
               />
             </MediaUploadCheck>
             <TextControl label="Decor Right Alt" value={attributes.decorRightAlt || ''} onChange={(decorRightAlt) => setAttributes({ decorRightAlt })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decorRight"
+              defaults={{ desktopX: 88, desktopY: 10, desktopSize: 310, mobileX: 85, mobileY: 10, mobileSize: 140, zIndex: 5 }}
+            />
           </div>
         </PanelBody>
         {(attributes.products || []).map((product, i) => (

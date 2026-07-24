@@ -1,10 +1,12 @@
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, TextControl, TextareaControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
+import DecorPositionControls from '../_shared/DecorPositionControls.js';
 
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
   const brands = attributes.brands || [];
+  const features = attributes.features || [];
   const galleryImages = attributes.galleryImages || [];
   const updateItem = (key, index, field, value) => {
     const items = [...(attributes[key] || [])];
@@ -47,6 +49,12 @@ export default function Edit({ attributes, setAttributes, name }) {
             />
           </MediaUploadCheck>
           <TextControl label="Decoration alt text" value={attributes.decorAlt || ''} onChange={(decorAlt) => setAttributes({ decorAlt })} style={{ marginTop: '8px' }} />
+          <DecorPositionControls
+            attributes={attributes}
+            setAttributes={setAttributes}
+            prefix="decor"
+            defaults={{ desktopX: 8, desktopY: 15, desktopSize: 60, mobileX: 12, mobileY: 12, mobileSize: 60, zIndex: 5 }}
+          />
         </div>
 
         <div style={{ marginBottom: '15px' }}>
@@ -75,6 +83,12 @@ export default function Edit({ attributes, setAttributes, name }) {
             />
           </MediaUploadCheck>
           <TextControl label="Decor Left Alt" value={attributes.decorLeftAlt || ''} onChange={(decorLeftAlt) => setAttributes({ decorLeftAlt })} style={{ marginTop: '8px' }} />
+          <DecorPositionControls
+            attributes={attributes}
+            setAttributes={setAttributes}
+            prefix="decorLeft"
+            defaults={{ desktopX: 8, desktopY: 85, desktopSize: 120, mobileX: 12, mobileY: 85, mobileSize: 75, zIndex: 5 }}
+          />
         </div>
 
         <div style={{ marginBottom: '15px' }}>
@@ -103,6 +117,12 @@ export default function Edit({ attributes, setAttributes, name }) {
             />
           </MediaUploadCheck>
           <TextControl label="Decor Right Alt" value={attributes.decorRightAlt || ''} onChange={(decorRightAlt) => setAttributes({ decorRightAlt })} style={{ marginTop: '8px' }} />
+          <DecorPositionControls
+            attributes={attributes}
+            setAttributes={setAttributes}
+            prefix="decorRight"
+            defaults={{ desktopX: 92, desktopY: 15, desktopSize: 120, mobileX: 88, mobileY: 15, mobileSize: 75, zIndex: 5 }}
+          />
         </div>
       </PanelBody>
 
@@ -141,7 +161,41 @@ export default function Edit({ attributes, setAttributes, name }) {
         <Button variant="primary" onClick={() => setAttributes({ brands: [...brands, { name: '', icon: '', alt: '' }] })}>Add item</Button>
       </PanelBody>
 
-      <PanelBody title="Gallery photos" initialOpen={false}>
+      <PanelBody title="Features (bottom icon strip)" initialOpen={false}>
+        {features.map((item, index) => <PanelBody key={index} title={item.label || `Feature ${index + 1}`} initialOpen={false}>
+          <div style={{ marginBottom: '15px' }}>
+            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Feature Icon</label>
+            <MediaUploadCheck>
+              <MediaUpload
+                allowedTypes={['image']}
+                onSelect={(media) => updateItem('features', index, 'icon', media.url)}
+                render={({ open }) => (
+                  <>
+                    {item.icon && (
+                      <div style={{ marginBottom: '8px' }}>
+                        <img src={item.icon} alt="" style={{ maxWidth: '60px', maxHeight: '60px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                      </div>
+                    )}
+                    <Button variant="secondary" onClick={open}>
+                      {item.icon ? 'Change Icon' : 'Select Icon'}
+                    </Button>
+                    {item.icon && (
+                      <Button variant="link" isDestructive onClick={() => updateItem('features', index, 'icon', '')} style={{ marginLeft: '10px' }}>
+                        Remove
+                      </Button>
+                    )}
+                  </>
+                )}
+              />
+            </MediaUploadCheck>
+          </div>
+          <TextControl label="Label" value={item.label || ''} onChange={(v) => updateItem('features', index, 'label', v)} />
+          <Button isDestructive variant="secondary" onClick={() => setAttributes({ features: features.filter((_, i) => i !== index) })}>Remove feature</Button>
+        </PanelBody>)}
+        <Button variant="primary" onClick={() => setAttributes({ features: [...features, { icon: '', label: '' }] })}>Add feature</Button>
+      </PanelBody>
+
+      <PanelBody title="Studio gallery photos" initialOpen={false}>
         {galleryImages.map((item, index) => <PanelBody key={index} title={`Photo ${index + 1}`} initialOpen={false}>
           <div style={{ marginBottom: '15px' }}>
             <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Gallery Photo</label>

@@ -1,6 +1,7 @@
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl, TextControl, TextareaControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
+import DecorPositionControls from '../_shared/DecorPositionControls.js';
 
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
@@ -110,6 +111,12 @@ export default function Edit({ attributes, setAttributes, name }) {
             label="Image Alt Text"
             value={attributes.mascotAlt}
             onChange={(value) => setAttributes({ mascotAlt: value })}
+          />
+          <DecorPositionControls
+            attributes={attributes}
+            setAttributes={setAttributes}
+            prefix="mascot"
+            defaults={{ desktopX: 88, desktopY: 68, desktopSize: 220, mobileX: 82, mobileY: 78, mobileSize: 120, zIndex: 5 }}
           />
         </PanelBody>
       </InspectorControls>

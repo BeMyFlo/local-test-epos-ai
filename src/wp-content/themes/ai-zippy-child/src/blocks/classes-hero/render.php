@@ -62,5 +62,15 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-classes
       </div>
       <button class="achiever-classes-hero__arrow achiever-classes-hero__arrow--next" type="button" aria-label="Next classes" aria-controls="<?php echo esc_attr($track_id); ?>" data-classes-next>›</button>
     </div>
+    <svg class="achiever-classes-hero__decor-pencils" viewBox="0 0 220 70" aria-hidden="true" focusable="false">
+      <g transform="rotate(-15 40 30)">
+        <path d="M0 20 L130 10 L150 20 L130 30 L0 20 Z" fill="#ff6584"/>
+        <path d="M150 20 L165 20 L150 25 Z" fill="#ffb800"/>
+      </g>
+      <g transform="translate(30, 28) rotate(6)">
+        <path d="M0 20 L140 10 L160 20 L140 30 L0 20 Z" fill="#7b61ff"/>
+        <path d="M160 20 L175 20 L160 25 Z" fill="#ffb800"/>
+      </g>
+    </svg>
   </section>
 </div>

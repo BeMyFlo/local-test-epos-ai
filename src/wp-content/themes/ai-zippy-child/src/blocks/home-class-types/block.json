@@ -21,16 +21,30 @@
     },
     "decorLeftImage": { "type": "string", "default": "" },
     "decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+    "decorLeftDesktopX": { "type": "number", "default": 8 },
+    "decorLeftDesktopY": { "type": "number", "default": 88 },
+    "decorLeftDesktopSize": { "type": "number", "default": 110 },
+    "decorLeftMobileX": { "type": "number", "default": 12 },
+    "decorLeftMobileY": { "type": "number", "default": 88 },
+    "decorLeftMobileSize": { "type": "number", "default": 75 },
+    "decorLeftZIndex": { "type": "number", "default": 5 },
     "decorRightImage": { "type": "string", "default": "" },
     "decorRightAlt": { "type": "string", "default": "Pencil jar top-right decoration" },
+    "decorRightDesktopX": { "type": "number", "default": 92 },
+    "decorRightDesktopY": { "type": "number", "default": 12 },
+    "decorRightDesktopSize": { "type": "number", "default": 110 },
+    "decorRightMobileX": { "type": "number", "default": 88 },
+    "decorRightMobileY": { "type": "number", "default": 12 },
+    "decorRightMobileSize": { "type": "number", "default": 75 },
+    "decorRightZIndex": { "type": "number", "default": 5 },
     "types": {
       "type": "array",
       "default": [
-        { "label": "Regular Art Classes", "subtitle": "(Weekly)", "image": "", "alt": "Regular Art Classes photo", "url": "" },
-        { "label": "Art Camps", "subtitle": "(4/6/8 Lessons)", "image": "", "alt": "Art Camps photo", "url": "" },
-        { "label": "Art Workshop", "subtitle": "(Single Session)", "image": "", "alt": "Art Workshop photo", "url": "" },
-        { "label": "Short Courses", "subtitle": "(Weekly)", "image": "", "alt": "Short Courses photo", "url": "" },
-        { "label": "Express Art Classes", "subtitle": "(Single Session)", "image": "", "alt": "Express Art Classes photo", "url": "" }
+        { "label": "Regular Art Classes", "subtitle": "(Weekly)", "image": "/wp-content/uploads/2026/07/download-1.jpg", "alt": "Regular Art Classes", "url": "/regular-art-classes/" },
+        { "label": "Art Camps", "subtitle": "(4/6/8 Lessons)", "image": "/wp-content/uploads/2026/07/Regular-Classes_Main-Q.jpg", "alt": "Art Camps", "url": "/camps-courses/" },
+        { "label": "Art Workshop", "subtitle": "(Single Session)", "image": "/wp-content/uploads/2026/07/ShortCourse_mainQ.jpg", "alt": "Art Workshop", "url": "/single-session-art-classes/" },
+        { "label": "Short Courses", "subtitle": "(Weekly)", "image": "/wp-content/uploads/2026/07/Aarts_White-Studen-Shirt_Sleeve.jpg", "alt": "Short Courses", "url": "/camps-courses/#short-courses" },
+        { "label": "Express Art Classes", "subtitle": "(Single Session)", "image": "/wp-content/uploads/2026/07/Artventurer-2025.jpg", "alt": "Express Art Classes", "url": "/express-art-classes/" }
       ]
     }
   }

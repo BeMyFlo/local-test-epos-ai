@@ -1,6 +1,7 @@
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
+import DecorPositionControls from '../_shared/DecorPositionControls.js';
 
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
@@ -49,6 +50,12 @@ export default function Edit({ attributes, setAttributes, name }) {
               />
             </MediaUploadCheck>
             <TextControl label="Decor Left Alt" value={attributes.decorLeftAlt || ''} onChange={(decorLeftAlt) => setAttributes({ decorLeftAlt })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decorLeft"
+              defaults={{ desktopX: 8, desktopY: 88, desktopSize: 110, mobileX: 12, mobileY: 88, mobileSize: 75, zIndex: 5 }}
+            />
           </div>
 
           <div style={{ marginBottom: '15px' }}>
@@ -77,6 +84,12 @@ export default function Edit({ attributes, setAttributes, name }) {
               />
             </MediaUploadCheck>
             <TextControl label="Decor Right Alt" value={attributes.decorRightAlt || ''} onChange={(decorRightAlt) => setAttributes({ decorRightAlt })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decorRight"
+              defaults={{ desktopX: 92, desktopY: 12, desktopSize: 110, mobileX: 88, mobileY: 12, mobileSize: 75, zIndex: 5 }}
+            />
           </div>
         </PanelBody>
 
