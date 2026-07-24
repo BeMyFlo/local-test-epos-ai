@@ -3196,38 +3196,21 @@ p {
     }
   }
 }
-/* TEMP DISABLED: broad Home fidelity pass caused layout regressions.
-// Home page section fidelity pass from latest mockup screenshots.
-.achiever-page {
-  overflow-x: hidden;
-}
-
-.achiever-page .achiever-class-types,
-.achiever-page [class*="home-class"],
-.achiever-page [class*="class-types"] {
+.achiever-class-types,
+[class*="home-class"],
+[class*="class-types"] {
   position: relative;
   padding: clamp(72px, 7vw, 112px) clamp(22px, 5vw, 88px) clamp(84px, 8vw, 132px);
   overflow: hidden;
-  background: #f8ddea;
-
-  &::after {
-    content: "";
-    position: absolute;
-    left: -8%;
-    right: -8%;
-    bottom: -118px;
-    height: 230px;
-    border-radius: 50% 50% 0 0;
-    background: #fff;
-  }
+  background: #ffeef4;
 }
 
-.achiever-page .achiever-class-types__title,
-.achiever-page [class*="class-types"] h2,
-.achiever-page [class*="home-class"] h2 {
+.achiever-class-types__title,
+[class*="class-types"] h2,
+[class*="home-class"] h2 {
   position: relative;
-  z-index: 1;
-  margin: 0 0 clamp(44px, 4vw, 62px);
+  z-index: 2;
+  margin: 0 0 clamp(28px, 3vw, 44px);
   color: #5d78bf;
   font-size: clamp(42px, 6vw, 86px);
   font-weight: 900;
@@ -3237,55 +3220,80 @@ p {
   text-transform: uppercase;
 }
 
-.achiever-page .achiever-class-types__grid,
-.achiever-page [class*="class-types"] [class*="grid"],
-.achiever-page [class*="home-class"] [class*="grid"] {
+/* Slider wrapper must sit above ::after wave */
+.achiever-class-types .achiever-scroll-slider,
+.achiever-class-types .achiever-class-types__slider {
   position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: repeat(5, minmax(160px, 1fr));
-  gap: clamp(24px, 3vw, 48px);
-  max-width: 1580px;
-  margin: 0 auto;
+  z-index: 2;
 }
 
-.achiever-page .achiever-class-types__card,
-.achiever-page [class*="class-types"] [class*="card"],
-.achiever-page [class*="home-class"] [class*="card"] {
+.achiever-class-types__grid,
+[class*="class-types"] [class*="grid"],
+[class*="home-class"] [class*="grid"] {
+  position: relative;
+  z-index: 2;
+  display: flex !important;
+  flex-wrap: nowrap;
+  gap: clamp(16px, 2vw, 32px);
+  max-width: none;
+  margin: 0 auto;
+  padding-bottom: clamp(20px, 3vw, 40px);
+}
+
+.achiever-class-types__card,
+[class*="class-types"] [class*="card"],
+[class*="home-class"] [class*="card"] {
+  flex: 0 0 clamp(160px, 18vw, 280px);
+  width: clamp(160px, 18vw, 280px);
   overflow: hidden;
   border-radius: 24px;
   background: #fff;
-  box-shadow: none;
+  box-shadow: 0 4px 20px rgba(93, 120, 191, 0.1);
   text-align: center;
+  scroll-snap-align: start;
 }
 
-.achiever-page .achiever-class-types__card img,
-.achiever-page [class*="class-types"] [class*="card"] img,
-.achiever-page [class*="home-class"] [class*="card"] img {
+.achiever-class-types__card img,
+[class*="class-types"] [class*="card"] img,
+[class*="home-class"] [class*="card"] img {
   width: 100%;
   aspect-ratio: 1 / 1.12;
   object-fit: cover;
   display: block;
 }
 
-.achiever-page .achiever-class-types__card h3,
-.achiever-page [class*="class-types"] [class*="card"] h3,
-.achiever-page [class*="home-class"] [class*="card"] h3 {
-  margin: 30px 16px 8px;
-  color: #000;
-  font-size: clamp(24px, 2.1vw, 34px);
-  font-weight: 800;
-  line-height: 1.08;
+/* placeholder when no image */
+.achiever-class-types__image-placeholder {
+  width: 100%;
+  aspect-ratio: 1 / 1.12;
+  background: linear-gradient(135deg, #fce4ec 0%, #e8eaf6 100%);
+  display: block;
 }
 
-.achiever-page .achiever-class-types__card p,
-.achiever-page [class*="class-types"] [class*="card"] p,
-.achiever-page [class*="home-class"] [class*="card"] p {
-  margin: 0 14px 34px;
-  color: #5d78bf;
-  font-size: clamp(20px, 1.8vw, 28px);
+.achiever-class-types__card h3,
+[class*="class-types"] [class*="card"] h3,
+[class*="home-class"] [class*="card"] h3 {
+  margin: 18px 12px 6px;
+  color: #1a1040;
+  font-size: clamp(14px, 1.4vw, 22px);
   font-weight: 800;
-  line-height: 1.12;
+  line-height: 1.15;
+}
+
+.achiever-class-types__card p,
+[class*="class-types"] [class*="card"] p,
+[class*="home-class"] [class*="card"] p {
+  margin: 0 10px 22px;
+  color: #5d78bf;
+  font-size: clamp(12px, 1.2vw, 18px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+/* TEMP DISABLED: broad Home fidelity pass caused layout regressions.
+.achiever-page {
+  overflow-x: hidden;
 }
 
 .achiever-page .achiever-seasonal,
@@ -4025,3 +4033,152 @@ p {
     right: 16px;
   }
 }
+
+/* Cartoon Decor Containers & Position Overlay */
+.achiever-hero__decor,
+.achiever-class-types__decor,
+.achiever-seasonal__decor,
+.achiever-brands__decor,
+.achiever-products__decor,
+.achiever-party__decor,
+.achiever-testimonials__decor,
+.achiever-instagram__decor {
+  position: absolute;
+  z-index: 5;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+}
+
+.achiever-hero__decor--left {
+  top: 20px;
+  left: 20px;
+  max-width: 140px;
+}
+.achiever-hero__decor--right {
+  top: 20px;
+  right: 20px;
+  max-width: 140px;
+}
+
+.achiever-class-types__decor--left {
+  bottom: 10px;
+  left: 20px;
+  max-width: 110px;
+}
+.achiever-class-types__decor--right {
+  top: 10px;
+  right: 20px;
+  max-width: 110px;
+}
+
+.achiever-seasonal__decor--left {
+  bottom: 20px;
+  left: 20px;
+  max-width: 130px;
+}
+.achiever-seasonal__decor--right {
+  top: 20px;
+  right: 20px;
+  max-width: 130px;
+}
+
+.achiever-brands__decor--left {
+  top: 20px;
+  left: 20px;
+  max-width: 120px;
+}
+.achiever-brands__decor--right {
+  top: 20px;
+  right: 20px;
+  max-width: 120px;
+}
+
+.achiever-products__decor--left {
+  top: 15px;
+  left: 15px;
+  max-width: 120px;
+}
+.achiever-products__decor--right {
+  bottom: 15px;
+  right: 15px;
+  max-width: 120px;
+}
+
+.achiever-party__decor--left {
+  top: 25px;
+  left: 25px;
+  max-width: 150px;
+}
+.achiever-party__decor--right {
+  top: 25px;
+  right: 25px;
+  max-width: 150px;
+}
+
+.achiever-testimonials__decor--left {
+  bottom: 15px;
+  left: 20px;
+  max-width: 110px;
+}
+.achiever-testimonials__decor--right {
+  bottom: 15px;
+  right: 20px;
+  max-width: 110px;
+}
+
+.achiever-instagram__decor--left {
+  top: 10px;
+  left: 10px;
+  max-width: 100px;
+}
+.achiever-instagram__decor--right {
+  top: 10px;
+  right: 10px;
+  max-width: 100px;
+}
+
+@media (max-width: 640px) {
+  .achiever-hero__decor,
+  .achiever-class-types__decor,
+  .achiever-seasonal__decor,
+  .achiever-brands__decor,
+  .achiever-products__decor,
+  .achiever-party__decor,
+  .achiever-testimonials__decor,
+  .achiever-instagram__decor {
+    max-width: 75px;
+  }
+}
+
+/* ====================================================
+   CLASS-TYPES SCROLL SLIDER — center 5 cards on wide screens
+   ==================================================== */
+.achiever-class-types .achiever-scroll-slider {
+  max-width: 1500px;
+  padding: 0 40px;
+}
+
+.achiever-class-types .achiever-class-types__grid {
+  justify-content: center;
+}
+
+@media (max-width: 900px) {
+  .achiever-class-types .achiever-class-types__grid {
+    justify-content: flex-start;
+  }
+  .achiever-class-types__card,
+  [class*="class-types"] [class*="card"],
+  [class*="home-class"] [class*="card"] {
+    flex: 0 0 clamp(140px, 42vw, 200px);
+    width: clamp(140px, 42vw, 200px);
+  }
+}
+

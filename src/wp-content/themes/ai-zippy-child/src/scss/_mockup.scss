@@ -465,46 +465,7 @@ body .az-scroll-top.is-content-obscured {
   &__dot--active { background: $rose; }
 }
 
-.achiever-class-types {
-  margin: 0 !important;
-  padding: 50px 60px !important;
-  background: $yellow !important;
-  text-align: center;
 
-  &__title,
-  &__name { color: $navy !important; }
-  &__title {
-    margin: 0 0 32px !important;
-    font-family: "Baloo 2", sans-serif !important;
-    font-size: 30px !important;
-    font-weight: 800 !important;
-    line-height: 1.2 !important;
-  }
-  &__slider { max-width: 1240px; margin: 0 auto; }
-  &__grid { display: flex !important; flex-wrap: nowrap; justify-content: flex-start; gap: 28px; }
-  &__card {
-    display: block;
-    width: 120px;
-    padding: 0 !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    color: inherit !important;
-    text-align: center;
-    text-decoration: none !important;
-  }
-  &__icon-wrapper {
-    display: block;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto;
-    overflow: hidden;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #f8cfe0, #cdeef8);
-  }
-  &__icon { width: 100%; height: 100%; object-fit: cover; }
-  &__name { display: block; margin-top: 10px; font-size: 12px !important; font-weight: 700 !important; line-height: 1.3 !important; }
-}
 
 .achiever-scroll-slider {
   position: relative;

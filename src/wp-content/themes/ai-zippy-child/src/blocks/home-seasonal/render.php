@@ -7,11 +7,29 @@ $cta_text      = $attributes['ctaText'] ?? 'VIEW MORE WORKSHOP';
 $cta_url       = $attributes['ctaUrl'] ?? '#';
 $decor_image   = $attributes['decorImage'] ?? '';
 $decor_alt     = $attributes['decorAlt'] ?? 'Paint brush decoration';
+$decor_left_image  = $attributes['decorLeftImage'] ?? '';
+$decor_left_alt    = $attributes['decorLeftAlt'] ?? 'Cartoon mascot left decoration';
+$decor_right_image = $attributes['decorRightImage'] ?? '';
+$decor_right_alt   = $attributes['decorRightAlt'] ?? 'Cartoon mascot right decoration';
 $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-seasonal']);
 $track_id = wp_unique_id('achiever-seasonal-track-');
 ?>
 <section <?php echo $wrapper_attributes; ?>>
-  <div class="achiever-seasonal__decor<?php echo $decor_image ? '' : ' achiever-seasonal__decor--empty'; ?>"><?php if ($decor_image) : ?><img src="<?php echo esc_url($decor_image); ?>" alt="<?php echo esc_attr($decor_alt); ?>" loading="lazy" /><?php endif; ?></div>
+  <?php if ($decor_image) : ?>
+    <div class="achiever-seasonal__decor">
+      <img src="<?php echo esc_url($decor_image); ?>" alt="<?php echo esc_attr($decor_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
+  <?php if ($decor_left_image) : ?>
+    <div class="achiever-seasonal__decor achiever-seasonal__decor--left">
+      <img src="<?php echo esc_url($decor_left_image); ?>" alt="<?php echo esc_attr($decor_left_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
+  <?php if ($decor_right_image) : ?>
+    <div class="achiever-seasonal__decor achiever-seasonal__decor--right">
+      <img src="<?php echo esc_url($decor_right_image); ?>" alt="<?php echo esc_attr($decor_right_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
   <h2 class="achiever-seasonal__title"><?php echo esc_html($section_title); ?></h2>
   <div class="achiever-scroll-slider" data-scroll-slider>
     <button type="button" class="achiever-scroll-arrow achiever-scroll-arrow--prev" data-scroll-prev aria-controls="<?php echo esc_attr($track_id); ?>" aria-label="Previous seasonal workshops">&#8249;</button>

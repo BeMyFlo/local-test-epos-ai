@@ -25,6 +25,10 @@
 			"type": "string",
 			"default": "FOLLOW US ON INSTAGRAM"
 		},
+		"decorLeftImage": { "type": "string", "default": "" },
+		"decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+		"decorRightImage": { "type": "string", "default": "" },
+		"decorRightAlt": { "type": "string", "default": "Cartoon mascot right decoration" },
 		"images": {
 			"type": "array",
 			"default": [

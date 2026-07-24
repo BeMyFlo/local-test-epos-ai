@@ -20,6 +20,11 @@
     "taglineDescription": { "type": "string", "default": "Discover our creative journey through art classes, camps, courses and more, designed for artists of all ages." },
     "paintJarImage": { "type": "string", "default": "" },
     "paintJarAlt": { "type": "string", "default": "Paint jar decoration" },
+    "decorLeftImage": { "type": "string", "default": "" },
+    "decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+    "decorRightImage": { "type": "string", "default": "" },
+    "decorRightAlt": { "type": "string", "default": "Cartoon mascot right decoration" },
+    "backgroundImage": { "type": "string", "default": "" },
     "slides": {
       "type": "array",
       "default": [

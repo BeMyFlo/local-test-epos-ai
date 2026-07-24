@@ -17,6 +17,10 @@
 			"type": "string",
 			"default": "WHAT OUR CLIENT LOVE ABOUT US"
 		},
+		"decorLeftImage": { "type": "string", "default": "" },
+		"decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+		"decorRightImage": { "type": "string", "default": "" },
+		"decorRightAlt": { "type": "string", "default": "Pencil cartoon right decoration" },
 		"testimonials": {
 			"type": "array",
 			"default": [

@@ -1,6 +1,10 @@
 <?php
 defined('ABSPATH') || exit;
 $section_title = $attributes['sectionTitle'] ?? 'OUR BEST SELLERS';
+$decor_left_image  = $attributes['decorLeftImage'] ?? '';
+$decor_left_alt    = $attributes['decorLeftAlt'] ?? 'Cartoon mascot left decoration';
+$decor_right_image = $attributes['decorRightImage'] ?? '';
+$decor_right_alt   = $attributes['decorRightAlt'] ?? 'Cartoon mascot right decoration';
 $products = $attributes['products'] ?? [];
 $cta_text = $attributes['ctaText'] ?? 'VIEW MORE WORKSHOP';
 $cta_url = $attributes['ctaUrl'] ?? '#';
@@ -8,6 +12,16 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-product
 $track_id = wp_unique_id('achiever-best-sellers-track-');
 ?>
 <section <?php echo $wrapper_attributes; ?>>
+  <?php if ($decor_left_image) : ?>
+    <div class="achiever-products__decor achiever-products__decor--left">
+      <img src="<?php echo esc_url($decor_left_image); ?>" alt="<?php echo esc_attr($decor_left_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
+  <?php if ($decor_right_image) : ?>
+    <div class="achiever-products__decor achiever-products__decor--right">
+      <img src="<?php echo esc_url($decor_right_image); ?>" alt="<?php echo esc_attr($decor_right_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
   <h2 class="achiever-products__title"><?php echo esc_html($section_title); ?></h2>
   <div class="achiever-scroll-slider" data-scroll-slider>
     <button type="button" class="achiever-scroll-arrow achiever-scroll-arrow--prev" data-scroll-prev aria-controls="<?php echo esc_attr($track_id); ?>" aria-label="Previous best sellers">&#8249;</button>

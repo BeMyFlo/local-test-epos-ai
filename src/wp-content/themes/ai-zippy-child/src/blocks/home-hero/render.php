@@ -12,8 +12,13 @@ $tagline          = $attributes['tagline'] ?? "Let's Artventure";
 $tagline_description = $attributes['taglineDescription'] ?? 'Discover our creative journey through art classes, camps, courses and more, designed for artists of all ages.';
 $paint_jar_image  = $attributes['paintJarImage'] ?? '';
 $paint_jar_alt    = $attributes['paintJarAlt'] ?? 'Paint jar decoration';
+$decor_left_image  = $attributes['decorLeftImage'] ?? '';
+$decor_left_alt    = $attributes['decorLeftAlt'] ?? 'Cartoon mascot left decoration';
+$decor_right_image = $attributes['decorRightImage'] ?? '';
+$decor_right_alt   = $attributes['decorRightAlt'] ?? 'Cartoon mascot right decoration';
 $autoplay         = $attributes['autoplay'] ?? false;
 $autoplay_speed   = max(2000, min(10000, (int) ($attributes['autoplaySpeed'] ?? 5000)));
+$background_image = $attributes['backgroundImage'] ?? '';
 
 if (empty($slides)) {
     $slides = [
@@ -47,10 +52,21 @@ $wrapper_attributes = get_block_wrapper_attributes([
     'class' => 'achiever-hero',
 ]);
 $slides_id = wp_unique_id('achiever-hero-slides-');
+$bg_style = $background_image ? ' style="background-image: url(' . esc_url($background_image) . ') !important; background-size: cover !important; background-position: center !important;"' : '';
 ?>
-<section <?php echo $wrapper_attributes; ?>
+<section <?php echo $wrapper_attributes; ?><?php echo $bg_style; ?>
   data-autoplay="<?php echo $autoplay ? 'true' : 'false'; ?>"
   data-speed="<?php echo esc_attr((string) $autoplay_speed); ?>">
+  <?php if ($decor_left_image) : ?>
+    <div class="achiever-hero__decor achiever-hero__decor--left">
+      <img src="<?php echo esc_url($decor_left_image); ?>" alt="<?php echo esc_attr($decor_left_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
+  <?php if ($decor_right_image) : ?>
+    <div class="achiever-hero__decor achiever-hero__decor--right">
+      <img src="<?php echo esc_url($decor_right_image); ?>" alt="<?php echo esc_attr($decor_right_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
   <div class="achiever-hero__tagline">
     <p class="achiever-hero__tagline-title"><?php echo esc_html($tagline); ?></p>
     <p class="achiever-hero__tagline-copy"><?php echo esc_html($tagline_description); ?></p>

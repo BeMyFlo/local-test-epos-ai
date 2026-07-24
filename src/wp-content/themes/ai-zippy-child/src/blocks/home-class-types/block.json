@@ -19,14 +19,18 @@
       "type": "string",
       "default": "EXPLORE OUR CLASSES"
     },
+    "decorLeftImage": { "type": "string", "default": "" },
+    "decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+    "decorRightImage": { "type": "string", "default": "" },
+    "decorRightAlt": { "type": "string", "default": "Pencil jar top-right decoration" },
     "types": {
       "type": "array",
       "default": [
-        { "label": "Foundation Art", "image": "", "alt": "Foundation Art class photo", "url": "" },
-        { "label": "Art Camp", "image": "", "alt": "Art Camp class photo", "url": "" },
-        { "label": "Mixed Media", "image": "", "alt": "Mixed Media class photo", "url": "" },
-        { "label": "Watercolour", "image": "", "alt": "Watercolour class photo", "url": "" },
-        { "label": "Acrylic Class", "image": "", "alt": "Acrylic Class photo", "url": "" }
+        { "label": "Regular Art Classes", "subtitle": "(Weekly)", "image": "", "alt": "Regular Art Classes photo", "url": "" },
+        { "label": "Art Camps", "subtitle": "(4/6/8 Lessons)", "image": "", "alt": "Art Camps photo", "url": "" },
+        { "label": "Art Workshop", "subtitle": "(Single Session)", "image": "", "alt": "Art Workshop photo", "url": "" },
+        { "label": "Short Courses", "subtitle": "(Weekly)", "image": "", "alt": "Short Courses photo", "url": "" },
+        { "label": "Express Art Classes", "subtitle": "(Single Session)", "image": "", "alt": "Express Art Classes photo", "url": "" }
       ]
     }
   }

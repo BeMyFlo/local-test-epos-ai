@@ -34,7 +34,7 @@ class Typography
      */
     public const GOOGLE_FONTS = [
         'Inter'            => ['family' => 'Inter',            'weights' => '400;500;600;700'],
-        'Poppins'          => ['family' => 'Poppins',          'weights' => '400;500;600;700'],
+        'Poppins'          => ['family' => 'Poppins',          'weights' => '400;500;600;700;800;900'],
         'Nunito Sans'      => ['family' => 'Nunito+Sans',      'weights' => '400;600;700'],
         'DM Sans'          => ['family' => 'DM+Sans',          'weights' => '400;500;700'],
         'Roboto'           => ['family' => 'Roboto',           'weights' => '400;500;700'],

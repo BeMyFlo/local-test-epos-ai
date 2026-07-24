@@ -21,6 +21,10 @@
 		},
 		"decorImage": { "type": "string", "default": "" },
 		"decorAlt": { "type": "string", "default": "Paint brush decoration" },
+		"decorLeftImage": { "type": "string", "default": "" },
+		"decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+		"decorRightImage": { "type": "string", "default": "" },
+		"decorRightAlt": { "type": "string", "default": "Cartoon mascot right decoration" },
 		"products": {
 			"type": "array",
 			"default": [

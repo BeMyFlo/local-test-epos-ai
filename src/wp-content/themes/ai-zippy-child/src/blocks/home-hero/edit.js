@@ -1,4 +1,4 @@
-import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, RangeControl, TextControl, TextareaControl, ToggleControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 
@@ -38,9 +38,117 @@ export default function Edit({ attributes, setAttributes, name }) {
           <TextControl label="Tagline" value={attributes.tagline || ''} onChange={(tagline) => setAttributes({ tagline })} />
           <TextareaControl label="Tagline description" value={attributes.taglineDescription || ''} onChange={(taglineDescription) => setAttributes({ taglineDescription })} />
         </PanelBody>
-        <PanelBody title="Decoration" initialOpen={true}>
-          <TextControl label="Paint jar image URL" value={attributes.paintJarImage || ''} onChange={(paintJarImage) => setAttributes({ paintJarImage })} />
-          <TextControl label="Paint jar alt text" value={attributes.paintJarAlt || ''} onChange={(paintJarAlt) => setAttributes({ paintJarAlt })} />
+        <PanelBody title="Decoration / Cartoon Images" initialOpen={true}>
+          <div style={{ marginBottom: '15px' }}>
+            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Background Image</label>
+            <MediaUploadCheck>
+              <MediaUpload
+                allowedTypes={['image']}
+                onSelect={(media) => setAttributes({ backgroundImage: media.url })}
+                render={({ open }) => (
+                  <>
+                    {attributes.backgroundImage && (
+                      <div style={{ marginBottom: '8px' }}>
+                        <img src={attributes.backgroundImage} alt="" style={{ maxWidth: '100%', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                      </div>
+                    )}
+                    <Button variant="secondary" onClick={open}>
+                      {attributes.backgroundImage ? 'Change Background Image' : 'Select Background Image'}
+                    </Button>
+                    {attributes.backgroundImage && (
+                      <Button variant="link" isDestructive onClick={() => setAttributes({ backgroundImage: '' })} style={{ marginLeft: '10px' }}>
+                        Remove
+                      </Button>
+                    )}
+                  </>
+                )}
+              />
+            </MediaUploadCheck>
+          </div>
+
+          <div style={{ marginBottom: '15px' }}>
+            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Decor Left Image (Top/Left mascot)</label>
+            <MediaUploadCheck>
+              <MediaUpload
+                allowedTypes={['image']}
+                onSelect={(media) => setAttributes({ decorLeftImage: media.url })}
+                render={({ open }) => (
+                  <>
+                    {attributes.decorLeftImage && (
+                      <div style={{ marginBottom: '8px' }}>
+                        <img src={attributes.decorLeftImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                      </div>
+                    )}
+                    <Button variant="secondary" onClick={open}>
+                      {attributes.decorLeftImage ? 'Change Image' : 'Select Image'}
+                    </Button>
+                    {attributes.decorLeftImage && (
+                      <Button variant="link" isDestructive onClick={() => setAttributes({ decorLeftImage: '' })} style={{ marginLeft: '10px' }}>
+                        Remove
+                      </Button>
+                    )}
+                  </>
+                )}
+              />
+            </MediaUploadCheck>
+            <TextControl label="Decor Left Alt" value={attributes.decorLeftAlt || ''} onChange={(decorLeftAlt) => setAttributes({ decorLeftAlt })} style={{ marginTop: '8px' }} />
+          </div>
+
+          <div style={{ marginBottom: '15px' }}>
+            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Decor Right Image (Top/Right mascot)</label>
+            <MediaUploadCheck>
+              <MediaUpload
+                allowedTypes={['image']}
+                onSelect={(media) => setAttributes({ decorRightImage: media.url })}
+                render={({ open }) => (
+                  <>
+                    {attributes.decorRightImage && (
+                      <div style={{ marginBottom: '8px' }}>
+                        <img src={attributes.decorRightImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                      </div>
+                    )}
+                    <Button variant="secondary" onClick={open}>
+                      {attributes.decorRightImage ? 'Change Image' : 'Select Image'}
+                    </Button>
+                    {attributes.decorRightImage && (
+                      <Button variant="link" isDestructive onClick={() => setAttributes({ decorRightImage: '' })} style={{ marginLeft: '10px' }}>
+                        Remove
+                      </Button>
+                    )}
+                  </>
+                )}
+              />
+            </MediaUploadCheck>
+            <TextControl label="Decor Right Alt" value={attributes.decorRightAlt || ''} onChange={(decorRightAlt) => setAttributes({ decorRightAlt })} style={{ marginTop: '8px' }} />
+          </div>
+
+          <div style={{ marginBottom: '15px' }}>
+            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Paint Jar Image</label>
+            <MediaUploadCheck>
+              <MediaUpload
+                allowedTypes={['image']}
+                onSelect={(media) => setAttributes({ paintJarImage: media.url })}
+                render={({ open }) => (
+                  <>
+                    {attributes.paintJarImage && (
+                      <div style={{ marginBottom: '8px' }}>
+                        <img src={attributes.paintJarImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                      </div>
+                    )}
+                    <Button variant="secondary" onClick={open}>
+                      {attributes.paintJarImage ? 'Change Image' : 'Select Image'}
+                    </Button>
+                    {attributes.paintJarImage && (
+                      <Button variant="link" isDestructive onClick={() => setAttributes({ paintJarImage: '' })} style={{ marginLeft: '10px' }}>
+                        Remove
+                      </Button>
+                    )}
+                  </>
+                )}
+              />
+            </MediaUploadCheck>
+            <TextControl label="Paint jar alt text" value={attributes.paintJarAlt || ''} onChange={(paintJarAlt) => setAttributes({ paintJarAlt })} style={{ marginTop: '8px' }} />
+          </div>
         </PanelBody>
         <PanelBody title="Slider settings" initialOpen={true}>
           <ToggleControl label="Autoplay" checked={attributes.autoplay === true} onChange={(autoplay) => setAttributes({ autoplay })} />
