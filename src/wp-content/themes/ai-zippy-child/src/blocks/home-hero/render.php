@@ -12,10 +12,13 @@ $tagline          = $attributes['tagline'] ?? "Let's Artventure";
 $tagline_description = $attributes['taglineDescription'] ?? 'Discover our creative journey through art classes, camps, courses and more, designed for artists of all ages.';
 $paint_jar_image  = $attributes['paintJarImage'] ?? '';
 $paint_jar_alt    = $attributes['paintJarAlt'] ?? 'Paint jar decoration';
-$decor_left_image  = $attributes['decorLeftImage'] ?? '';
-$decor_left_alt    = $attributes['decorLeftAlt'] ?? 'Cartoon mascot left decoration';
-$decor_right_image = $attributes['decorRightImage'] ?? '';
-$decor_right_alt   = $attributes['decorRightAlt'] ?? 'Cartoon mascot right decoration';
+$paint_jar_z_index = max(-1, min(50, (int) ($attributes['paintJarZIndex'] ?? 2)));
+$paint_jar_desktop_x = max(0, min(100, (int) ($attributes['paintJarDesktopX'] ?? 93)));
+$paint_jar_desktop_y = max(-50, min(150, (int) ($attributes['paintJarDesktopY'] ?? 92)));
+$paint_jar_desktop_size = max(40, min(500, (int) ($attributes['paintJarDesktopSize'] ?? 90)));
+$paint_jar_mobile_x = max(0, min(100, (int) ($attributes['paintJarMobileX'] ?? 88)));
+$paint_jar_mobile_y = max(-50, min(150, (int) ($attributes['paintJarMobileY'] ?? 91)));
+$paint_jar_mobile_size = max(32, min(500, (int) ($attributes['paintJarMobileSize'] ?? 90)));
 $autoplay         = $attributes['autoplay'] ?? false;
 $autoplay_speed   = max(2000, min(10000, (int) ($attributes['autoplaySpeed'] ?? 5000)));
 $background_image = $attributes['backgroundImage'] ?? '';
@@ -52,27 +55,27 @@ $wrapper_attributes = get_block_wrapper_attributes([
     'class' => 'achiever-hero',
 ]);
 $slides_id = wp_unique_id('achiever-hero-slides-');
-$bg_style = $background_image ? ' style="background-image: url(' . esc_url($background_image) . ') !important; background-size: cover !important; background-position: center !important;"' : '';
+$bg_style = $background_image ? ' style="background-image: url(' . esc_url($background_image) . ') !important;"' : '';
+$paint_jar_style = sprintf(
+    '--paint-jar-z-index:%d;--paint-jar-desktop-x:%d;--paint-jar-desktop-y:%d;--paint-jar-desktop-size:%d;--paint-jar-mobile-x:%d;--paint-jar-mobile-y:%d;--paint-jar-mobile-size:%d;',
+    $paint_jar_z_index,
+    $paint_jar_desktop_x,
+    $paint_jar_desktop_y,
+    $paint_jar_desktop_size,
+    $paint_jar_mobile_x,
+    $paint_jar_mobile_y,
+    $paint_jar_mobile_size
+);
 ?>
 <section <?php echo $wrapper_attributes; ?><?php echo $bg_style; ?>
   data-autoplay="<?php echo $autoplay ? 'true' : 'false'; ?>"
   data-speed="<?php echo esc_attr((string) $autoplay_speed); ?>">
-  <?php if ($decor_left_image) : ?>
-    <div class="achiever-hero__decor achiever-hero__decor--left">
-      <img src="<?php echo esc_url($decor_left_image); ?>" alt="<?php echo esc_attr($decor_left_alt); ?>" loading="lazy" />
-    </div>
-  <?php endif; ?>
-  <?php if ($decor_right_image) : ?>
-    <div class="achiever-hero__decor achiever-hero__decor--right">
-      <img src="<?php echo esc_url($decor_right_image); ?>" alt="<?php echo esc_attr($decor_right_alt); ?>" loading="lazy" />
-    </div>
-  <?php endif; ?>
   <div class="achiever-hero__tagline">
     <p class="achiever-hero__tagline-title"><?php echo esc_html($tagline); ?></p>
     <p class="achiever-hero__tagline-copy"><?php echo esc_html($tagline_description); ?></p>
   </div>
   <div class="achiever-hero__content">
-    <div class="achiever-hero__paint-jar<?php echo $paint_jar_image ? '' : ' achiever-hero__paint-jar--empty'; ?>">
+    <div class="achiever-hero__paint-jar<?php echo $paint_jar_image ? '' : ' achiever-hero__paint-jar--empty'; ?>" style="<?php echo esc_attr($paint_jar_style); ?>">
       <?php if ($paint_jar_image) : ?><img src="<?php echo esc_url($paint_jar_image); ?>" alt="<?php echo esc_attr($paint_jar_alt); ?>" loading="lazy" /><?php endif; ?>
     </div>
     <div class="achiever-hero__slider">

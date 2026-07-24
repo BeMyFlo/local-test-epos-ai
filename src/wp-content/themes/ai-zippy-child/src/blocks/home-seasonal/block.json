@@ -21,10 +21,31 @@
 		},
 		"decorImage": { "type": "string", "default": "" },
 		"decorAlt": { "type": "string", "default": "Paint brush decoration" },
+		"decorDesktopX": { "type": "number", "default": 12 },
+		"decorDesktopY": { "type": "number", "default": 12 },
+		"decorDesktopSize": { "type": "number", "default": 278 },
+		"decorMobileX": { "type": "number", "default": 15 },
+		"decorMobileY": { "type": "number", "default": 10 },
+		"decorMobileSize": { "type": "number", "default": 150 },
+		"decorZIndex": { "type": "number", "default": 5 },
 		"decorLeftImage": { "type": "string", "default": "" },
 		"decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+		"decorLeftDesktopX": { "type": "number", "default": 18 },
+		"decorLeftDesktopY": { "type": "number", "default": 92 },
+		"decorLeftDesktopSize": { "type": "number", "default": 405 },
+		"decorLeftMobileX": { "type": "number", "default": 20 },
+		"decorLeftMobileY": { "type": "number", "default": 92 },
+		"decorLeftMobileSize": { "type": "number", "default": 220 },
+		"decorLeftZIndex": { "type": "number", "default": 5 },
 		"decorRightImage": { "type": "string", "default": "" },
 		"decorRightAlt": { "type": "string", "default": "Cartoon mascot right decoration" },
+		"decorRightDesktopX": { "type": "number", "default": 88 },
+		"decorRightDesktopY": { "type": "number", "default": 10 },
+		"decorRightDesktopSize": { "type": "number", "default": 310 },
+		"decorRightMobileX": { "type": "number", "default": 85 },
+		"decorRightMobileY": { "type": "number", "default": 10 },
+		"decorRightMobileSize": { "type": "number", "default": 140 },
+		"decorRightZIndex": { "type": "number", "default": 5 },
 		"products": {
 			"type": "array",
 			"default": [
@@ -53,6 +74,10 @@
 					"image": "", "alt": "Seasonal artwork photo", "url": ""
 				}
 			]
+		},
+		"cardCtaText": {
+			"type": "string",
+			"default": "BOOK NOW"
 		},
 		"ctaText": {
 			"type": "string",

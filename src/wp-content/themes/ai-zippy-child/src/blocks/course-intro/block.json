@@ -17,7 +17,7 @@
     "serviceImageAlt": { "type": "string", "default": "Foundation art class in progress" },
     "infoBox": {
       "type": "object",
-      "default": { "lessons": "Each Term: 8 Lessons", "duration": "Each Session: 60mins", "ageRange": "Age 4–6" }
+      "default": { "lessons": "Each Term: 8 Lessons", "duration": "Each Session: 60mins", "ageRange": "Age 3–5" }
     },
     "termsTitle": { "type": "string", "default": "TERMS" },
     "terms": {
@@ -42,35 +42,38 @@
         "Techniques of Mediums (Acrylic Paints, Oil Pastels, Soft Pastel, Watercolour, Clay, etc)",
         "Principle of Art",
         "Pen-Control and Motor Skills",
-        "Shadig and Styles",
+        "Shading and Styles",
         "Element of Art",
         "Observation"
-      ]
-    },
-    "lessonsTitle": { "type": "string", "default": "OUR LESSONS" },
-    "lessons": {
-      "type": "array",
-      "default": [
-        { "name": "Artventurer", "age": "Age 3 & up", "url": "/artventurer/" },
-        { "name": "Canvas Wizard", "age": "Age 6 & up", "url": "/canvas-wizard/" },
-        { "name": "Foundation Art Class", "age": "Age 4–6", "url": "/foundation-art-course/" },
-        { "name": "Sketcher Master", "age": "Age 7 & up", "url": "/sketcher-master/" },
-        { "name": "Little Draws", "age": "Age 5 & up", "url": "/little-draws/" },
-        { "name": "Junior Fine Arts", "age": "Age 8 & up", "url": "/junior-fine-arts/" },
-        { "name": "DrawVinci", "age": "Age 6 & up", "url": "/drawvinci/" },
-        { "name": "Portfolio Art", "age": "Age 10 & up", "url": "/portfolio-art/" }
       ]
     },
     "galleryTitle": { "type": "string", "default": "YOUR SMILE, OUR PASSION." },
     "galleryImages": {
       "type": "array",
       "default": [
-        { "url": "", "alt": "Student artwork photo 1" },
-        { "url": "", "alt": "Student artwork photo 2" },
-        { "url": "", "alt": "Student artwork photo 3" },
-        { "url": "", "alt": "Student artwork photo 4" }
+        { "url": "/wp-content/uploads/2026/07/ArtCamp-2025-768x543.png", "alt": "Student artwork photo 1" },
+        { "url": "/wp-content/uploads/2026/07/CraftCamp-2025-768x543.png", "alt": "Student artwork photo 2" },
+        { "url": "/wp-content/uploads/2026/07/MangaDrawing2-768x543.png", "alt": "Student artwork photo 3" }
       ]
-    }
+    },
+    "decorLeftImage": { "type": "string", "default": "/wp-content/uploads/2026/07/Sensory-Playhaus_STICKER.png" },
+    "decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+    "decorLeftDesktopX": { "type": "number", "default": 85 },
+    "decorLeftDesktopY": { "type": "number", "default": 65 },
+    "decorLeftDesktopSize": { "type": "number", "default": 180 },
+    "decorLeftMobileX": { "type": "number", "default": 85 },
+    "decorLeftMobileY": { "type": "number", "default": 65 },
+    "decorLeftMobileSize": { "type": "number", "default": 120 },
+    "decorLeftZIndex": { "type": "number", "default": 5 },
+    "decorRightImage": { "type": "string", "default": "/wp-content/uploads/2026/07/Sensory-Playhaus_COLOR.png" },
+    "decorRightAlt": { "type": "string", "default": "Cartoon mascot right decoration" },
+    "decorRightDesktopX": { "type": "number", "default": 15 },
+    "decorRightDesktopY": { "type": "number", "default": 85 },
+    "decorRightDesktopSize": { "type": "number", "default": 200 },
+    "decorRightMobileX": { "type": "number", "default": 15 },
+    "decorRightMobileY": { "type": "number", "default": 85 },
+    "decorRightMobileSize": { "type": "number", "default": 130 },
+    "decorRightZIndex": { "type": "number", "default": 5 }
   },
   "textdomain": "ai-zippy",
   "editorScript": "file:./index.js",

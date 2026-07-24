@@ -2,9 +2,10 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { Button, PanelBody, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
+import DecorPositionControls from '../_shared/DecorPositionControls.js';
 
 export default function Edit({ attributes, setAttributes }) {
-  const { sectionTitle, ctaText, ctaUrl } = attributes;
+  const { sectionTitle, cardCtaText, ctaText, ctaUrl } = attributes;
   const products = attributes.products || [];
   const blockProps = useBlockProps();
 
@@ -16,6 +17,11 @@ export default function Edit({ attributes, setAttributes }) {
             label={__('Section Title', 'ai-zippy')}
             value={sectionTitle}
             onChange={(val) => setAttributes({ sectionTitle: val })}
+          />
+          <TextControl
+            label={__('Card Button Text', 'ai-zippy')}
+            value={cardCtaText}
+            onChange={(val) => setAttributes({ cardCtaText: val })}
           />
           <TextControl
             label={__('CTA Text', 'ai-zippy')}
@@ -56,6 +62,12 @@ export default function Edit({ attributes, setAttributes }) {
               />
             </MediaUploadCheck>
             <TextControl label="Decor Left Alt" value={attributes.decorLeftAlt || ''} onChange={(decorLeftAlt) => setAttributes({ decorLeftAlt })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decorLeft"
+              defaults={{ desktopX: 8, desktopY: 15, desktopSize: 120, mobileX: 12, mobileY: 15, mobileSize: 75, zIndex: 5 }}
+            />
           </div>
 
           <div style={{ marginBottom: '15px' }}>
@@ -84,6 +96,12 @@ export default function Edit({ attributes, setAttributes }) {
               />
             </MediaUploadCheck>
             <TextControl label="Decor Right Alt" value={attributes.decorRightAlt || ''} onChange={(decorRightAlt) => setAttributes({ decorRightAlt })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decorRight"
+              defaults={{ desktopX: 92, desktopY: 85, desktopSize: 120, mobileX: 88, mobileY: 85, mobileSize: 75, zIndex: 5 }}
+            />
           </div>
         </PanelBody>
 

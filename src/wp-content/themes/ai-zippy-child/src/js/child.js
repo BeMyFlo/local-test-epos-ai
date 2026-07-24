@@ -177,21 +177,141 @@ function initAchieverScrollSliders() {
     const track = slider.querySelector('[data-scroll-track]');
     const previous = slider.querySelector('[data-scroll-prev]');
     const next = slider.querySelector('[data-scroll-next]');
-    if (!track || !previous || !next) return;
+    if (!track) return;
 
     slider.dataset.scrollInitialized = 'true';
 
-    const move = (direction) => {
+    // Store original index on each item for dot tracking
+    const initialItems = Array.from(track.children);
+    initialItems.forEach((item, index) => {
+      item.dataset.originalIndex = index;
+    });
+
+    const getItemStep = () => {
       const item = track.firstElementChild;
+      if (!item) return track.clientWidth * 0.8;
       const styles = window.getComputedStyle(track);
       const parsedGap = Number.parseFloat(styles.columnGap || styles.gap || '0');
       const gap = Number.isFinite(parsedGap) ? parsedGap : 0;
-      const amount = item ? item.getBoundingClientRect().width + gap : track.clientWidth * 0.8;
-      track.scrollBy({ left: direction * Math.max(1, amount), behavior: 'smooth' });
+      return item.getBoundingClientRect().width + gap;
     };
 
-    previous.addEventListener('click', () => move(-1));
-    next.addEventListener('click', () => move(1));
+    let isMoving = false;
+
+    // Seamless forward loop
+    const moveNext = () => {
+      if (isMoving || track.children.length < 2) return;
+      isMoving = true;
+      const step = getItemStep();
+
+      track.scrollBy({ left: step, behavior: 'smooth' });
+
+      setTimeout(() => {
+        if (track.firstElementChild) {
+          track.appendChild(track.firstElementChild);
+          const oldBehavior = track.style.scrollBehavior;
+          track.style.scrollBehavior = 'auto';
+          track.scrollLeft = Math.max(0, track.scrollLeft - step);
+          track.style.scrollBehavior = oldBehavior;
+        }
+        updateDots();
+        isMoving = false;
+      }, 320);
+    };
+
+    // Seamless backward loop
+    const movePrev = () => {
+      if (isMoving || track.children.length < 2) return;
+      isMoving = true;
+      const step = getItemStep();
+
+      if (track.lastElementChild) {
+        track.prepend(track.lastElementChild);
+        const oldBehavior = track.style.scrollBehavior;
+        track.style.scrollBehavior = 'auto';
+        track.scrollLeft += step;
+        track.style.scrollBehavior = oldBehavior;
+      }
+
+      requestAnimationFrame(() => {
+        track.scrollBy({ left: -step, behavior: 'smooth' });
+        setTimeout(() => {
+          updateDots();
+          isMoving = false;
+        }, 320);
+      });
+    };
+
+    if (previous) previous.addEventListener('click', movePrev);
+    if (next) next.addEventListener('click', moveNext);
+
+    // Support dots click & scroll active state sync with dynamic item count
+    const parent = slider.parentElement || slider.closest('.achiever-testimonials, section, div');
+    let dotsContainer = parent ? parent.querySelector('.achiever-testimonials__dots, .achiever-scroll-dots') : null;
+    if (!dotsContainer && slider.querySelector('.achiever-scroll-dots')) {
+      dotsContainer = slider.querySelector('.achiever-scroll-dots');
+    }
+
+    let dots = [];
+    if (dotsContainer) {
+      const dotClassName = dotsContainer.classList.contains('achiever-testimonials__dots')
+        ? 'achiever-testimonials__dot'
+        : 'achiever-scroll-dot';
+
+      if (initialItems.length > 0) {
+        dotsContainer.innerHTML = '';
+        initialItems.forEach((_, index) => {
+          const dot = document.createElement('span');
+          dot.className = `${dotClassName}${index === 0 ? ` ${dotClassName}--active active` : ''}`;
+          dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
+          dotsContainer.appendChild(dot);
+        });
+      }
+
+      dots = Array.from(dotsContainer.querySelectorAll(`.${dotClassName}, .achiever-testimonials__dot, .achiever-scroll-dot`));
+
+      dots.forEach((dot, index) => {
+        dot.style.cursor = 'pointer';
+        dot.addEventListener('click', () => {
+          if (isMoving) return;
+          const targetItem = track.querySelector(`[data-original-index="${index}"]`);
+          if (targetItem) {
+            targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+            setTimeout(updateDots, 350);
+          }
+        });
+      });
+    }
+
+    const updateDots = () => {
+      if (!dots.length) return;
+
+      const currentItems = Array.from(track.children);
+      if (!currentItems.length) return;
+
+      let activeIndex = 0;
+      let minDistance = Infinity;
+
+      currentItems.forEach((item) => {
+        const dist = Math.abs(item.offsetLeft - track.scrollLeft);
+        if (dist < minDistance) {
+          minDistance = dist;
+          if (item.dataset.originalIndex !== undefined) {
+            activeIndex = parseInt(item.dataset.originalIndex, 10);
+          }
+        }
+      });
+
+      dots.forEach((dot, i) => {
+        const isAct = i === activeIndex;
+        dot.classList.toggle('achiever-testimonials__dot--active', isAct);
+        dot.classList.toggle('achiever-scroll-dot--active', isAct);
+        dot.classList.toggle('active', isAct);
+      });
+    };
+
+    track.addEventListener('scroll', updateDots, { passive: true });
+    updateDots();
   });
 }
 

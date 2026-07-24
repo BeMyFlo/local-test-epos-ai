@@ -27,8 +27,22 @@
 		},
 		"decorLeftImage": { "type": "string", "default": "" },
 		"decorLeftAlt": { "type": "string", "default": "Cartoon mascot left decoration" },
+		"decorLeftDesktopX": { "type": "number", "default": 8 },
+		"decorLeftDesktopY": { "type": "number", "default": 15 },
+		"decorLeftDesktopSize": { "type": "number", "default": 120 },
+		"decorLeftMobileX": { "type": "number", "default": 12 },
+		"decorLeftMobileY": { "type": "number", "default": 15 },
+		"decorLeftMobileSize": { "type": "number", "default": 75 },
+		"decorLeftZIndex": { "type": "number", "default": 5 },
 		"decorRightImage": { "type": "string", "default": "" },
 		"decorRightAlt": { "type": "string", "default": "Cartoon mascot right decoration" },
+		"decorRightDesktopX": { "type": "number", "default": 92 },
+		"decorRightDesktopY": { "type": "number", "default": 85 },
+		"decorRightDesktopSize": { "type": "number", "default": 120 },
+		"decorRightMobileX": { "type": "number", "default": 88 },
+		"decorRightMobileY": { "type": "number", "default": 85 },
+		"decorRightMobileSize": { "type": "number", "default": 75 },
+		"decorRightZIndex": { "type": "number", "default": 5 },
 		"products": {
 			"type": "array",
 			"default": [
@@ -57,6 +71,10 @@
 					"image": "", "alt": "Bestseller artwork photo", "url": ""
 				}
 			]
+		},
+		"cardCtaText": {
+			"type": "string",
+			"default": "BOOK NOW"
 		},
 		"ctaText": {
 			"type": "string",

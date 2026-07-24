@@ -67,62 +67,6 @@ export default function Edit({ attributes, setAttributes, name }) {
           </div>
 
           <div style={{ marginBottom: '15px' }}>
-            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Decor Left Image (Top/Left mascot)</label>
-            <MediaUploadCheck>
-              <MediaUpload
-                allowedTypes={['image']}
-                onSelect={(media) => setAttributes({ decorLeftImage: media.url })}
-                render={({ open }) => (
-                  <>
-                    {attributes.decorLeftImage && (
-                      <div style={{ marginBottom: '8px' }}>
-                        <img src={attributes.decorLeftImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                      </div>
-                    )}
-                    <Button variant="secondary" onClick={open}>
-                      {attributes.decorLeftImage ? 'Change Image' : 'Select Image'}
-                    </Button>
-                    {attributes.decorLeftImage && (
-                      <Button variant="link" isDestructive onClick={() => setAttributes({ decorLeftImage: '' })} style={{ marginLeft: '10px' }}>
-                        Remove
-                      </Button>
-                    )}
-                  </>
-                )}
-              />
-            </MediaUploadCheck>
-            <TextControl label="Decor Left Alt" value={attributes.decorLeftAlt || ''} onChange={(decorLeftAlt) => setAttributes({ decorLeftAlt })} style={{ marginTop: '8px' }} />
-          </div>
-
-          <div style={{ marginBottom: '15px' }}>
-            <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Decor Right Image (Top/Right mascot)</label>
-            <MediaUploadCheck>
-              <MediaUpload
-                allowedTypes={['image']}
-                onSelect={(media) => setAttributes({ decorRightImage: media.url })}
-                render={({ open }) => (
-                  <>
-                    {attributes.decorRightImage && (
-                      <div style={{ marginBottom: '8px' }}>
-                        <img src={attributes.decorRightImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
-                      </div>
-                    )}
-                    <Button variant="secondary" onClick={open}>
-                      {attributes.decorRightImage ? 'Change Image' : 'Select Image'}
-                    </Button>
-                    {attributes.decorRightImage && (
-                      <Button variant="link" isDestructive onClick={() => setAttributes({ decorRightImage: '' })} style={{ marginLeft: '10px' }}>
-                        Remove
-                      </Button>
-                    )}
-                  </>
-                )}
-              />
-            </MediaUploadCheck>
-            <TextControl label="Decor Right Alt" value={attributes.decorRightAlt || ''} onChange={(decorRightAlt) => setAttributes({ decorRightAlt })} style={{ marginTop: '8px' }} />
-          </div>
-
-          <div style={{ marginBottom: '15px' }}>
             <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Paint Jar Image</label>
             <MediaUploadCheck>
               <MediaUpload
@@ -148,6 +92,64 @@ export default function Edit({ attributes, setAttributes, name }) {
               />
             </MediaUploadCheck>
             <TextControl label="Paint jar alt text" value={attributes.paintJarAlt || ''} onChange={(paintJarAlt) => setAttributes({ paintJarAlt })} style={{ marginTop: '8px' }} />
+            <RangeControl
+              label="Z-index"
+              value={attributes.paintJarZIndex ?? 2}
+              onChange={(paintJarZIndex) => setAttributes({ paintJarZIndex })}
+              min={-1}
+              max={50}
+              step={1}
+            />
+            <p><strong>Desktop position</strong></p>
+            <RangeControl
+              label="Horizontal position (%)"
+              value={attributes.paintJarDesktopX ?? 93}
+              onChange={(paintJarDesktopX) => setAttributes({ paintJarDesktopX })}
+              min={0}
+              max={100}
+              step={1}
+            />
+            <RangeControl
+              label="Vertical position (%)"
+              value={attributes.paintJarDesktopY ?? 92}
+              onChange={(paintJarDesktopY) => setAttributes({ paintJarDesktopY })}
+              min={-50}
+              max={150}
+              step={1}
+            />
+            <RangeControl
+              label="Image size (px)"
+              value={attributes.paintJarDesktopSize ?? 90}
+              onChange={(paintJarDesktopSize) => setAttributes({ paintJarDesktopSize })}
+              min={40}
+              max={500}
+              step={1}
+            />
+            <p><strong>Mobile position</strong></p>
+            <RangeControl
+              label="Horizontal position (%)"
+              value={attributes.paintJarMobileX ?? 88}
+              onChange={(paintJarMobileX) => setAttributes({ paintJarMobileX })}
+              min={0}
+              max={100}
+              step={1}
+            />
+            <RangeControl
+              label="Vertical position (%)"
+              value={attributes.paintJarMobileY ?? 91}
+              onChange={(paintJarMobileY) => setAttributes({ paintJarMobileY })}
+              min={-50}
+              max={150}
+              step={1}
+            />
+            <RangeControl
+              label="Image size (px)"
+              value={attributes.paintJarMobileSize ?? 90}
+              onChange={(paintJarMobileSize) => setAttributes({ paintJarMobileSize })}
+              min={32}
+              max={500}
+              step={1}
+            />
           </div>
         </PanelBody>
         <PanelBody title="Slider settings" initialOpen={true}>

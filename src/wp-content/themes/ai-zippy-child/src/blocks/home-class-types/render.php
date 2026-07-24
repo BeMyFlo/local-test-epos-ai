@@ -12,12 +12,14 @@ $decor_left_image  = $attributes['decorLeftImage'] ?? '';
 $decor_left_alt    = $attributes['decorLeftAlt'] ?? 'Cartoon mascot left decoration';
 $decor_right_image = $attributes['decorRightImage'] ?? '';
 $decor_right_alt   = $attributes['decorRightAlt'] ?? 'Pencil jar top-right decoration';
+$decor_left_style  = ai_zippy_child_decor_style($attributes, 'decorLeft', ['zIndex' => 5, 'desktopX' => 8, 'desktopY' => 88, 'desktopSize' => 110, 'mobileX' => 12, 'mobileY' => 88, 'mobileSize' => 75]);
+$decor_right_style = ai_zippy_child_decor_style($attributes, 'decorRight', ['zIndex' => 5, 'desktopX' => 92, 'desktopY' => 12, 'desktopSize' => 110, 'mobileX' => 88, 'mobileY' => 12, 'mobileSize' => 75]);
 $types         = $attributes['types'] ?? [
-    ['label' => 'Foundation Art', 'image' => '', 'alt' => 'Foundation Art class photo', 'url' => ''],
-    ['label' => 'Art Camp', 'image' => '', 'alt' => 'Art Camp class photo', 'url' => ''],
-    ['label' => 'Mixed Media', 'image' => '', 'alt' => 'Mixed Media class photo', 'url' => ''],
-    ['label' => 'Watercolour', 'image' => '', 'alt' => 'Watercolour class photo', 'url' => ''],
-    ['label' => 'Acrylic Class', 'image' => '', 'alt' => 'Acrylic Class photo', 'url' => ''],
+    ['label' => 'Regular Art Classes', 'subtitle' => '(Weekly)', 'image' => '/wp-content/uploads/2026/07/download-1.jpg', 'alt' => 'Regular Art Classes', 'url' => '/regular-art-classes/'],
+    ['label' => 'Art Camps', 'subtitle' => '(4/6/8 Lessons)', 'image' => '/wp-content/uploads/2026/07/Regular-Classes_Main-Q.jpg', 'alt' => 'Art Camps', 'url' => '/camps-courses/'],
+    ['label' => 'Art Workshop', 'subtitle' => '(Single Session)', 'image' => '/wp-content/uploads/2026/07/ShortCourse_mainQ.jpg', 'alt' => 'Art Workshop', 'url' => '/single-session-art-classes/'],
+    ['label' => 'Short Courses', 'subtitle' => '(Weekly)', 'image' => '/wp-content/uploads/2026/07/Aarts_White-Studen-Shirt_Sleeve.jpg', 'alt' => 'Short Courses', 'url' => '/camps-courses/#short-courses'],
+    ['label' => 'Express Art Classes', 'subtitle' => '(Single Session)', 'image' => '/wp-content/uploads/2026/07/Artventurer-2025.jpg', 'alt' => 'Express Art Classes', 'url' => '/express-art-classes/'],
 ];
 
 $wrapper_attributes = get_block_wrapper_attributes([
@@ -27,12 +29,12 @@ $track_id = wp_unique_id('achiever-class-types-track-');
 ?>
 <section <?php echo $wrapper_attributes; ?>>
   <?php if ($decor_left_image) : ?>
-    <div class="achiever-class-types__decor achiever-class-types__decor--left">
+    <div class="achiever-class-types__decor achiever-class-types__decor--left" style="<?php echo esc_attr($decor_left_style); ?>">
       <img src="<?php echo esc_url($decor_left_image); ?>" alt="<?php echo esc_attr($decor_left_alt); ?>" loading="lazy" />
     </div>
   <?php endif; ?>
   <?php if ($decor_right_image) : ?>
-    <div class="achiever-class-types__decor achiever-class-types__decor--right">
+    <div class="achiever-class-types__decor achiever-class-types__decor--right" style="<?php echo esc_attr($decor_right_style); ?>">
       <img src="<?php echo esc_url($decor_right_image); ?>" alt="<?php echo esc_attr($decor_right_alt); ?>" loading="lazy" />
     </div>
   <?php endif; ?>

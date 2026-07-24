@@ -52,6 +52,13 @@
       "type": "string",
       "default": ""
     },
+    "mascotDesktopX": { "type": "number", "default": 88 },
+    "mascotDesktopY": { "type": "number", "default": 68 },
+    "mascotDesktopSize": { "type": "number", "default": 220 },
+    "mascotMobileX": { "type": "number", "default": 82 },
+    "mascotMobileY": { "type": "number", "default": 78 },
+    "mascotMobileSize": { "type": "number", "default": 120 },
+    "mascotZIndex": { "type": "number", "default": 5 },
     "ctaText": {
       "type": "string",
       "default": ""

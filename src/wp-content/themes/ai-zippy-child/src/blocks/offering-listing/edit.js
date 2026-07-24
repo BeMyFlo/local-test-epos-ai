@@ -1,6 +1,7 @@
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl, TextControl, TextareaControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
+import DecorPositionControls from '../_shared/DecorPositionControls.js';
 
 const emptyItem = { title: '', age: '', category: '', tagline: '', description: '', features: [], image: '', alt: '', ctaText: '', ctaUrl: '' };
 
@@ -13,6 +14,10 @@ export default function Edit({ attributes, setAttributes, name }) {
     setAttributes({ items: next });
   };
 
+  const {
+    decorLeftImage = '', decorLeftAlt = '', decorRightImage = '', decorRightAlt = '',
+  } = attributes;
+
   return (
     <>
       <InspectorControls>
@@ -21,6 +26,77 @@ export default function Edit({ attributes, setAttributes, name }) {
           <TextareaControl label="Subheading" value={attributes.subheading} onChange={(subheading) => setAttributes({ subheading })} />
           <SelectControl label="Layout" value={attributes.layout} options={[{ label: 'Grid', value: 'grid' }, { label: 'Carousel', value: 'carousel' }]} onChange={(layout) => setAttributes({ layout })} />
         </PanelBody>
+
+        <PanelBody title="Cartoon & Mascot Decorations" initialOpen={true}>
+          <div style={{ marginBottom: '20px' }}>
+            <strong style={{ display: 'block', marginBottom: '8px' }}>Mascot Left Image</strong>
+            <MediaUploadCheck>
+              <MediaUpload
+                allowedTypes={['image']}
+                onSelect={(media) => setAttributes({ decorLeftImage: media.url })}
+                render={({ open }) => (
+                  <>
+                    {decorLeftImage && (
+                      <div style={{ marginBottom: '8px' }}>
+                        <img src={decorLeftImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                      </div>
+                    )}
+                    <Button variant="secondary" onClick={open}>
+                      {decorLeftImage ? 'Change Image' : 'Select Image'}
+                    </Button>
+                    {decorLeftImage && (
+                      <Button variant="link" isDestructive onClick={() => setAttributes({ decorLeftImage: '' })} style={{ marginLeft: '10px' }}>
+                        Remove
+                      </Button>
+                    )}
+                  </>
+                )}
+              />
+            </MediaUploadCheck>
+            <TextControl label="Alt Text" value={decorLeftAlt} onChange={(val) => setAttributes({ decorLeftAlt: val })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decorLeft"
+              defaults={{ desktopX: 5, desktopY: 10, desktopSize: 140, mobileX: 5, mobileY: 10, mobileSize: 90, zIndex: 5 }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '20px' }}>
+            <strong style={{ display: 'block', marginBottom: '8px' }}>Mascot Right Image</strong>
+            <MediaUploadCheck>
+              <MediaUpload
+                allowedTypes={['image']}
+                onSelect={(media) => setAttributes({ decorRightImage: media.url })}
+                render={({ open }) => (
+                  <>
+                    {decorRightImage && (
+                      <div style={{ marginBottom: '8px' }}>
+                        <img src={decorRightImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                      </div>
+                    )}
+                    <Button variant="secondary" onClick={open}>
+                      {decorRightImage ? 'Change Image' : 'Select Image'}
+                    </Button>
+                    {decorRightImage && (
+                      <Button variant="link" isDestructive onClick={() => setAttributes({ decorRightImage: '' })} style={{ marginLeft: '10px' }}>
+                        Remove
+                      </Button>
+                    )}
+                  </>
+                )}
+              />
+            </MediaUploadCheck>
+            <TextControl label="Alt Text" value={decorRightAlt} onChange={(val) => setAttributes({ decorRightAlt: val })} style={{ marginTop: '8px' }} />
+            <DecorPositionControls
+              attributes={attributes}
+              setAttributes={setAttributes}
+              prefix="decorRight"
+              defaults={{ desktopX: 90, desktopY: 85, desktopSize: 160, mobileX: 85, mobileY: 85, mobileSize: 100, zIndex: 5 }}
+            />
+          </div>
+        </PanelBody>
+
         <PanelBody title="Offerings" initialOpen={false}>
           {items.map((item, index) => (
             <PanelBody title={item.title || `Offering ${index + 1}`} initialOpen={false} key={index}>

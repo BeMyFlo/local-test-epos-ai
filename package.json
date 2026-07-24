@@ -6,8 +6,8 @@
 	"description": "AI Zippy - WordPress FSE Theme + WooCommerce",
 	"author": "Zippy <dev@zippy.sg>",
 	"scripts": {
-		"dev": "concurrently -n vite,admin,blocks,bs -c cyan,blue,magenta,yellow \"NODE_ENV=development vite build --config vite.config.parent.js\" \"NODE_ENV=development vite build --config vite.config.admin.js\" \"wp-scripts start --webpack-src-dir=src/wp-content/themes/ai-zippy/src/blocks --output-path=src/wp-content/themes/ai-zippy/assets/blocks\" \"node bs.config.parent.js\"",
-		"dev:child": "concurrently -n vite,blocks,bs -c cyan,magenta,yellow \"NODE_ENV=development vite build --config vite.config.child.js\" \"wp-scripts start --webpack-src-dir=src/wp-content/themes/ai-zippy-child/src/blocks --output-path=src/wp-content/themes/ai-zippy-child/assets/blocks\" \"node bs.config.child.js\"",
+		"dev": "concurrently -n vite,admin,blocks,bs -c cyan,blue,magenta,yellow \"NODE_ENV=development vite build --watch --config vite.config.parent.js\" \"NODE_ENV=development vite build --watch --config vite.config.admin.js\" \"wp-scripts start --webpack-src-dir=src/wp-content/themes/ai-zippy/src/blocks --output-path=src/wp-content/themes/ai-zippy/assets/blocks\" \"node bs.config.parent.js\"",
+		"dev:child": "concurrently -n vite,blocks,bs -c cyan,magenta,yellow \"NODE_ENV=development vite build --watch --config vite.config.child.js\" \"wp-scripts start --webpack-src-dir=src/wp-content/themes/ai-zippy-child/src/blocks --output-path=src/wp-content/themes/ai-zippy-child/assets/blocks\" \"node bs.config.child.js\"",
 		"dev:admin": "NODE_ENV=development vite build --config vite.config.admin.js",
 		"dev:all": "concurrently -n parent,child -c cyan,green \"npm run dev\" \"npm run dev:child\"",
 		"build": "npm run build:parent && npm run build:child",

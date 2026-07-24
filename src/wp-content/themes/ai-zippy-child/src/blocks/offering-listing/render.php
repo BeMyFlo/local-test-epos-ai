@@ -1,21 +1,40 @@
 <?php
 defined('ABSPATH') || exit;
 
-$heading    = $attributes['heading'] ?? '';
-$subheading = $attributes['subheading'] ?? '';
-$layout     = $attributes['layout'] ?? 'grid';
-$items      = $attributes['items'] ?? [];
+$heading     = $attributes['heading'] ?? '';
+$subheading  = $attributes['subheading'] ?? '';
+$layout      = $attributes['layout'] ?? 'grid';
+$items       = $attributes['items'] ?? [];
 $is_carousel = 'carousel' === $layout;
 $instance_id = wp_unique_id('achiever-offerings-');
-$heading_id = $instance_id . '-heading';
-$track_id = $instance_id . '-track';
+$heading_id  = $instance_id . '-heading';
+$track_id    = $instance_id . '-track';
+
+$decor_left_image  = $attributes['decorLeftImage'] ?? '';
+$decor_left_alt    = $attributes['decorLeftAlt'] ?? 'Cartoon mascot left';
+$decor_right_image = $attributes['decorRightImage'] ?? '';
+$decor_right_alt   = $attributes['decorRightAlt'] ?? 'Cartoon mascot right';
+
+$decor_left_style  = function_exists('ai_zippy_child_decor_style')
+    ? ai_zippy_child_decor_style($attributes, 'decorLeft', ['zIndex' => 5, 'desktopX' => 5, 'desktopY' => 10, 'desktopSize' => 140, 'mobileX' => 5, 'mobileY' => 10, 'mobileSize' => 90])
+    : '';
+$decor_right_style = function_exists('ai_zippy_child_decor_style')
+    ? ai_zippy_child_decor_style($attributes, 'decorRight', ['zIndex' => 5, 'desktopX' => 90, 'desktopY' => 85, 'desktopSize' => 160, 'mobileX' => 85, 'mobileY' => 85, 'mobileSize' => 100])
+    : '';
 
 $wrapper_attributes = get_block_wrapper_attributes([
     'class' => 'achiever-offering-listing achiever-offering-listing--' . sanitize_html_class($layout),
     'data-offering-listing' => $is_carousel ? 'true' : 'false',
+    'style' => 'position: relative;',
 ]);
 ?>
 <section <?php echo $wrapper_attributes; ?>>
+  <?php if ($decor_left_image) : ?>
+    <div class="achiever-decor-mascot achiever-decor-mascot--left" style="<?php echo esc_attr($decor_left_style); ?>">
+      <img src="<?php echo esc_url($decor_left_image); ?>" alt="<?php echo esc_attr($decor_left_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
+
   <div class="achiever-offering-listing__inner">
     <?php if ($heading) : ?><h2 id="<?php echo esc_attr($heading_id); ?>" class="achiever-offering-listing__heading"><?php echo esc_html($heading); ?></h2><?php endif; ?>
     <?php if ($subheading) : ?><p class="achiever-offering-listing__subheading"><?php echo esc_html($subheading); ?></p><?php endif; ?>
@@ -57,4 +76,10 @@ $wrapper_attributes = get_block_wrapper_attributes([
       <?php endif; ?>
     </div>
   </div>
+
+  <?php if ($decor_right_image) : ?>
+    <div class="achiever-decor-mascot achiever-decor-mascot--right" style="<?php echo esc_attr($decor_right_style); ?>">
+      <img src="<?php echo esc_url($decor_right_image); ?>" alt="<?php echo esc_attr($decor_right_alt); ?>" loading="lazy" />
+    </div>
+  <?php endif; ?>
 </section>
