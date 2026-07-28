@@ -778,15 +778,18 @@ body .az-scroll-top.is-content-obscured {
     z-index: 1;
     display: grid !important;
     grid-template-columns: 1fr !important;
+    justify-items: center !important;
     gap: 32px !important;
     max-width: 1200px !important;
     margin: 0 auto !important;
-    text-align: left !important;
+    text-align: center !important;
 
     @media (min-width: 768px) {
       grid-template-columns: 1fr 1.15fr !important;
       align-items: center !important;
-      gap: 34px !important;
+      justify-items: stretch !important;
+      gap: 40px !important;
+      text-align: left !important;
     }
   }
   &__intro {
@@ -796,54 +799,68 @@ body .az-scroll-top.is-content-obscured {
     }
   }
   &__heading {
-    margin: 0 0 16px !important;
-    color: $navy !important;
-    font-family: "Baloo 2", sans-serif !important;
-    font-size: 32px !important;
-    font-weight: 800 !important;
-    line-height: 1.15 !important;
+    margin: 0 0 24px !important;
+    color: #5b7dba !important;
+    font-family: "Poppins", sans-serif !important;
+    font-size: 36px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.15em !important;
+    line-height: 1.2 !important;
     text-transform: uppercase !important;
 
     @media (min-width: 768px) {
-      font-size: 42px !important;
+      font-size: 52px !important;
     }
   }
   &__description {
     max-width: 560px;
-    margin: 0 !important;
-    color: $copy !important;
+    margin: 0 auto !important;
+    color: #5b7dba !important;
     font-size: 15px !important;
     line-height: 1.6 !important;
+
+    @media (min-width: 768px) {
+      margin: 0 !important;
+    }
   }
   &__showcase {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: 24px !important;
-
-    @media (min-width: 768px) {
-      align-items: flex-start !important;
-    }
+    gap: 36px !important;
+    width: 100% !important;
   }
   &__cta {
     align-self: center !important;
-    @media (min-width: 768px) {
-      align-self: flex-start !important;
-    }
   }
   &__grid {
     display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 40px !important;
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  &__row {
+    display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 22px 16px;
-    margin: 0 !important;
+    align-items: center;
+    gap: 24px 40px;
+    width: 100%;
+
     @media (min-width: 768px) {
-      justify-content: flex-start;
+      // Never wrap on desktop — the row keeps its logo count (3/4)
+      // and logos shrink instead of dropping to a new line.
+      flex-wrap: nowrap;
+      gap: clamp(24px, 4vw, 56px);
     }
   }
   &__item {
     display: block;
-    width: 112px;
+    flex: 0 1 calc(var(--brand-icon-size, 90) * 1px);
+    width: calc(var(--brand-icon-size, 90) * 1px);
+    min-width: 0;
     height: auto !important;
     min-height: 0 !important;
     padding: 0 !important;
@@ -863,34 +880,27 @@ body .az-scroll-top.is-content-obscured {
   }
   &__item:not(:has(img))::before {
     display: block;
-    width: 90px !important;
-    min-width: 90px !important;
-    max-width: 90px !important;
-    height: 90px !important;
-    min-height: 90px !important;
-    max-height: 90px !important;
-    flex: none;
+    width: 100% !important;
+    height: auto !important;
     box-sizing: border-box;
     aspect-ratio: 1;
-    margin: 0 auto 8px;
-    border-radius: 50% !important;
+    margin: 0 auto;
+    border-radius: 0 !important;
     background: linear-gradient(135deg, #fff, #cdeef8);
     content: "";
   }
   &__icon {
     display: block;
-    width: 90px !important;
-    min-width: 90px;
-    max-width: 90px;
-    height: 90px !important;
-    min-height: 90px;
-    max-height: 90px;
-    flex: none;
+    width: 100% !important;
+    height: auto !important;
     box-sizing: border-box;
     aspect-ratio: 1;
-    margin: 0 auto 8px;
-    border-radius: 50% !important;
-    object-fit: cover;
+    margin: 0 auto;
+    border-radius: 0 !important;
+    object-fit: contain;
+  }
+  &__name {
+    display: none !important;
   }
   &__decor {
     position: absolute;
@@ -958,11 +968,18 @@ body .az-scroll-top.is-content-obscured {
   height: 80px !important;
   border-radius: 50% !important;
   background: #fdf1b8 !important;
+  color: #5b7dba !important;
 
   img {
     width: 36px;
     height: 36px;
     object-fit: contain;
+  }
+
+  svg {
+    display: block;
+    width: 40px;
+    height: 40px;
   }
 }
 .achiever-brands__feature:nth-child(6n + 2) .achiever-brands__feature-icon {
@@ -2570,5 +2587,130 @@ body .az-scroll-top.is-content-obscured {
 @media (max-width: 782px) {
   body.admin-bar .wp-site-blocks > header.wp-block-template-part {
     top: 46px;
+  }
+}
+
+// =============================================================================
+// Full-bleed home sliders (party / brands gallery / instagram)
+// Design: edge-to-edge photo strip, no gaps, no rounding, 3 tiles per view,
+// overlay chevron arrows. Loop + autoplay handled by child.js scroll sliders.
+// =============================================================================
+.achiever-party__gallery-slider,
+.achiever-brands__gallery-slider,
+.achiever-instagram__slider {
+  position: relative !important;
+  display: block !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  margin: 32px calc(50% - 50vw) 0 !important;
+  padding: 0 !important;
+}
+
+.achiever-party__gallery-slider .achiever-party__photos,
+.achiever-brands__gallery-slider .achiever-brands__gallery,
+.achiever-instagram__slider .achiever-instagram__grid {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  justify-content: flex-start !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow-x: auto !important;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory !important;
+  scrollbar-width: none !important;
+
+  &::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
+.achiever-party__gallery-slider .achiever-party__photo-slot,
+.achiever-brands__gallery-slider .achiever-brands__gallery-item,
+.achiever-instagram__slider .achiever-instagram__item {
+  flex: 0 0 calc(100vw / 3) !important;
+  width: calc(100vw / 3) !important;
+  min-width: 0 !important;
+  height: 365px !important;
+  aspect-ratio: auto !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+  background: none !important;
+  box-shadow: none !important;
+  transform: none !important;
+  scroll-snap-align: start !important;
+}
+
+.achiever-party__gallery-slider .achiever-party__photo-slot img,
+.achiever-brands__gallery-slider .achiever-brands__gallery-item img,
+.achiever-instagram__slider .achiever-instagram__item img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 0 !important;
+  object-fit: cover !important;
+}
+
+// Overlay chevron arrows on the strip
+.achiever-party__gallery-slider .achiever-scroll-arrow,
+.achiever-brands__gallery-slider .achiever-scroll-arrow,
+.achiever-instagram__slider .achiever-scroll-arrow {
+  top: 50% !important;
+  z-index: 5 !important;
+  width: 58px !important;
+  height: 88px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: #fff !important;
+  font-size: 72px !important;
+  font-weight: 300 !important;
+  line-height: 1 !important;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+}
+
+.achiever-party__gallery-slider .achiever-scroll-arrow--prev,
+.achiever-brands__gallery-slider .achiever-scroll-arrow--prev,
+.achiever-instagram__slider .achiever-scroll-arrow--prev {
+  left: 12px !important;
+}
+
+.achiever-party__gallery-slider .achiever-scroll-arrow--next,
+.achiever-brands__gallery-slider .achiever-scroll-arrow--next,
+.achiever-instagram__slider .achiever-scroll-arrow--next {
+  right: 12px !important;
+}
+
+@media (max-width: 767px) {
+  .achiever-party__gallery-slider .achiever-party__photo-slot,
+  .achiever-brands__gallery-slider .achiever-brands__gallery-item,
+  .achiever-instagram__slider .achiever-instagram__item {
+    flex-basis: 86vw !important;
+    width: 86vw !important;
+    height: 300px !important;
+  }
+
+  .achiever-party__gallery-slider .achiever-scroll-arrow,
+  .achiever-brands__gallery-slider .achiever-scroll-arrow,
+  .achiever-instagram__slider .achiever-scroll-arrow {
+    width: 44px !important;
+    height: 68px !important;
+    font-size: 56px !important;
+  }
+}
+
+// =============================================================================
+// EXPLORE OUR CLASSES — same card sizing as the Seasonal slider (4 visible,
+// 5th overflows) so it shares the exact same smooth glide-scroll behavior.
+// =============================================================================
+@media (min-width: 1101px) {
+  html body .achiever-scroll-slider .achiever-class-types__grid > * {
+    flex: 0 0 calc(25% - 18px) !important;
+    width: auto !important;
+    max-width: none !important;
   }
 }

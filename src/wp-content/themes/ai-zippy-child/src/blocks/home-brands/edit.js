@@ -1,6 +1,6 @@
 import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { Button, PanelBody, TextareaControl, TextControl } from '@wordpress/components';
+import { Button, PanelBody, RangeControl, TextareaControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import DecorPositionControls from '../_shared/DecorPositionControls.js';
 export default function Edit({ attributes, setAttributes, name }) {
@@ -127,6 +127,22 @@ export default function Edit({ attributes, setAttributes, name }) {
       </PanelBody>
 
       <PanelBody title="Brand items" initialOpen={false}>
+        <RangeControl
+          label="Logo size (px)"
+          value={attributes.brandIconSize ?? 120}
+          onChange={(brandIconSize) => setAttributes({ brandIconSize })}
+          min={40}
+          max={240}
+          step={2}
+        />
+        <RangeControl
+          label="Logos in first row"
+          value={attributes.brandsFirstRow ?? 3}
+          onChange={(brandsFirstRow) => setAttributes({ brandsFirstRow })}
+          min={1}
+          max={8}
+          step={1}
+        />
         {brands.map((item, index) => <PanelBody key={index} title={item.name || `Item ${index + 1}`} initialOpen={false}>
           <TextControl label="Name" value={item.name || ''} onChange={(v) => updateItem('brands', index, 'name', v)} />
           <div style={{ marginBottom: '15px' }}>

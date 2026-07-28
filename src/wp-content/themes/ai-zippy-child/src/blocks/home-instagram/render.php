@@ -34,7 +34,7 @@ $track_id = wp_unique_id('achiever-instagram-track-');
     </div>
   <?php endif; ?>
   <h2 class="achiever-instagram__heading"><?php echo esc_html($heading); ?></h2>
-  <div class="achiever-scroll-slider achiever-instagram__slider" data-scroll-slider>
+  <div class="achiever-scroll-slider achiever-instagram__slider" data-scroll-slider data-scroll-autoplay>
     <button type="button" class="achiever-scroll-arrow achiever-scroll-arrow--prev achiever-instagram__arrow achiever-instagram__arrow--prev" data-scroll-prev aria-controls="<?php echo esc_attr($track_id); ?>" aria-label="Previous Instagram posts">&#8249;</button>
     <div id="<?php echo esc_attr($track_id); ?>" class="achiever-instagram__grid achiever-scroll-track" data-scroll-track tabindex="0">
       <?php foreach ($images as $image) :

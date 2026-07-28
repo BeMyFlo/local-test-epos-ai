@@ -7,6 +7,8 @@
  * - Smooth scroll for anchor links
  */
 
+import initMarquee from '../blocks/_shared/marquee.js';
+
 // === Fade-up scroll animations ===
 document.addEventListener('DOMContentLoaded', () => {
   const fadeElements = document.querySelectorAll('.fade-up');
@@ -187,69 +189,30 @@ function initAchieverScrollSliders() {
       item.dataset.originalIndex = index;
     });
 
-    const getItemStep = () => {
-      const item = track.firstElementChild;
-      if (!item) return track.clientWidth * 0.8;
-      const styles = window.getComputedStyle(track);
-      const parsedGap = Number.parseFloat(styles.columnGap || styles.gap || '0');
-      const gap = Number.isFinite(parsedGap) ? parsedGap : 0;
-      return item.getBoundingClientRect().width + gap;
-    };
+    // Unified smooth slider mechanics. Auto-drift only for full-width photo
+    // strips marked with data-scroll-marquee / data-scroll-autoplay — card
+    // sliders stay still and move only on arrow clicks (smooth, infinite loop).
+    const marqueeApi = initMarquee(slider, track, previous, next, {
+      speed: Number.parseFloat(slider.dataset.scrollMarquee) || 1.6,
+      autoDrift: slider.hasAttribute('data-scroll-marquee') || slider.hasAttribute('data-scroll-autoplay'),
+      onWrap: () => updateDots(),
+    });
 
-    let isMoving = false;
-
-    // Seamless forward loop
-    const moveNext = () => {
-      if (isMoving || track.children.length < 2) return;
-      isMoving = true;
-      const step = getItemStep();
-
-      track.scrollBy({ left: step, behavior: 'smooth' });
-
-      setTimeout(() => {
-        if (track.firstElementChild) {
-          track.appendChild(track.firstElementChild);
-          const oldBehavior = track.style.scrollBehavior;
-          track.style.scrollBehavior = 'auto';
-          track.scrollLeft = Math.max(0, track.scrollLeft - step);
-          track.style.scrollBehavior = oldBehavior;
-        }
-        updateDots();
-        isMoving = false;
-      }, 320);
-    };
-
-    // Seamless backward loop
-    const movePrev = () => {
-      if (isMoving || track.children.length < 2) return;
-      isMoving = true;
-      const step = getItemStep();
-
-      if (track.lastElementChild) {
-        track.prepend(track.lastElementChild);
-        const oldBehavior = track.style.scrollBehavior;
-        track.style.scrollBehavior = 'auto';
-        track.scrollLeft += step;
-        track.style.scrollBehavior = oldBehavior;
-      }
-
-      requestAnimationFrame(() => {
-        track.scrollBy({ left: -step, behavior: 'smooth' });
-        setTimeout(() => {
-          updateDots();
-          isMoving = false;
-        }, 320);
-      });
-    };
-
-    if (previous) previous.addEventListener('click', movePrev);
-    if (next) next.addEventListener('click', moveNext);
-
-    // Support dots click & scroll active state sync with dynamic item count
-    const parent = slider.parentElement || slider.closest('.achiever-testimonials, section, div');
-    let dotsContainer = parent ? parent.querySelector('.achiever-testimonials__dots, .achiever-scroll-dots') : null;
-    if (!dotsContainer && slider.querySelector('.achiever-scroll-dots')) {
+    // Support dots click & scroll active state sync with dynamic item count.
+    // Only direct siblings count — a deep querySelector let unrelated sliders
+    // higher in the DOM claim (and hijack) another section's dots.
+    const parent = slider.parentElement;
+    let dotsContainer = parent
+      ? Array.from(parent.children).find((el) => el.matches('.achiever-testimonials__dots, .achiever-scroll-dots'))
+      : null;
+    if (!dotsContainer) {
       dotsContainer = slider.querySelector('.achiever-scroll-dots');
+    }
+    if (dotsContainer && dotsContainer.dataset.dotsBound === 'true') {
+      dotsContainer = null;
+    }
+    if (dotsContainer) {
+      dotsContainer.dataset.dotsBound = 'true';
     }
 
     let dots = [];
@@ -273,12 +236,16 @@ function initAchieverScrollSliders() {
       dots.forEach((dot, index) => {
         dot.style.cursor = 'pointer';
         dot.addEventListener('click', () => {
-          if (isMoving) return;
-          const targetItem = track.querySelector(`[data-original-index="${index}"]`);
-          if (targetItem) {
-            targetItem.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
-            setTimeout(updateDots, 350);
-          }
+          // Glide the track itself (circular, shortest direction) — never
+          // scrollIntoView, which also scrolls the page vertically.
+          const total = initialItems.length;
+          const current = Number.parseInt(track.firstElementChild?.dataset.originalIndex ?? '0', 10) || 0;
+          const forward = (index - current + total) % total;
+          const backward = (current - index + total) % total;
+          if (forward === 0 || !marqueeApi) return;
+          if (forward <= backward) marqueeApi.glideItems(forward, 1);
+          else marqueeApi.glideItems(backward, -1);
+          setTimeout(updateDots, 600);
         });
       });
     }
@@ -312,6 +279,10 @@ function initAchieverScrollSliders() {
 
     track.addEventListener('scroll', updateDots, { passive: true });
     updateDots();
+    // Layout shifts while images lazy-load can leave the initial computation
+    // stale — re-sync once everything has settled.
+    window.addEventListener('load', updateDots, { once: true });
+    setTimeout(updateDots, 1500);
   });
 }
 

@@ -2346,8 +2346,19 @@ main.achiever-page,
 .achiever-seasonal__card, .achiever-products__card { border-radius: 18px; overflow: hidden; box-shadow: 0 8px 20px rgba(82,96,139,.1); }
 .achiever-seasonal__card { background: #d6f1ff; }
 .achiever-products__card { display: block; background: #fffbd1; }
-.achiever-seasonal__card-image, .achiever-products__card-img { height: auto; aspect-ratio: 1; background: #fff8cf; }
-.achiever-seasonal__card-image img, .achiever-products__card-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+// These classes sit on the <img> itself (no wrapper div) — size and crop it
+// directly. Width accounts for the 10px inset frame so the image never
+// overflows the card edge.
+.achiever-seasonal__card-image, .achiever-products__card-img {
+  display: block;
+  width: calc(100% - 20px);
+  height: auto;
+  aspect-ratio: 1;
+  margin: 10px 10px 0;
+  object-fit: cover;
+  object-position: center 30%;
+  background: #fff8cf;
+}
 .achiever-seasonal__card:nth-child(2) img { object-position: center 39%; }
 .achiever-seasonal__card:nth-child(3) img { object-position: center 46%; }
 .achiever-seasonal__card:nth-child(4) img { object-position: center 20%; }
@@ -4624,9 +4635,7 @@ main.achiever-page,
   transition: all 0.2s ease !important;
 
   &:hover {
-    background: #ff6584 !important;
-    color: #ffffff !important;
-    transform: translateY(-50%) scale(1.08) !important;
+    background: transparent !important;
   }
 
   &--prev {
@@ -4653,8 +4662,7 @@ html body .achiever-products__title,
 html body .achiever-party__title,
 html body .achiever-instagram__title,
 html body .achiever-instagram__heading,
-html body .achiever-testimonials__title,
-html body .achiever-brands__heading {
+html body .achiever-testimonials__title {
   font-size: 70px !important;
   line-height: 1.1 !important;
 }

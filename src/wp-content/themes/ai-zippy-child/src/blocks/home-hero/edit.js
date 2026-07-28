@@ -1,6 +1,6 @@
 import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { Button, PanelBody, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
+import { Button, PanelBody, RangeControl, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
