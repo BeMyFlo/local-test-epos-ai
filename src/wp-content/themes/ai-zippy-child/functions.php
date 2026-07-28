@@ -1041,7 +1041,12 @@ function ai_zippy_child_override_css(): string
 }
 
 add_action('wp_enqueue_scripts', function (): void {
-    wp_add_inline_style('wp-block-library', ai_zippy_child_override_css());
+    // Own dedicated handle — attaching to 'wp-block-library' silently drops the
+    // CSS on installs that load core block styles separately (handle never
+    // enqueued), which is exactly what happened on staging.
+    wp_register_style('achiever-art-overrides', false, [], null);
+    wp_enqueue_style('achiever-art-overrides');
+    wp_add_inline_style('achiever-art-overrides', ai_zippy_child_override_css());
 }, 9999);
 
 // === Hide the default WooCommerce shop archive title (page-hero banner already shows it) ===
