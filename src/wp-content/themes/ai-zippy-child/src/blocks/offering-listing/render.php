@@ -9,6 +9,10 @@ $is_carousel = 'carousel' === $layout;
 $instance_id = wp_unique_id('achiever-offerings-');
 $heading_id  = $instance_id . '-heading';
 $track_id    = $instance_id . '-track';
+$background_style = 'position:relative;background-color:' . (sanitize_hex_color($attributes['backgroundColor'] ?? '#ffffff') ?: '#ffffff') . ';';
+if (!empty($attributes['backgroundImage'])) {
+    $background_style .= 'background-image:url(' . esc_url($attributes['backgroundImage']) . ');background-size:cover;background-position:center;';
+}
 
 $decor_left_image  = $attributes['decorLeftImage'] ?? '';
 $decor_left_alt    = $attributes['decorLeftAlt'] ?? 'Cartoon mascot left';
@@ -25,7 +29,7 @@ $decor_right_style = function_exists('ai_zippy_child_decor_style')
 $wrapper_attributes = get_block_wrapper_attributes([
     'class' => 'achiever-offering-listing achiever-offering-listing--' . sanitize_html_class($layout),
     'data-offering-listing' => $is_carousel ? 'true' : 'false',
-    'style' => 'position: relative;',
+    'style' => $background_style,
 ]);
 ?>
 <section <?php echo $wrapper_attributes; ?>>

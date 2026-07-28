@@ -1,8 +1,8 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { Button, PanelBody, SelectControl, TextControl, TextareaControl } from '@wordpress/components';
+import { Button, PanelBody, SelectControl, TextareaControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import DecorPositionControls from '../_shared/DecorPositionControls.js';
-
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
 
@@ -63,6 +63,7 @@ export default function Edit({ attributes, setAttributes, name }) {
           />
         </PanelBody>
         <PanelBody title="Banner Image" initialOpen={false}>
+          <SelectedImagePreview url={attributes.backgroundImage} alt={attributes.backgroundAlt} fallback="Selected banner image" />
           <MediaUploadCheck>
             <MediaUpload
               allowedTypes={['image']}
@@ -86,6 +87,7 @@ export default function Edit({ attributes, setAttributes, name }) {
           />
         </PanelBody>
         <PanelBody title="Mascot Image" initialOpen={false}>
+          <SelectedImagePreview url={attributes.mascotImage} alt={attributes.mascotAlt} fallback="Selected mascot image" />
           <MediaUploadCheck>
             <MediaUpload
               allowedTypes={['image']}

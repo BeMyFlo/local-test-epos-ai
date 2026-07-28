@@ -12,13 +12,20 @@ $breadcrumb_home_text = $attributes['breadcrumbHomeText'] ?? 'Home';
 $breadcrumb_home_url = $attributes['breadcrumbHomeUrl'] ?? '/';
 $breadcrumb_current = $attributes['breadcrumbCurrent'] ?? 'Regular Art Classes';
 $section_title = $attributes['sectionTitle'] ?? 'REGULAR ART CLASSES';
+$background_image = $attributes['backgroundImage'] ?? '';
 $classes       = $attributes['classes'] ?? [];
 $track_id      = wp_unique_id('achiever-classes-track-');
+
+// When a custom background image is set in the editor, output it as an inline
+// style so it overrides the default image defined in CSS. Empty = keep the CSS default.
+$title_section_style = $background_image
+    ? sprintf(' style="background-image:url(%s)"', esc_url($background_image))
+    : '';
 
 $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-classes-hero']);
 ?>
 <div <?php echo $wrapper_attributes; ?>>
-  <section class="achiever-classes-hero__title-section">
+  <section class="achiever-classes-hero__title-section"<?php echo $title_section_style; ?>>
     <div class="achiever-classes-hero__inner">
       <nav class="achiever-classes-hero__breadcrumb" aria-label="Breadcrumb">
         <a href="<?php echo esc_url($breadcrumb_home_url); ?>"><?php echo esc_html($breadcrumb_home_text); ?></a>

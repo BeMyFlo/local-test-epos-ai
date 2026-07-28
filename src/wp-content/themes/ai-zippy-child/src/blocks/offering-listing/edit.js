@@ -1,8 +1,8 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { Button, PanelBody, SelectControl, TextControl, TextareaControl } from '@wordpress/components';
+import { Button, ColorPicker, PanelBody, SelectControl, TextareaControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import DecorPositionControls from '../_shared/DecorPositionControls.js';
-
 const emptyItem = { title: '', age: '', category: '', tagline: '', description: '', features: [], image: '', alt: '', ctaText: '', ctaUrl: '' };
 
 export default function Edit({ attributes, setAttributes, name }) {
@@ -26,6 +26,11 @@ export default function Edit({ attributes, setAttributes, name }) {
           <TextareaControl label="Subheading" value={attributes.subheading} onChange={(subheading) => setAttributes({ subheading })} />
           <SelectControl label="Layout" value={attributes.layout} options={[{ label: 'Grid', value: 'grid' }, { label: 'Carousel', value: 'carousel' }]} onChange={(layout) => setAttributes({ layout })} />
         </PanelBody>
+        <PanelBody title="Background" initialOpen={false}>
+          <ColorPicker color={attributes.backgroundColor} onChange={(backgroundColor) => setAttributes({ backgroundColor })} />
+          <SelectedImagePreview url={attributes.backgroundImage} fallback="Selected background image" /><MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => setAttributes({ backgroundImage: media.url })} render={({ open }) => <Button variant="secondary" onClick={open}>{attributes.backgroundImage ? 'Change background image' : 'Select background image'}</Button>} /></MediaUploadCheck>
+          {attributes.backgroundImage && <Button variant="link" isDestructive onClick={() => setAttributes({ backgroundImage: '' })}>Remove background image</Button>}
+        </PanelBody>
 
         <PanelBody title="Cartoon & Mascot Decorations" initialOpen={true}>
           <div style={{ marginBottom: '20px' }}>
@@ -38,7 +43,7 @@ export default function Edit({ attributes, setAttributes, name }) {
                   <>
                     {decorLeftImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={decorLeftImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={decorLeftImage} alt={decorLeftAlt} fallback="Selected left decoration" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>
@@ -72,7 +77,7 @@ export default function Edit({ attributes, setAttributes, name }) {
                   <>
                     {decorRightImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={decorRightImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={decorRightImage} alt={decorRightAlt} fallback="Selected right decoration" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>
@@ -106,7 +111,7 @@ export default function Edit({ attributes, setAttributes, name }) {
               <TextControl label="Tagline" value={item.tagline || ''} onChange={(tagline) => updateItem(index, { tagline })} />
               <TextareaControl label="Description" value={item.description || ''} onChange={(description) => updateItem(index, { description })} />
               <TextareaControl label="Features (one per line)" value={(item.features || []).join('\n')} onChange={(value) => updateItem(index, { features: value.split('\n').filter((line) => line.trim()) })} />
-              <MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => updateItem(index, { image: media.url, alt: media.alt || item.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{item.image ? 'Change image' : 'Select image'}</Button>} /></MediaUploadCheck>
+              <SelectedImagePreview url={item.image} alt={item.alt} fallback="Selected offering image" /><MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => updateItem(index, { image: media.url, alt: media.alt || item.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{item.image ? 'Change image' : 'Select image'}</Button>} /></MediaUploadCheck>
               <TextControl label="Image URL" value={item.image || ''} onChange={(image) => updateItem(index, { image })} />
               <TextControl label="Image Alt Text" value={item.alt || ''} onChange={(alt) => updateItem(index, { alt })} />
               <TextControl label="CTA Text" value={item.ctaText || ''} onChange={(ctaText) => updateItem(index, { ctaText })} />

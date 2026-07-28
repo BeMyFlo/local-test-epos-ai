@@ -60,14 +60,8 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-course-
 ?>
 <div <?php echo $wrapper_attributes; ?>>
 
-  <!-- SECTION 1: HERO / TITLE SECTION -->
-  <section class="achiever-course-intro__hero">
-    <div class="achiever-course-intro__tagline">
-      <p class="achiever-course-intro__tagline-title"><?php echo esc_html($tagline); ?></p>
-      <p class="achiever-course-intro__tagline-copy"><?php echo esc_html($tagline_description); ?></p>
-    </div>
-    <h1 class="achiever-course-intro__heading"><?php echo esc_html($heading); ?></h1>
-  </section>
+  <?php /* SECTION 1 (hero: tagline + heading) is now the separate
+           ai-zippy/course-banner block so it can be edited independently. */ ?>
 
   <!-- SECTION 2: DESCRIPTION & INFO CARD (PINK SECTION) -->
   <section class="achiever-course-intro__pink-section">
@@ -97,7 +91,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-course-
     
     <!-- Curved Wave Divider -->
     <div class="achiever-course-intro__wave" aria-hidden="true">
-      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,32L80,42.7C160,53,320,75,480,80C640,85,800,75,960,58.7C1120,43,1280,21,1360,10.7L1440,0L1440,120L1360,120C1280,120,1120,120,960,120C320,120,160,120,80,120L0,120Z" fill="#ffffff"></path></svg>
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,70 C260,70 520,84 780,84 C1040,84 1240,40 1440,52 L1440,120 L0,120 Z" fill="#ffffff"></path></svg>
     </div>
   </section>
 

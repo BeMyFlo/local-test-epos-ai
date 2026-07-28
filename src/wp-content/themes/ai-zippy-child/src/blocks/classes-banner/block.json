@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/classes-banner",
+  "version": "1.0.0",
+  "title": "Classes Banner",
+  "category": "achiever-classes",
+  "icon": "cover-image",
+  "description": "Page banner: tagline, breadcrumb, heading and editable background image.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "tagline": { "type": "string", "default": "" },
+    "taglineDescription": { "type": "string", "default": "" },
+    "heading": { "type": "string", "default": "REGULAR\nART CLASSES" },
+    "breadcrumbHomeText": { "type": "string", "default": "Home" },
+    "breadcrumbHomeUrl": { "type": "string", "default": "/" },
+    "breadcrumbCurrent": { "type": "string", "default": "Regular Art Classes" },
+    "backgroundImage": { "type": "string", "default": "" },
+    "backgroundAlt": { "type": "string", "default": "Banner background" }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

@@ -1,0 +1,103 @@
+.achiever-course-overview {
+  .achiever-course-intro__pink-section {
+    min-height: 565px !important;
+    padding: 60px 20px 0 !important;
+  }
+
+  .achiever-course-intro__pink-section .achiever-course-intro__container {
+    width: 100% !important;
+    max-width: 1180px !important;
+    padding-inline: 20px !important;
+  }
+
+  .achiever-course-intro__description {
+    max-width: 1030px !important;
+    margin-inline: auto !important;
+
+    p {
+      margin-bottom: 20px !important;
+      font-size: 22px !important;
+      font-weight: 400 !important;
+      line-height: 1.22 !important;
+    }
+  }
+
+  .achiever-course-intro__info-wrapper {
+    width: 100% !important;
+    max-width: 1180px !important;
+    margin-top: 52px !important;
+  }
+
+  &__decor-scissors {
+    left: calc(var(--decor-left-desktop-x, 15) * 1%) !important;
+    top: calc(var(--decor-left-desktop-y, 85) * 1%) !important;
+    width: calc(var(--decor-left-desktop-size, 200) * 1px) !important;
+
+    svg,
+    img {
+      width: 100% !important;
+      max-width: none !important;
+      height: auto !important;
+    }
+  }
+
+  &__info-pill {
+    min-width: 356px !important;
+    min-height: 130px !important;
+  }
+
+  &__decor-rocket {
+    left: calc(var(--decor-rocket-desktop-x, 86) * 1%) !important;
+    top: calc(var(--decor-rocket-desktop-y, 50) * 1%) !important;
+    width: calc(var(--decor-rocket-desktop-size, 450) * 1px) !important;
+    right: auto !important;
+    transform: translate(-50%, -50%) !important;
+
+    img {
+      width: 100% !important;
+      max-width: none !important;
+      height: auto !important;
+    }
+  }
+}
+
+.achiever-course-intro__decor-scissors.achiever-course-overview__decor-scissors {
+  left: calc(var(--decor-left-desktop-x, 15) * 1%) !important;
+  top: calc(var(--decor-left-desktop-y, 85) * 1%) !important;
+  width: calc(var(--decor-left-desktop-size, 200) * 1px) !important;
+
+  svg,
+  img {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .achiever-course-intro__decor-scissors.achiever-course-overview__decor-scissors {
+    left: calc(var(--decor-left-mobile-x, 15) * 1%) !important;
+    top: calc(var(--decor-left-mobile-y, 85) * 1%) !important;
+    width: calc(var(--decor-left-mobile-size, 130) * 1px) !important;
+  }
+}
+
+.achiever-course-intro__decor-rocket.achiever-course-overview__decor-rocket {
+  left: calc(var(--decor-rocket-desktop-x, 86) * 1%) !important;
+  top: calc(var(--decor-rocket-desktop-y, 50) * 1%) !important;
+  width: calc(var(--decor-rocket-desktop-size, 450) * 1px) !important;
+  right: auto !important;
+  transform: translate(-50%, -50%) !important;
+
+  img {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .achiever-course-intro__decor-rocket.achiever-course-overview__decor-rocket {
+    left: calc(var(--decor-rocket-mobile-x, 86) * 1%) !important;
+    top: calc(var(--decor-rocket-mobile-y, 50) * 1%) !important;
+    width: calc(var(--decor-rocket-mobile-size, 450) * 1px) !important;
+  }
+}

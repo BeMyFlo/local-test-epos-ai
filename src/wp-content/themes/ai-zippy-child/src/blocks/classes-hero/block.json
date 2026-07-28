@@ -15,6 +15,8 @@
     "breadcrumbHomeText": { "type": "string", "default": "Home" },
     "breadcrumbHomeUrl": { "type": "string", "default": "/" },
     "breadcrumbCurrent": { "type": "string", "default": "Regular Art Classes" },
+    "backgroundImage": { "type": "string", "default": "" },
+    "backgroundAlt": { "type": "string", "default": "Banner background" },
     "sectionTitle": { "type": "string", "default": "REGULAR ART CLASSES" },
     "classes": {
       "type": "array",

@@ -1,7 +1,7 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { Button, PanelBody, TextControl, TextareaControl } from '@wordpress/components';
+import { Button, PanelBody, TextareaControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
-
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
   const updateArray = (key, index, patch) => {
@@ -22,7 +22,7 @@ export default function Edit({ attributes, setAttributes, name }) {
         <TextControl label="Heading" value={attributes.heading} onChange={(heading) => setAttributes({ heading })} />
         <TextControl label="Age Range" value={attributes.ageRange} onChange={(ageRange) => setAttributes({ ageRange })} />
         <TextareaControl label="Description" value={attributes.description} onChange={(description) => setAttributes({ description })} />
-        <MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => setAttributes({ mainImage: media.url, mainImageAlt: media.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{attributes.mainImage ? 'Change image' : 'Select image'}</Button>} /></MediaUploadCheck>
+        <SelectedImagePreview url={attributes.mainImage} alt={attributes.mainImageAlt} fallback="Selected main image" /><MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => setAttributes({ mainImage: media.url, mainImageAlt: media.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{attributes.mainImage ? 'Change image' : 'Select image'}</Button>} /></MediaUploadCheck>
         <TextControl label="Image URL" value={attributes.mainImage} onChange={(mainImage) => setAttributes({ mainImage })} />
         <TextControl label="Image Alt Text" value={attributes.mainImageAlt} onChange={(mainImageAlt) => setAttributes({ mainImageAlt })} />
         <TextControl label="Information Title" value={attributes.infoTitle} onChange={(infoTitle) => setAttributes({ infoTitle })} />
@@ -36,7 +36,7 @@ export default function Edit({ attributes, setAttributes, name }) {
         {(attributes.relatedItems || []).map((item, index) => <PanelBody title={item.title || `Related ${index + 1}`} initialOpen={false} key={index}>
           <TextControl label="Title" value={item.title || ''} onChange={(title) => updateArray('relatedItems', index, { title })} />
           <TextControl label="URL" value={item.url || ''} onChange={(url) => updateArray('relatedItems', index, { url })} />
-          <MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => updateArray('relatedItems', index, { image: media.url, alt: media.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{item.image ? 'Change image' : 'Select image'}</Button>} /></MediaUploadCheck>
+          <SelectedImagePreview url={item.image} alt={item.alt} fallback="Selected related image" /><MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => updateArray('relatedItems', index, { image: media.url, alt: media.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{item.image ? 'Change image' : 'Select image'}</Button>} /></MediaUploadCheck>
           <TextControl label="Image URL" value={item.image || ''} onChange={(image) => updateArray('relatedItems', index, { image })} />
           <TextControl label="Image Alt Text" value={item.alt || ''} onChange={(alt) => updateArray('relatedItems', index, { alt })} />
           <Button isDestructive variant="secondary" onClick={() => removeArrayItem('relatedItems', index)}>Remove related service</Button>
@@ -46,7 +46,7 @@ export default function Edit({ attributes, setAttributes, name }) {
       <PanelBody title="Gallery" initialOpen={false}>
         <TextControl label="Gallery Title" value={attributes.galleryTitle} onChange={(galleryTitle) => setAttributes({ galleryTitle })} />
         {galleryImages.map((item, index) => <div key={index}>
-          <MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => updateArray('galleryImages', index, { url: media.url, alt: media.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{item.url ? 'Change image' : `Select image ${index + 1}`}</Button>} /></MediaUploadCheck>
+          <SelectedImagePreview url={item.url} alt={item.alt} fallback="Selected gallery image" /><MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => updateArray('galleryImages', index, { url: media.url, alt: media.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{item.url ? 'Change image' : `Select image ${index + 1}`}</Button>} /></MediaUploadCheck>
           <TextControl label="Image URL" value={item.url || ''} onChange={(url) => updateArray('galleryImages', index, { url })} />
           <TextControl label="Alt Text" value={item.alt || ''} onChange={(alt) => updateArray('galleryImages', index, { alt })} />
           <Button isDestructive variant="link" onClick={() => removeArrayItem('galleryImages', index)}>Remove image</Button>

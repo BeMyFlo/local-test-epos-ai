@@ -1,7 +1,7 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { Button, PanelBody, RangeControl, TextControl, TextareaControl, ToggleControl } from '@wordpress/components';
+import { Button, PanelBody, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
-
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
   const slides = attributes.slides || [];
@@ -49,7 +49,7 @@ export default function Edit({ attributes, setAttributes, name }) {
                   <>
                     {attributes.backgroundImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={attributes.backgroundImage} alt="" style={{ maxWidth: '100%', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={attributes.backgroundImage} alt={attributes.backgroundAlt} fallback="Selected background image" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>
@@ -76,7 +76,7 @@ export default function Edit({ attributes, setAttributes, name }) {
                   <>
                     {attributes.paintJarImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={attributes.paintJarImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={attributes.paintJarImage} alt={attributes.paintJarAlt} fallback="Selected paint jar image" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>

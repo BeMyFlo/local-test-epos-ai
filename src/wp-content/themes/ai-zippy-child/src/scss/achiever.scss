@@ -2464,29 +2464,16 @@ main.achiever-page,
   margin-bottom: 30px !important;
 }
 .achiever-instagram__slider { position: relative; max-width: 100%; margin: 0 auto; }
+// Instagram arrows reuse the shared .achiever-scroll-arrow style (round white
+// button, navy chevron) so all slider arrows match. Only the position is tuned
+// so the buttons sit just over the image row's edges.
 .achiever-instagram__arrow {
-  position: absolute !important;
-  top: 50% !important;
-  transform: translateY(-50%) !important;
-  z-index: 10 !important;
-  background: transparent !important;
-  border: none !important;
-  color: #ffffff !important;
-  font-size: 52px !important;
-  font-weight: 300 !important;
-  line-height: 1 !important;
-  padding: 10px 15px !important;
-  cursor: pointer !important;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5)) !important;
-  transition: transform 0.2s ease, opacity 0.2s ease !important;
-
   &:hover {
-    transform: translateY(-50%) scale(1.18) !important;
-    opacity: 0.95 !important;
+    transform: translateY(-50%) scale(1.08) !important;
   }
 
-  &--prev { left: 15px !important; }
-  &--next { right: 15px !important; }
+  &--prev { left: -18px !important; }
+  &--next { right: -18px !important; }
 }
 .achiever-instagram__grid { display: flex; gap: 24px; overflow-x: auto; padding: 10px 34px 15px; scrollbar-width: none; }
 .achiever-instagram__grid::-webkit-scrollbar { display: none; }
@@ -4279,7 +4266,9 @@ main.achiever-page,
 .achiever-classes-hero {
   &__title-section {
     background-color: #ffffff !important;
-    background-image: url("/wp-content/uploads/2026/07/hero-bg-mascots.png") !important;
+    // Default banner image. No !important so an inline background-image set from
+    // the block editor (Background Image field) can override it per page.
+    background-image: url("/wp-content/uploads/2026/07/hero-bg-mascots.png");
     background-size: cover !important;
     background-position: center top !important;
     background-repeat: no-repeat !important;
@@ -4528,36 +4517,39 @@ main.achiever-page,
     position: relative;
   }
 
-  &__decor-scissors {
-    position: absolute;
-    bottom: -36px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    pointer-events: none;
-  }
-
-  &__decor-pencil {
-    position: absolute;
-    z-index: 5;
+  &__decor {
     pointer-events: none;
 
-    &--top {
-      top: -15px;
-      left: 10%;
-      width: 140px;
+    img,
+    svg {
+      display: block;
+      width: 100%;
+      max-width: none;
+      height: auto;
     }
 
-    &--left {
-      bottom: 20px;
-      left: 20px;
-      width: 80px;
+    &--top-pencil {
+      left: calc(var(--top-pencil-desktop-x, 14) * 1%) !important;
+      top: calc(var(--top-pencil-desktop-y, 0) * 1%) !important;
+      width: calc(var(--top-pencil-desktop-size, 140) * 1px) !important;
     }
 
-    &--bottom {
-      bottom: 20px;
-      right: 40px;
-      width: 110px;
+    &--left-pencil {
+      left: calc(var(--left-pencil-desktop-x, 3) * 1%) !important;
+      top: calc(var(--left-pencil-desktop-y, 94) * 1%) !important;
+      width: calc(var(--left-pencil-desktop-size, 80) * 1px) !important;
+    }
+
+    &--scissors {
+      left: calc(var(--scissors-desktop-x, 50) * 1%) !important;
+      top: calc(var(--scissors-desktop-y, 100) * 1%) !important;
+      width: calc(var(--scissors-desktop-size, 90) * 1px) !important;
+    }
+
+    &--bottom-pencil {
+      left: calc(var(--bottom-pencil-desktop-x, 95) * 1%) !important;
+      top: calc(var(--bottom-pencil-desktop-y, 95) * 1%) !important;
+      width: calc(var(--bottom-pencil-desktop-size, 110) * 1px) !important;
     }
   }
 
@@ -4571,6 +4563,31 @@ main.achiever-page,
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .achiever-classes-detail {
+    &__decor--top-pencil {
+      left: calc(var(--top-pencil-mobile-x, 28) * 1%) !important;
+      top: calc(var(--top-pencil-mobile-y, 0) * 1%) !important;
+      width: calc(var(--top-pencil-mobile-size, 140) * 1px) !important;
+    }
+    &__decor--left-pencil {
+      left: calc(var(--left-pencil-mobile-x, 15) * 1%) !important;
+      top: calc(var(--left-pencil-mobile-y, 94) * 1%) !important;
+      width: calc(var(--left-pencil-mobile-size, 80) * 1px) !important;
+    }
+    &__decor--scissors {
+      left: calc(var(--scissors-mobile-x, 50) * 1%) !important;
+      top: calc(var(--scissors-mobile-y, 100) * 1%) !important;
+      width: calc(var(--scissors-mobile-size, 90) * 1px) !important;
+    }
+    &__decor--bottom-pencil {
+      left: calc(var(--bottom-pencil-mobile-x, 76) * 1%) !important;
+      top: calc(var(--bottom-pencil-mobile-y, 94) * 1%) !important;
+      width: calc(var(--bottom-pencil-mobile-size, 110) * 1px) !important;
     }
   }
 }

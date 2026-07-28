@@ -1,0 +1,111 @@
+.achiever-course-gallery {
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden;
+
+  &__heading {
+    display: none !important;
+  }
+
+  &__decor {
+    position: absolute;
+    z-index: 2;
+    max-width: 160px;
+    pointer-events: none;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .achiever-course-intro__gallery {
+    display: block !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .achiever-course-intro__gallery-slider {
+    position: relative;
+    width: 100%;
+  }
+
+  .achiever-course-intro__gallery-track {
+    display: flex;
+    width: 100%;
+    gap: 0;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  .achiever-course-intro__gallery-item {
+    flex: 0 0 calc(100% / 3) !important;
+    min-width: 0;
+    height: 365px !important;
+    border-radius: 0 !important;
+    scroll-snap-align: start;
+
+    img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+    }
+  }
+
+  .achiever-course-intro__gallery-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 4;
+    width: 58px;
+    height: 88px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 82px;
+    font-weight: 300;
+    line-height: 1;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+
+  .achiever-course-intro__gallery-arrow--prev {
+    left: 14px;
+  }
+
+  .achiever-course-intro__gallery-arrow--next {
+    right: 14px;
+  }
+}
+
+@media (max-width: 767px) {
+  .achiever-course-gallery {
+    .achiever-course-intro__gallery-item {
+      flex-basis: 86vw !important;
+      height: 330px !important;
+    }
+
+    .achiever-course-intro__gallery-arrow {
+      width: 44px;
+      height: 68px;
+      font-size: 62px;
+    }
+
+    .achiever-course-intro__gallery-arrow--prev {
+      left: 4px;
+    }
+
+    .achiever-course-intro__gallery-arrow--next {
+      right: 4px;
+    }
+  }
+}
