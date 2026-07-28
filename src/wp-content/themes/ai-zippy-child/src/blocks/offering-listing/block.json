@@ -12,6 +12,8 @@
     "heading": { "type": "string", "default": "" },
     "subheading": { "type": "string", "default": "" },
     "layout": { "type": "string", "default": "grid" },
+    "backgroundColor": { "type": "string", "default": "#ffffff" },
+    "backgroundImage": { "type": "string", "default": "" },
     "items": { "type": "array", "default": [] },
     "decorLeftImage": { "type": "string", "default": "/wp-content/uploads/2026/07/Sensory-Playhaus_STICKER.png" },
     "decorLeftAlt": { "type": "string", "default": "Cartoon mascot left" },

@@ -1,9 +1,9 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, TextareaControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import DecorPositionControls from '../_shared/DecorPositionControls.js';
-
 export default function Edit({ attributes, setAttributes }) {
   const {
     heading = '', description = '', serviceImage = '', serviceImageAlt = '', infoBox = {}, termsTitle = '', terms = [], suppliesTitle = '', suppliesText = '',
@@ -37,7 +37,7 @@ export default function Edit({ attributes, setAttributes }) {
                   <>
                     {decorLeftImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={decorLeftImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={decorLeftImage} alt={decorLeftAlt} fallback="Selected left decoration" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>
@@ -71,7 +71,7 @@ export default function Edit({ attributes, setAttributes }) {
                   <>
                     {decorRightImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={decorRightImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={decorRightImage} alt={decorRightAlt} fallback="Selected right decoration" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>
@@ -123,6 +123,7 @@ export default function Edit({ attributes, setAttributes }) {
           <TextControl label={__('Gallery Title', 'ai-zippy')} value={galleryTitle} onChange={(value) => setAttributes({ galleryTitle: value })} />
           {Array.from({ length: 3 }, (_, index) => galleryImages[index] || { url: '', alt: `Student artwork photo ${index + 1}` }).map((image, index) => (
             <MediaUploadCheck key={index}>
+              <SelectedImagePreview url={image.url} alt={image.alt} fallback={`Selected gallery image`} />
               <MediaUpload allowedTypes={['image']} onSelect={(media) => updateGalleryImage(index, media)} render={({ open }) => <Button variant="secondary" onClick={open}>{image.url ? __('Change Image', 'ai-zippy') : `Select Image ${index + 1}`}</Button>} />
             </MediaUploadCheck>
           ))}

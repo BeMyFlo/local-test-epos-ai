@@ -1,9 +1,9 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls, MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
-import { Button, PanelBody, TextControl, TextareaControl } from '@wordpress/components';
+import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
+import { Button, PanelBody, TextareaControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import DecorPositionControls from '../_shared/DecorPositionControls.js';
-
 export default function Edit({ attributes, setAttributes }) {
   const { heading } = attributes;
   const testimonials = attributes.testimonials || [];
@@ -32,7 +32,7 @@ export default function Edit({ attributes, setAttributes }) {
                   <>
                     {attributes.decorLeftImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={attributes.decorLeftImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={attributes.decorLeftImage} alt={attributes.decorLeftAlt} fallback="Selected left decoration" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>
@@ -66,7 +66,7 @@ export default function Edit({ attributes, setAttributes }) {
                   <>
                     {attributes.decorRightImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={attributes.decorRightImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={attributes.decorRightImage} alt={attributes.decorRightAlt} fallback="Selected right decoration" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>

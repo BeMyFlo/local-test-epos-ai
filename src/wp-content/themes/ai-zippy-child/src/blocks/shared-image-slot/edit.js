@@ -1,6 +1,6 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, TextControl } from '@wordpress/components';
-
 export default function Edit({ attributes, setAttributes }) {
   const blockProps = useBlockProps({ className: 'achiever-shared-image-slot-editor' });
   const selectImage = (media) => setAttributes({
@@ -19,7 +19,7 @@ export default function Edit({ attributes, setAttributes }) {
         </PanelBody>
       </InspectorControls>
       <div {...blockProps}>
-        {attributes.imageUrl ? <img src={attributes.imageUrl} alt={attributes.alt || ''} /> : <p>Select a decorative image.</p>}
+        <SelectedImagePreview url={attributes.imageUrl} alt={attributes.alt} fallback="Selected decorative image" />
         <MediaUploadCheck>
           <MediaUpload allowedTypes={['image']} value={attributes.imageId || 0} onSelect={selectImage} render={({ open }) => <Button variant="secondary" onClick={open}>{attributes.imageUrl ? 'Replace image' : 'Select image'}</Button>} />
         </MediaUploadCheck>

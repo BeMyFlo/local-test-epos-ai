@@ -73,7 +73,7 @@ $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
     </div>
   </div>
 </section>
-<svg class="achiever-brands__wave" viewBox="0 0 1300 90" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,90 C325,0 975,0 1300,90 L1300,90 L0,90 Z" fill="#ffffff" /></svg>
+<svg class="achiever-brands__wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,78 C280,22 540,28 800,55 C1080,84 1260,96 1440,82 L1440,120 L0,120 Z" fill="#ffffff" /></svg>
 <?php if (!empty($features)) : ?>
   <div class="achiever-brands__features">
     <?php foreach ($features as $feature) :

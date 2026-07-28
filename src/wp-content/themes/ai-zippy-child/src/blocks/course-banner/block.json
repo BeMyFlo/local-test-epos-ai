@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/course-banner",
+  "version": "1.0.0",
+  "title": "Course Banner",
+  "category": "achiever-classes",
+  "icon": "cover-image",
+  "description": "Course hero banner: tagline, heading and editable background image.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "tagline": { "type": "string", "default": "Let's Artventure" },
+    "taglineDescription": { "type": "string", "default": "Discover our creative journey through art classes, camps, courses and more, designed for artists of all ages." },
+    "heading": { "type": "string", "default": "FOUNDATION ART COURSE" },
+    "backgroundImage": { "type": "string", "default": "" },
+    "backgroundAlt": { "type": "string", "default": "Banner background" },
+    "backgroundColor": { "type": "string", "default": "#ffffff" },
+    "backgroundPosition": { "type": "string", "default": "center top" }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php"
+}

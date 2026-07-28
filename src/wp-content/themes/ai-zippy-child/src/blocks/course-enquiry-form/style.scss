@@ -1,1 +1,32 @@
-/* Intentionally empty — all styles live in achiever.scss */
+.achiever-enquiry-form {
+  position: relative !important;
+  overflow: visible !important;
+}
+
+html body .achiever-enquiry-form > .achiever-enquiry-form__decor-pencils {
+  right: auto !important;
+  bottom: auto !important;
+  left: calc(var(--decor-pencils-desktop-x, 87) * 1%) !important;
+  top: calc(var(--decor-pencils-desktop-y, 88) * 1%) !important;
+  width: calc(var(--decor-pencils-desktop-size, 140) * 1px) !important;
+  height: auto !important;
+  transform: translate(-50%, -50%) !important;
+  pointer-events: none !important;
+}
+
+html body .achiever-enquiry-form > .achiever-enquiry-form__decor-pencils svg,
+html body .achiever-enquiry-form > .achiever-enquiry-form__decor-pencils img {
+  display: block !important;
+  width: 100% !important;
+  max-width: none !important;
+  height: auto !important;
+  object-fit: contain !important;
+}
+
+@media (max-width: 767px) {
+  html body .achiever-enquiry-form > .achiever-enquiry-form__decor-pencils {
+    left: calc(var(--decor-pencils-mobile-x, 78) * 1%) !important;
+    top: calc(var(--decor-pencils-mobile-y, 95) * 1%) !important;
+    width: calc(var(--decor-pencils-mobile-size, 90) * 1px) !important;
+  }
+}

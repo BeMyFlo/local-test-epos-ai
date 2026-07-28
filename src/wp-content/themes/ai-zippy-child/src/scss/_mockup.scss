@@ -618,8 +618,26 @@ body .az-scroll-top.is-content-obscured {
 
 .achiever-class-types {
   z-index: 1;
-  padding-block: clamp(64px, 5vw, 88px) !important;
+  position: relative;
+  padding-block: clamp(64px, 5vw, 88px) clamp(120px, 9vw, 180px) !important;
   padding-inline: clamp(20px, 2.7vw, 40px) !important;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0px;
+    z-index: 2;
+    height: 80px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 120' preserveAspectRatio='none'%3E%3Cpath d='M0,78 C280,22 540,28 800,55 C1080,84 1260,96 1440,82 L1440,120 L0,120 Z' fill='%23ffffff'/%3E%3C/svg%3E")
+      no-repeat bottom center / 100% 100%;
+    pointer-events: none;
+
+    @media (min-width: 768px) {
+      height: 140px;
+    }
+  }
 
   &__title {
     margin: 0 0 clamp(24px, 2vw, 32px) !important;
@@ -1537,30 +1555,33 @@ body .az-scroll-top.is-content-obscured {
   // ── PINK SECTION ──
   &__pink-section {
     background-color: #ffe4ee !important;
-    padding: 60px 20px 80px !important;
+    // No bottom padding: the wave sits flush at the section's base so there is no
+    // leftover pink strip between the wave and the white section below.
+    padding: 60px 20px 0 !important;
+    min-height: 565px !important;
     position: relative !important;
     text-align: center !important;
     overflow: hidden !important;
   }
 
   &__pink-section &__container {
-    max-width: 800px !important;
-    margin: 0 auto !important;
+    max-width: 1180px !important;
+    margin: 0 auto 18px !important;
     padding-inline: 20px !important;
     position: relative !important;
     z-index: 2 !important;
   }
 
   &__description {
-    max-width: 640px;
+    max-width: 1030px;
     margin: 0 auto !important;
   }
   &__description p {
-    margin: 0 auto 16px !important;
+    margin: 0 auto 20px !important;
     color: #5b7dba !important;
-    font-size: 16px !important;
-    font-weight: 600 !important;
-    line-height: 1.6 !important;
+    font-size: 22px !important;
+    font-weight: 400 !important;
+    line-height: 1.22 !important;
     text-align: center !important;
   }
 
@@ -1569,24 +1590,24 @@ body .az-scroll-top.is-content-obscured {
     align-items: center !important;
     justify-content: center !important;
     gap: 24px !important;
-    margin-top: 36px !important;
+    margin-top: 52px !important;
     position: relative !important;
-    max-width: 900px !important;
+    max-width: 1180px !important;
     margin-inline: auto !important;
   }
 
   &__decor-scissors {
-    width: 70px !important;
+    width: 230px !important;
     height: auto !important;
     position: absolute !important;
-    left: 40px !important;
+    left: -86px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     z-index: 1 !important;
     pointer-events: none !important;
 
     svg {
-      width: 70px !important;
+      width: 230px !important;
       height: auto !important;
       display: block !important;
     }
@@ -1595,16 +1616,19 @@ body .az-scroll-top.is-content-obscured {
   &__info-pill {
     background: #ff6584 !important;
     color: #ffffff !important;
-    border-radius: 24px !important;
-    padding: 20px 48px !important;
+    border-radius: 18px !important;
+    min-width: 356px !important;
+    min-height: 130px !important;
+    padding: 15px 38px !important;
     display: inline-flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: 4px !important;
-    box-shadow: 0 10px 24px rgba(255, 101, 132, 0.25) !important;
-    font-size: 16px !important;
+    justify-content: center !important;
+    gap: 0 !important;
+    box-shadow: none !important;
+    font-size: 28px !important;
     font-weight: 800 !important;
-    line-height: 1.4 !important;
+    line-height: 1.25 !important;
     z-index: 2 !important;
   }
 
@@ -1622,10 +1646,10 @@ body .az-scroll-top.is-content-obscured {
   }
 
   &__decor-rocket {
-    width: 140px !important;
+    width: 450px !important;
     height: auto !important;
     position: absolute !important;
-    right: 20px !important;
+    right: -70px !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     z-index: 1 !important;
@@ -1633,7 +1657,7 @@ body .az-scroll-top.is-content-obscured {
 
     img {
       width: 100% !important;
-      max-width: 140px !important;
+      max-width: 450px !important;
       height: auto !important;
       object-fit: contain !important;
       display: block !important;
@@ -1643,11 +1667,16 @@ body .az-scroll-top.is-content-obscured {
   &__wave {
     position: relative !important;
     z-index: 1 !important;
-    margin-top: -1px !important;
+    // The wave lives inside pink-section (padding-inline: 20px), so it would be
+    // 40px narrower than the full-width white-section below and read as a floating
+    // rounded band. Break out of that padding so the wave spans edge-to-edge and
+    // lines up with the white section.
+    width: auto !important;
+    margin: -1px -20px 0 !important;
 
     svg {
       width: 100% !important;
-      height: auto !important;
+      height: 115px !important;
       display: block !important;
     }
   }

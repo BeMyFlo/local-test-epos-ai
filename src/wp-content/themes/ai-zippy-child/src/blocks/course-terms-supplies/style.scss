@@ -1,0 +1,27 @@
+/* Shared course section styles live in src/scss/_mockup.scss. */
+.achiever-course-terms-supplies .achiever-course-intro__white-section {
+  overflow: visible !important;
+}
+
+.achiever-course-terms-supplies .achiever-course-intro__bear-mascot {
+  left: calc(var(--mascot-desktop-x, 7.3684210526) * 1%) !important;
+  top: calc(var(--mascot-desktop-y, 88.0390752359) * 1%) !important;
+  bottom: auto !important;
+  width: calc(var(--mascot-desktop-size, 150) * 1px) !important;
+  max-width: none !important;
+  z-index: var(--mascot-z-index, 1) !important;
+  transform: translate(-50%, -50%) !important;
+
+  img {
+    width: 100% !important;
+    max-width: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .achiever-course-terms-supplies .achiever-course-intro__bear-mascot {
+    left: calc(var(--mascot-mobile-x, 28) * 1%) !important;
+    top: calc(var(--mascot-mobile-y, 90.877150016) * 1%) !important;
+    width: calc(var(--mascot-mobile-size, 150) * 1px) !important;
+  }
+}

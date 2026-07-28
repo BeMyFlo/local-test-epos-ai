@@ -1,8 +1,8 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import DecorPositionControls from '../_shared/DecorPositionControls.js';
-
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
   const types = attributes.types || [];
@@ -34,7 +34,7 @@ export default function Edit({ attributes, setAttributes, name }) {
                   <>
                     {attributes.decorLeftImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={attributes.decorLeftImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={attributes.decorLeftImage} alt={attributes.decorLeftAlt} fallback="Selected left decoration" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>
@@ -68,7 +68,7 @@ export default function Edit({ attributes, setAttributes, name }) {
                   <>
                     {attributes.decorRightImage && (
                       <div style={{ marginBottom: '8px' }}>
-                        <img src={attributes.decorRightImage} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                        <SelectedImagePreview url={attributes.decorRightImage} alt={attributes.decorRightAlt} fallback="Selected right decoration" />
                       </div>
                     )}
                     <Button variant="secondary" onClick={open}>
@@ -108,7 +108,7 @@ export default function Edit({ attributes, setAttributes, name }) {
                       <>
                         {type.image && (
                           <div style={{ marginBottom: '8px' }}>
-                            <img src={type.image} alt="" style={{ maxWidth: '100px', maxHeight: '100px', borderRadius: '4px', border: '1px solid #ccc' }} />
+                            <SelectedImagePreview url={type.image} alt={type.alt} fallback="Selected class type image" />
                           </div>
                         )}
                         <Button variant="secondary" onClick={open}>

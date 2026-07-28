@@ -1,7 +1,7 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { Button, PanelBody, TextControl, TextareaControl } from '@wordpress/components';
+import { Button, PanelBody, TextareaControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
-
 export default function Edit({ attributes, setAttributes, name }) {
   const blockProps = useBlockProps();
   const studios = attributes.studios || [];
@@ -17,6 +17,7 @@ export default function Edit({ attributes, setAttributes, name }) {
         <TextControl label="Map URL" value={studio.mapUrl || ''} onChange={(mapUrl) => updateStudio(index, { mapUrl })} />
         <TextControl label="Map Link Text" value={studio.mapText || ''} onChange={(mapText) => updateStudio(index, { mapText })} />
         {(studio.galleryImages || []).map((image, imageIndex) => <div key={imageIndex}>
+          <SelectedImagePreview url={image.url} alt={image.alt} fallback={`Selected studio image ${imageIndex + 1}`} />
           <MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => updateImage(index, imageIndex, { url: media.url, alt: media.alt || '' })} render={({ open }) => <Button variant="secondary" onClick={open}>{image.url ? 'Change image' : `Select image ${imageIndex + 1}`}</Button>} /></MediaUploadCheck>
           <TextControl label="Image URL" value={image.url || ''} onChange={(url) => updateImage(index, imageIndex, { url })} />
           <TextControl label="Alt Text" value={image.alt || ''} onChange={(alt) => updateImage(index, imageIndex, { alt })} />

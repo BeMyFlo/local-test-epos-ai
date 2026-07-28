@@ -1,8 +1,8 @@
+import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { __ } from '@wordpress/i18n';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { PanelBody, TextControl, TextareaControl, Button } from '@wordpress/components';
+import { Button, PanelBody, TextareaControl, TextControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
-
 export default function Edit({ attributes, setAttributes }) {
 	const { heading, studios } = attributes;
 	const blockProps = useBlockProps();
@@ -62,6 +62,7 @@ export default function Edit({ attributes, setAttributes }) {
 						/>
 						<TextControl label={__('Map URL', 'ai-zippy')} value={studio.mapUrl || ''} onChange={(val) => updateStudio(index, 'mapUrl', val)} />
 						<TextControl label={__('Map Link Text', 'ai-zippy')} value={studio.mapText || ''} onChange={(val) => updateStudio(index, 'mapText', val)} />
+						<SelectedImagePreview url={studio.image} alt={studio.alt} fallback="Selected studio image" />
 						<MediaUploadCheck><MediaUpload allowedTypes={['image']} onSelect={(media) => {
 							const updated = [...studios];
 							updated[index] = { ...updated[index], image: media.url, alt: media.alt || '' };

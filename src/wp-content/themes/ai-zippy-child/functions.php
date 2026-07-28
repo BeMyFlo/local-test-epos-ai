@@ -111,6 +111,47 @@ add_filter('block_categories_all', function (array $categories): array {
 }, 10, 1);
 
 // =============================================================================
+// Decor / mascot positioning helper — generates inline style string
+// =============================================================================
+
+/**
+ * Build an inline CSS style string for a decorative mascot overlay.
+ *
+ * @param array  $attributes Block attributes array.
+ * @param string $prefix     Attribute prefix, e.g. 'decorLeft', 'decorRight', 'decor', 'mascot'.
+ * @param array  $defaults   Default values: zIndex, desktopX, desktopY, desktopSize, mobileX, mobileY, mobileSize.
+ * @return string Inline style string ready for use in a style="" attribute.
+ */
+function ai_zippy_child_decor_style(array $attributes, string $prefix, array $defaults = []): string
+{
+    $z       = $attributes["{$prefix}ZIndex"]      ?? ($defaults['zIndex']      ?? 5);
+    $dx      = $attributes["{$prefix}DesktopX"]    ?? ($defaults['desktopX']    ?? 50);
+    $dy      = $attributes["{$prefix}DesktopY"]    ?? ($defaults['desktopY']    ?? 50);
+    $ds      = $attributes["{$prefix}DesktopSize"]  ?? ($defaults['desktopSize']  ?? 120);
+    $mx      = $attributes["{$prefix}MobileX"]     ?? ($defaults['mobileX']     ?? $dx);
+    $my      = $attributes["{$prefix}MobileY"]     ?? ($defaults['mobileY']     ?? $dy);
+    $ms      = $attributes["{$prefix}MobileSize"]   ?? ($defaults['mobileSize']   ?? $ds);
+
+    $slug = strtolower(preg_replace('/([a-z])([A-Z])/', '$1-$2', $prefix));
+
+    return implode(' ', [
+        "position:absolute;",
+        "pointer-events:none;",
+        "z-index:{$z};",
+        "left:{$dx}%;",
+        "top:{$dy}%;",
+        "width:{$ds}px;",
+        "transform:translate(-50%,-50%);",
+        "--{$slug}-desktop-x:{$dx};",
+        "--{$slug}-desktop-y:{$dy};",
+        "--{$slug}-desktop-size:{$ds};",
+        "--{$slug}-mobile-x:{$mx};",
+        "--{$slug}-mobile-y:{$my};",
+        "--{$slug}-mobile-size:{$ms};",
+    ]);
+}
+
+// =============================================================================
 // Auto-register child theme blocks (wp-scripts build output)
 // =============================================================================
 
@@ -134,27 +175,40 @@ add_action('wp_enqueue_scripts', function (): void {
     );
 }, 5);
 
-// === Achiever's Art: Editor styles (for block preview) ===
-add_action('enqueue_block_editor_assets', function (): void {
+// === Achiever's Art: Load frontend CSS in the block editor iframe (WP 6.3+) ===
+// enqueue_block_editor_assets only targets the OUTER wp-admin page, not the iframed
+// canvas — so blocks render unstyled inside the editor. add_editor_style() would
+// reach the iframe but WP prefixes every selector with `.editor-styles-wrapper`,
+// which breaks our `html body …` / absolute selectors. enqueue_block_assets fires
+// in BOTH the frontend AND the editor iframe and enqueues the stylesheet verbatim
+// (no prefixing), so the editor matches the frontend 1:1.
+add_action('enqueue_block_assets', function (): void {
+    // Frontend already enqueues child-style via Vite (ai-zippy-child-style);
+    // only add it inside the editor iframe to avoid a duplicate on the frontend.
+    if (!is_admin()) {
+        return;
+    }
+
+    $dist_dir = get_stylesheet_directory() . '/assets/dist';
+    $dist_uri = get_stylesheet_directory_uri() . '/assets/dist';
+    $css_file = $dist_dir . '/css/child-style.css';
+
+    if (file_exists($css_file)) {
+        wp_enqueue_style(
+            'achiever-art-editor-styles',
+            $dist_uri . '/css/child-style.css',
+            [],
+            filemtime($css_file)
+        );
+    }
+
     wp_enqueue_style(
         'achiever-art-fonts-editor',
         'https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Caveat:wght@600&family=Poppins:wght@400;500;600;700&display=swap',
         [],
         null
     );
-
-    $dist_dir = get_stylesheet_directory() . '/assets/dist';
-    $dist_uri = get_stylesheet_directory_uri() . '/assets/dist';
-    $css_file = $dist_dir . '/css/child-style.css';
-    if (file_exists($css_file)) {
-        wp_enqueue_style(
-            'achiever-art-editor-styles',
-            $dist_uri . '/css/child-style.css',
-            ['achiever-art-fonts-editor'],
-            filemtime($css_file)
-        );
-    }
-}, 10);
+});
 
 // === High priority CSS overrides for Section Titles, Logos & Gallery Slider ===
 add_action('wp_enqueue_scripts', function (): void {
@@ -238,7 +292,7 @@ add_action('wp_enqueue_scripts', function (): void {
             justify-content: center !important;
             align-items: center !important;
             padding-top: 40px !important;
-            padding-bottom: 40px !important;
+            padding-bottom: 60px !important;
             position: relative !important;
             box-sizing: border-box !important;
         }
@@ -577,47 +631,53 @@ add_action('wp_enqueue_scripts', function (): void {
         }
 
         html body .achiever-course-intro__programme {
-            background-color: #fdfec7 !important;
-            padding-top: 70px !important;
-            padding-bottom: 90px !important;
+            background-color: #fffec9 !important;
+            padding-top: 38px !important;
+            padding-bottom: 40px !important;
             text-align: center !important;
         }
 
         html body .achiever-course-intro__programme .achiever-course-intro__section-title {
-            color: #1a1040 !important;
+            color: #5b7dba !important;
+            font-size: 52px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.12em !important;
+            line-height: 1.1 !important;
+            margin-bottom: 2px !important;
         }
 
         html body .achiever-course-intro__programme-subtitle {
             color: #5b7dba !important;
-            font-size: 16px !important;
-            font-weight: 700 !important;
-            margin-top: -10px !important;
-            margin-bottom: 36px !important;
+            font-size: 21px !important;
+            font-weight: 400 !important;
+            margin-top: 0 !important;
+            margin-bottom: 24px !important;
         }
 
         html body .achiever-course-intro__programme-grid {
             display: grid !important;
             grid-template-columns: repeat(2, 1fr) !important;
-            gap: 20px !important;
-            max-width: 720px !important;
+            gap: 22px !important;
+            max-width: 1015px !important;
             margin: 0 auto !important;
         }
 
         html body .achiever-course-intro__programme-card {
-            background-color: #d5f1ff !important;
+            background-color: #d9f3ff !important;
             color: #1a1040 !important;
-            padding: 20px 24px !important;
-            border-radius: 16px !important;
-            font-size: 15px !important;
-            font-weight: 800 !important;
-            line-height: 1.4 !important;
+            min-height: 60px !important;
+            padding: 4px 24px !important;
+            border-radius: 12px !important;
+            font-size: 22px !important;
+            font-weight: 400 !important;
+            line-height: 1.2 !important;
             text-align: center !important;
         }
 
         /* ─── COURSE INTRO GALLERY SLIDER FIX ──────────────────────── */
         html body .achiever-course-intro__gallery {
-            background-color: #ffffff !important;
-            padding: 60px 20px !important;
+            background-color: transparent !important;
+            padding: 0 !important;
             width: 100% !important;
             box-sizing: border-box !important;
             display: block !important;
@@ -625,9 +685,9 @@ add_action('wp_enqueue_scripts', function (): void {
 
         html body .achiever-course-intro__gallery-slider {
             position: relative !important;
-            max-width: 1140px !important;
+            max-width: none !important;
             margin: 0 auto !important;
-            padding-inline: 50px !important;
+            padding-inline: 0 !important;
             box-sizing: border-box !important;
         }
 
@@ -635,11 +695,11 @@ add_action('wp_enqueue_scripts', function (): void {
             display: flex !important;
             flex-direction: row !important;
             flex-wrap: nowrap !important;
-            gap: 20px !important;
+            gap: 0 !important;
             overflow-x: auto !important;
             scroll-snap-type: x mandatory !important;
             scrollbar-width: none !important;
-            padding-block: 10px !important;
+            padding: 0 !important;
             width: 100% !important;
             box-sizing: border-box !important;
         }
@@ -649,14 +709,14 @@ add_action('wp_enqueue_scripts', function (): void {
         }
 
         html body .achiever-course-intro__gallery-item {
-            flex: 0 0 340px !important;
-            width: 340px !important;
-            min-width: 340px !important;
-            height: 240px !important;
-            border-radius: 16px !important;
+            flex: 0 0 calc(100% / 3) !important;
+            width: auto !important;
+            min-width: 0 !important;
+            height: 365px !important;
+            border-radius: 0 !important;
             overflow: hidden !important;
-            scroll-snap-align: center !important;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08) !important;
+            scroll-snap-align: start !important;
+            box-shadow: none !important;
         }
 
         html body .achiever-course-intro__gallery-item img {
@@ -671,26 +731,62 @@ add_action('wp_enqueue_scripts', function (): void {
             top: 50% !important;
             transform: translateY(-50%) !important;
             z-index: 10 !important;
-            width: 44px !important;
-            height: 44px !important;
-            border-radius: 50% !important;
-            background-color: #ffffff !important;
-            color: #1a1040 !important;
+            width: 58px !important;
+            height: 88px !important;
+            border-radius: 0 !important;
+            background-color: transparent !important;
+            color: #ffffff !important;
             border: none !important;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+            box-shadow: none !important;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.28) !important;
             cursor: pointer !important;
-            font-size: 24px !important;
+            font-size: 82px !important;
+            font-weight: 300 !important;
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
         }
 
         html body .achiever-course-intro__gallery-arrow--prev {
-            left: 0 !important;
+            left: 14px !important;
         }
 
         html body .achiever-course-intro__gallery-arrow--next {
-            right: 0 !important;
+            right: 14px !important;
+        }
+
+        @media (max-width: 767px) {
+            html body .achiever-course-intro__programme .achiever-course-intro__section-title {
+                font-size: 36px !important;
+                letter-spacing: 0.08em !important;
+            }
+            html body .achiever-course-intro__programme-subtitle {
+                font-size: 17px !important;
+            }
+            html body .achiever-course-intro__programme-grid {
+                grid-template-columns: 1fr !important;
+                gap: 14px !important;
+            }
+            html body .achiever-course-intro__programme-card {
+                min-height: 56px !important;
+                padding: 12px 16px !important;
+                font-size: 17px !important;
+            }
+            html body .achiever-course-intro__gallery-item {
+                flex-basis: 86vw !important;
+                height: 330px !important;
+            }
+            html body .achiever-course-intro__gallery-arrow {
+                width: 44px !important;
+                height: 68px !important;
+                font-size: 62px !important;
+            }
+            html body .achiever-course-intro__gallery-arrow--prev {
+                left: 4px !important;
+            }
+            html body .achiever-course-intro__gallery-arrow--next {
+                right: 4px !important;
+            }
         }
 
         /* ─── OFFERING LISTING ─────────────────────────────────────── */
@@ -754,6 +850,165 @@ add_action('wp_enqueue_scripts', function (): void {
             width: 100% !important;
             height: auto !important;
             object-fit: contain !important;
+        }
+
+        /* Regular Art Classes gallery — screenshot-faithful full-width strip. */
+        html body .achiever-classes-detail__gallery {
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+            background: #ffffff !important;
+        }
+
+        html body .achiever-classes-detail__gallery-header {
+            position: relative !important;
+            display: flex !important;
+            width: 100% !important;
+            max-width: none !important;
+            height: 388px !important;
+            margin: 0 !important;
+            padding: 58px 70px 0 !important;
+            align-items: center !important;
+            justify-content: center !important;
+            overflow: visible !important;
+            background: linear-gradient(to bottom, #ffe4ee 0, #ffe4ee 58px, #ffffff 58px, #ffffff 100%) !important;
+            box-sizing: border-box !important;
+        }
+
+        html body .achiever-classes-detail__mascot-sticker {
+            position: absolute !important;
+            top: calc(var(--gallery-mascot-desktop-y, 21.5631443299) * 1%) !important;
+            left: calc(var(--gallery-mascot-desktop-x, 12.5967325881) * 1%) !important;
+            width: calc(var(--gallery-mascot-desktop-size, 245) * 1px) !important;
+            height: auto !important;
+            max-width: none !important;
+            margin: 0 !important;
+            right: auto !important;
+            bottom: auto !important;
+            transform: translate(-50%, -50%) !important;
+            object-fit: contain !important;
+        }
+
+        html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-header h2 {
+            width: min(100%, 780px) !important;
+            margin: 0 !important;
+            color: #ff6584 !important;
+            font-family: "Poppins", sans-serif !important;
+            font-size: 90px !important;
+            font-weight: 800 !important;
+            line-height: 0.94 !important;
+            letter-spacing: 0.1em !important;
+            text-align: center !important;
+            text-transform: uppercase !important;
+        }
+
+        html body .achiever-classes-detail__gallery-slider {
+            position: relative !important;
+            width: 100% !important;
+            max-width: none !important;
+            height: 365px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-grid {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            width: 100% !important;
+            height: 365px !important;
+            gap: 0 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            scroll-snap-type: x mandatory !important;
+            scrollbar-width: none !important;
+        }
+
+        html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-item {
+            flex: 0 0 31vw !important;
+            width: 31vw !important;
+            min-width: 31vw !important;
+            height: 365px !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            scroll-snap-align: start !important;
+        }
+
+        html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-item img,
+        html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-item svg {
+            display: block !important;
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+        }
+
+        html body .achiever-classes-detail__gallery-arrow {
+            display: grid !important;
+            position: absolute !important;
+            top: 50% !important;
+            z-index: 3 !important;
+            width: 82px !important;
+            height: 100px !important;
+            padding: 0 !important;
+            transform: translateY(-50%) !important;
+            border: 0 !important;
+            border-radius: 0 !important;
+            background: transparent !important;
+            color: #ffffff !important;
+            box-shadow: none !important;
+            font-size: 82px !important;
+            font-weight: 300 !important;
+            line-height: 1 !important;
+            opacity: 1 !important;
+        }
+
+        html body .achiever-classes-detail__gallery-arrow--prev {
+            left: 4px !important;
+        }
+
+        html body .achiever-classes-detail__gallery-arrow--next {
+            right: 4px !important;
+        }
+
+        @media (max-width: 767px) {
+            html body .achiever-classes-detail__gallery-header {
+                height: 300px !important;
+                padding: 58px 20px 0 !important;
+            }
+            html body .achiever-classes-detail__mascot-sticker {
+                top: calc(var(--gallery-mascot-mobile-y, 18.6666666667) * 1%) !important;
+                left: calc(var(--gallery-mascot-mobile-x, 19.2) * 1%) !important;
+                width: calc(var(--gallery-mascot-mobile-size, 132) * 1px) !important;
+            }
+            html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-header h2 {
+                width: min(100%, 350px) !important;
+                font-size: 48px !important;
+                line-height: 0.98 !important;
+                letter-spacing: 0.015em !important;
+            }
+            html body .achiever-classes-detail__gallery-slider,
+            html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-grid,
+            html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-item {
+                height: 330px !important;
+            }
+            html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-grid {
+                flex-direction: row !important;
+                flex-wrap: nowrap !important;
+            }
+            html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-item {
+                flex-basis: 86vw !important;
+                width: 86vw !important;
+                min-width: 86vw !important;
+            }
+            html body .achiever-classes-detail__gallery-arrow {
+                width: 62px !important;
+                height: 82px !important;
+                font-size: 62px !important;
+            }
         }
     ';
     wp_add_inline_style('wp-block-library', $css);

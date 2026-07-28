@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/classes-carousel",
+  "version": "1.0.0",
+  "title": "Classes Carousel",
+  "category": "achiever-classes",
+  "icon": "slides",
+  "description": "Editable carousel of class cards with prev/next navigation.",
+  "supports": { "html": false, "align": ["wide", "full"] },
+  "attributes": {
+    "sectionTitle": { "type": "string", "default": "REGULAR ART CLASSES" },
+    "classes": {
+      "type": "array",
+      "default": [
+        { "tag": "Artventurer", "tagBg": "#f2708a", "age": "Age 3 & up", "description": "Explore the world of Arts", "image": "", "alt": "Artventurer class photo", "ctaUrl": "/artventurer/" },
+        { "tag": "Canvas Wizard", "tagBg": "#4f91d8", "age": "Age 6 & up", "description": "For the Painters", "image": "", "alt": "Canvas Wizard class photo", "ctaUrl": "/canvas-wizard/" },
+        { "tag": "Foundation Art Class", "tagBg": "#f2708a", "age": "Age 4–6", "description": "For Strong Art Beginnings", "image": "", "alt": "Foundation Art Class photo", "ctaUrl": "/foundation-art-course/" },
+        { "tag": "Sketcher Master", "tagBg": "#4f91d8", "age": "Age 7 & up", "description": "For the Sketch Enthusiast", "image": "", "alt": "Sketcher Master class photo", "ctaUrl": "/sketcher-master/" },
+        { "tag": "Little Draws", "tagBg": "#f2708a", "age": "Age 5 & up", "description": "Joyful Little Draws", "image": "", "alt": "Little Draws class photo", "ctaUrl": "/little-draws/" },
+        { "tag": "Junior Fine Arts", "tagBg": "#4f91d8", "age": "Age 8 & up", "description": "For the Prodigy", "image": "", "alt": "Junior Fine Arts class photo", "ctaUrl": "/junior-fine-arts/" },
+        { "tag": "DrawVinci", "tagBg": "#f2708a", "age": "Age 6 & up", "description": "The Art of Drawing", "image": "", "alt": "DrawVinci class photo", "ctaUrl": "/drawvinci/" },
+        { "tag": "Portfolio Art", "tagBg": "#4f91d8", "age": "Age 10 & up", "description": "For the Future Artist", "image": "", "alt": "Portfolio Art class photo", "ctaUrl": "/portfolio-art/" }
+      ]
+    }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "viewScript": "file:./view.js",
+  "render": "file:./render.php"
+}
