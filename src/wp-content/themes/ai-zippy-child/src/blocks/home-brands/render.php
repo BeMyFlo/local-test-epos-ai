@@ -34,9 +34,13 @@ if (empty($gallery_images)) {
         ['url' => '/wp-content/uploads/2026/07/MangaDrawing2-1.png', 'alt' => 'Studio Gallery 5'],
     ];
 }
-$cta_text = $attributes['ctaText'] ?? 'SEE MORE';
+$cta_text = $attributes['ctaText'] ?? 'CLICK TO SEE MORE';
 $cta_url = $attributes['ctaUrl'] ?? '#';
-$wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-brands']);
+$brand_icon_size = (int) ($attributes['brandIconSize'] ?? 90);
+$wrapper_attributes = get_block_wrapper_attributes([
+    'class' => 'achiever-brands',
+    'style' => "--brand-icon-size:{$brand_icon_size};",
+]);
 $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
 ?>
 <section <?php echo $wrapper_attributes; ?>>
@@ -58,14 +62,24 @@ $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
   <div class="achiever-brands__container">
     <div class="achiever-brands__intro">
       <h2 class="achiever-brands__heading"><?php echo nl2br(esc_html($heading)); ?></h2>
-      <p class="achiever-brands__description"><?php echo esc_html($description); ?></p>
+      <p class="achiever-brands__description"><?php echo nl2br(esc_html($description)); ?></p>
     </div>
     <div class="achiever-brands__showcase">
+      <?php
+      $first_row_count = max(1, (int) ($attributes['brandsFirstRow'] ?? 3));
+      $brand_rows = array_filter([
+          array_slice($brands, 0, $first_row_count),
+          array_slice($brands, $first_row_count),
+      ]);
+      ?>
       <div class="achiever-brands__grid">
-        <?php foreach ($brands as $brand) : ?>
-          <div class="achiever-brands__item">
-            <?php if ($brand['icon'] ?? '') : ?><img class="achiever-brands__icon" src="<?php echo esc_url($brand['icon']); ?>" alt="<?php echo esc_attr($brand['alt'] ?? ($brand['name'] ?? '')); ?>" loading="lazy" /><?php endif; ?>
-            <span class="achiever-brands__name"><?php echo esc_html($brand['name'] ?? ''); ?></span>
+        <?php foreach ($brand_rows as $row) : ?>
+          <div class="achiever-brands__row">
+            <?php foreach ($row as $brand) : ?>
+              <div class="achiever-brands__item">
+                <?php if ($brand['icon'] ?? '') : ?><img class="achiever-brands__icon" src="<?php echo esc_url($brand['icon']); ?>" alt="<?php echo esc_attr($brand['alt'] ?? ($brand['name'] ?? '')); ?>" loading="lazy" /><?php endif; ?>
+              </div>
+            <?php endforeach; ?>
           </div>
         <?php endforeach; ?>
       </div>
@@ -74,15 +88,30 @@ $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
   </div>
 </section>
 <svg class="achiever-brands__wave" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path d="M0,78 C280,22 540,28 800,55 C1080,84 1260,96 1440,82 L1440,120 L0,120 Z" fill="#ffffff" /></svg>
-<?php if (!empty($features)) : ?>
+<?php if (!empty($features)) :
+    // Default line icons (design order: art, palette, craft tools, idea, easel, faces).
+    // Used when a feature has no uploaded icon; cycled by position.
+    $feature_default_icons = [
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="14" height="12" rx="1.5"/><circle cx="13.5" cy="8" r="1.3"/><path d="M4 14l4-4 4 4"/><path d="M20.5 7.5 12 16l-2.2.7.7-2.2 8.5-8.5c.4-.4 1.1-.4 1.5 0s.4 1.1 0 1.5Z"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.2 0 1.8-.9 1.4-1.9-.5-1.2.2-2.4 1.5-2.4h1.9a3.7 3.7 0 0 0 3.7-3.7C20.5 7 16.7 3.5 12 3.5Z"/><circle cx="8" cy="9" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="9" r="1"/><circle cx="7.5" cy="13" r="1"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="2"/><circle cx="7" cy="15" r="2"/><path d="M8.7 8.3 19 15M8.7 13.7 19 7"/><path d="M4 19.5h16M7 19.5v-1.5M10 19.5v-1.5M13 19.5v-1.5M16 19.5v-1.5"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6a4.5 4.5 0 0 0-2.5 8.2c.6.4 1 1.1 1 1.8h3c0-.7.4-1.4 1-1.8A4.5 4.5 0 0 0 12 6Z"/><path d="M10.5 18.5h3M11 20.5h2"/><path d="M12 2.5v1.5M5.3 5.3l1 1M2.5 12H4M20 12h1.5M17.7 5.3l-1 1"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="10" rx="1"/><path d="M8 12l3-3 2.5 2.5L16 9"/><path d="M12 3v2M12 15v2M12 17l-4.5 4.5M12 17l4.5 4.5"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8.5" cy="10" r="4.5"/><circle cx="16.5" cy="14.5" r="4"/><path d="M7 9.5h.01M10 9.5h.01M15.2 14h.01M17.8 14h.01M7 11.5c.5.6 1.2 1 2 .9M15.3 16c.4.5 1 .8 1.7.8"/></svg>',
+    ];
+?>
   <div class="achiever-brands__features">
-    <?php foreach ($features as $feature) :
+    <?php foreach (array_values($features) as $feature_index => $feature) :
         $label = $feature['label'] ?? '';
         $icon  = $feature['icon'] ?? '';
     ?>
       <div class="achiever-brands__feature">
         <span class="achiever-brands__feature-icon">
-          <?php if ($icon) : ?><img src="<?php echo esc_url($icon); ?>" alt="" loading="lazy" /><?php endif; ?>
+          <?php if ($icon) : ?>
+            <img src="<?php echo esc_url($icon); ?>" alt="" loading="lazy" />
+          <?php else : ?>
+            <?php echo $feature_default_icons[$feature_index % count($feature_default_icons)]; // phpcs:ignore WordPress.Security.EscapeOutput -- static theme SVG ?>
+          <?php endif; ?>
         </span>
         <p class="achiever-brands__feature-label"><?php echo esc_html($label); ?></p>
       </div>
@@ -90,7 +119,7 @@ $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
   </div>
 <?php endif; ?>
 <?php if (!empty(array_filter($gallery_images, static fn($image) => !empty($image['url'])))) : ?>
-  <div class="achiever-scroll-slider achiever-brands__gallery-slider" data-scroll-slider>
+  <div class="achiever-scroll-slider achiever-brands__gallery-slider" data-scroll-slider data-scroll-marquee>
     <button type="button" class="achiever-scroll-arrow achiever-scroll-arrow--prev" data-scroll-prev aria-controls="<?php echo esc_attr($gallery_track_id); ?>" aria-label="Previous studio photos">&#8249;</button>
     <div id="<?php echo esc_attr($gallery_track_id); ?>" class="achiever-brands__gallery achiever-scroll-track" data-scroll-track tabindex="0">
       <?php foreach ($gallery_images as $image) : ?>

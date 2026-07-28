@@ -50,6 +50,8 @@
     "decorRightMobileY": { "type": "number", "default": 15 },
     "decorRightMobileSize": { "type": "number", "default": 75 },
     "decorRightZIndex": { "type": "number", "default": 5 },
+    "brandIconSize": { "type": "number", "default": 120 },
+    "brandsFirstRow": { "type": "number", "default": 3 },
     "brands": {
       "type": "array",
       "default": [
@@ -84,7 +86,7 @@
     },
     "ctaText": {
       "type": "string",
-      "default": "SEE MORE"
+      "default": "CLICK TO SEE MORE"
     },
     "ctaUrl": {
       "type": "string",

@@ -189,17 +189,33 @@ add_action('enqueue_block_assets', function (): void {
         return;
     }
 
+    // 1. Parent theme frontend CSS (same file the frontend loads via theme.js bundle)
+    $parent_css_deps = [];
+    $parent_css_file = get_template_directory() . '/assets/dist/css/style.css';
+    if (file_exists($parent_css_file)) {
+        wp_enqueue_style(
+            'achiever-art-editor-parent-styles',
+            get_template_directory_uri() . '/assets/dist/css/style.css',
+            [],
+            filemtime($parent_css_file)
+        );
+        $parent_css_deps[] = 'achiever-art-editor-parent-styles';
+    }
+
+    // 2. Child theme frontend CSS — after parent, mirroring the frontend load order
     $dist_dir = get_stylesheet_directory() . '/assets/dist';
     $dist_uri = get_stylesheet_directory_uri() . '/assets/dist';
     $css_file = $dist_dir . '/css/child-style.css';
+    $child_css_deps = $parent_css_deps;
 
     if (file_exists($css_file)) {
         wp_enqueue_style(
             'achiever-art-editor-styles',
             $dist_uri . '/css/child-style.css',
-            [],
+            $parent_css_deps,
             filemtime($css_file)
         );
+        $child_css_deps = ['achiever-art-editor-styles'];
     }
 
     wp_enqueue_style(
@@ -208,11 +224,19 @@ add_action('enqueue_block_assets', function (): void {
         [],
         null
     );
+
+    // 3. High-priority overrides — the exact same CSS the frontend injects via
+    // wp_add_inline_style('wp-block-library', ...), loaded last so it wins here too.
+    wp_register_style('achiever-art-editor-overrides', false, $child_css_deps, null);
+    wp_enqueue_style('achiever-art-editor-overrides');
+    wp_add_inline_style('achiever-art-editor-overrides', ai_zippy_child_override_css());
 });
 
 // === High priority CSS overrides for Section Titles, Logos & Gallery Slider ===
-add_action('wp_enqueue_scripts', function (): void {
-    $css = '
+// Shared source for BOTH the frontend and the editor iframe — keep them 1:1.
+function ai_zippy_child_override_css(): string
+{
+    return '
         .wp-block-woocommerce-mini-cart,
         .wp-block-woocommerce-customer-account,
         .wc-block-mini-cart,
@@ -852,12 +876,15 @@ add_action('wp_enqueue_scripts', function (): void {
             object-fit: contain !important;
         }
 
-        /* Regular Art Classes gallery — screenshot-faithful full-width strip. */
+        /* Regular Art Classes gallery — screenshot-faithful full-width strip.
+           overflow-y stays visible so the mascot sticker can sit above the
+           section edge (negative Vertical position) without being clipped. */
         html body .achiever-classes-detail__gallery {
             width: 100% !important;
             margin: 0 !important;
             padding: 0 !important;
-            overflow: hidden !important;
+            overflow-x: clip !important;
+            overflow-y: visible !important;
             background: #ffffff !important;
         }
 
@@ -1011,7 +1038,10 @@ add_action('wp_enqueue_scripts', function (): void {
             }
         }
     ';
-    wp_add_inline_style('wp-block-library', $css);
+}
+
+add_action('wp_enqueue_scripts', function (): void {
+    wp_add_inline_style('wp-block-library', ai_zippy_child_override_css());
 }, 9999);
 
 // === Hide the default WooCommerce shop archive title (page-hero banner already shows it) ===
