@@ -152,6 +152,227 @@ function ai_zippy_child_decor_style(array $attributes, string $prefix, array $de
 }
 
 // =============================================================================
+// Page name renames
+// =============================================================================
+
+/**
+ * Apply the 2026 page renames to a saved string.
+ *
+ * The old names ("Regular Art Classes", "Single-Session Art Classes", "Our Camps
+ * & Courses") are stored in block attributes and post titles across the site, so
+ * they are rewritten at render time rather than edited page by page.
+ *
+ * Longest patterns run first so "Single-Session Art Classes" is not partly
+ * matched by the shorter "Art Classes" rule.
+ *
+ * @param string $text Text that may contain an old page name.
+ * @return string Text with the current page names.
+ */
+function ai_zippy_child_rename_page_text(string $text): string
+{
+    if ($text === '') {
+        return $text;
+    }
+
+    // Headings separate their two lines with a newline OR a literal <br> tag,
+    // depending on when they were saved. SEP matches either and is captured so
+    // the original separator is put back, preserving the two-line layout.
+    $sep = '(?:\s|<br\s*\/?>)+';
+
+    $patterns = [
+        // "Single-Session Classes" is the eyebrow above the "Workshops" heading;
+        // renaming it to "Workshops" too would print the same word twice.
+        "/\bSingle[\s\x{2010}-\x{2015}-]*Session{$sep}Classes\b/iu"               => 'Drop-in Sessions',
+        // Single-session → Workshops (hyphen, en dash or space between words).
+        "/\bSingle[\s\x{2010}-\x{2015}-]*Session(?:{$sep}Art)?{$sep}Classes\b/iu" => 'Workshops',
+        "/\bSingle[\s\x{2010}-\x{2015}-]*Session({$sep})Offerings\b/iu"           => 'Our${1}Workshops',
+        // Our Camps & Courses → Camps & Courses.
+        "/\bOur{$sep}Camps(\s*)(?:&amp;|&|and)(\s*)Courses\b/iu"                  => 'Camps${1}&${2}Courses',
+        // Regular Art Classes → Regular Classes.
+        "/\bRegular({$sep})Art{$sep}Classes\b/iu"                                 => 'Regular${1}Classes',
+        "/\bOur{$sep}Regular({$sep})Classes\b/iu"                                 => 'Regular${1}Classes',
+        // Old marketing headline on the workshops page.
+        "/\bFlexible\s*(?:&amp;|&|and)\s*Fun{$sep}Workshops\b/iu"                 => 'Workshops',
+        "/\bExplore{$sep}Our{$sep}Art{$sep}Classes\b/iu"                          => 'Regular Classes',
+    ];
+
+    $result = preg_replace(array_keys($patterns), array_values($patterns), $text);
+    if ($result === null) {
+        return $text;
+    }
+
+    // Preserve the original casing style: an all-uppercase source stays uppercase.
+    // Entities ("&amp;") and tags ("<br>") are stripped first — both are lowercase
+    // by convention and would otherwise mask an all-caps heading.
+    $letters = preg_replace('/&[a-z]+;|<[^>]+>/i', '', $text);
+    if ($letters !== null && $letters !== '' && $letters === mb_strtoupper($letters, 'UTF-8')) {
+        // Upper-case the text but leave HTML entities and tags intact, otherwise
+        // "&amp;" becomes "&AMP;" (rendered literally) and "<br>" becomes "<BR>".
+        // Each one is swapped for a digit-only placeholder that survives
+        // mb_strtoupper() unchanged, then restored afterwards.
+        $keep = [];
+        $result = preg_replace_callback(
+            '/&[a-z]+;|&#\d+;|<[^>]+>/i',
+            static function (array $m) use (&$keep): string {
+                $keep[] = $m[0];
+                return "\0" . (count($keep) - 1) . "\0";
+            },
+            $result
+        ) ?? $result;
+        $result = mb_strtoupper($result, 'UTF-8');
+        $result = preg_replace_callback(
+            '/\0(\d+)\0/',
+            static fn(array $m): string => $keep[(int) $m[1]] ?? '',
+            $result
+        ) ?? $result;
+    }
+
+    return $result;
+}
+
+/**
+ * Rewrite old page names in every theme block's rendered output.
+ *
+ * Applied centrally rather than per block: the old names live in saved
+ * attributes across many blocks, and a global pass means a newly added block
+ * cannot silently miss the rename. Only this theme's blocks are touched, and
+ * only their visible heading/label elements — never attributes or URLs, so
+ * links such as /regular-art-classes/ keep working.
+ */
+add_filter('render_block', static function (string $content, array $block): string {
+    if ($content === '' || strpos($block['blockName'] ?? '', 'ai-zippy/') !== 0) {
+        return $content;
+    }
+
+    // Rewrite text nodes only — never inside a tag, so href/class/alt stay intact.
+    $result = preg_replace_callback(
+        '/>([^<]+)</',
+        static fn(array $m): string => '>' . ai_zippy_child_rename_page_text($m[1]) . '<',
+        $content
+    );
+
+    return $result ?? $content;
+}, 20, 2);
+
+/**
+ * Rewrite old page names in post/page titles (browser tab, headings, menus).
+ */
+add_filter('the_title', 'ai_zippy_child_rename_page_text', 20, 1);
+add_filter('document_title_parts', static function (array $parts): array {
+    if (isset($parts['title'])) {
+        $parts['title'] = ai_zippy_child_rename_page_text((string) $parts['title']);
+    }
+    return $parts;
+}, 20, 1);
+
+// =============================================================================
+// Social links
+// =============================================================================
+
+/**
+ * The brand's social profiles, in display order.
+ *
+ * Shared by the footer and the contact page so both stay in sync.
+ *
+ * @return array<int, array{name:string, url:string}>
+ */
+function ai_zippy_child_social_links(): array
+{
+    return [
+        ['name' => 'instagram', 'url' => 'https://www.instagram.com/achieversarts'],
+        ['name' => 'facebook',  'url' => 'https://www.facebook.com/achieversarts/'],
+        ['name' => 'tiktok',    'url' => 'https://www.tiktok.com/@achieversarts'],
+        ['name' => 'youtube',   'url' => 'https://www.youtube.com/channel/UCJ6ryG5_ZS6l7PtJj0XhhJg'],
+    ];
+}
+
+/**
+ * Inline SVG icon markup, keyed by icon name.
+ *
+ * Icons are inlined (rather than an icon font or sprite) so they inherit
+ * currentColor and need no extra network request.
+ *
+ * @param string $name Icon name.
+ * @return string SVG markup, or an empty string when the name is unknown.
+ */
+function ai_zippy_child_icon_svg(string $name): string
+{
+    $icons = [
+        'instagram' => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.13 1.38C1.35 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.38 2.13.67.66 1.34 1.08 2.13 1.38.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.3 1.46-.72 2.13-1.38.66-.67 1.08-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.3-.79-.72-1.46-1.38-2.13C21.32 1.35 20.65.93 19.86.63 19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0Z"/><path d="M12 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32Zm0 10.16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Z"/><circle cx="18.41" cy="5.59" r="1.44"/></svg>',
+        'facebook'  => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M24 12.07C24 5.4 18.63 0 12 0S0 5.4 0 12.07C0 18.1 4.39 23.09 10.13 24v-8.44H7.08v-3.49h3.05V9.41c0-3.02 1.79-4.69 4.53-4.69 1.31 0 2.68.24 2.68.24v2.97h-1.51c-1.49 0-1.96.93-1.96 1.89v2.25h3.33l-.53 3.49h-2.8V24C19.61 23.09 24 18.1 24 12.07Z"/></svg>',
+        'tiktok'    => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.3 0 .58.04.86.13V9.4a6.33 6.33 0 0 0-6.34 6.34A6.34 6.34 0 0 0 16.15 20a6.33 6.33 0 0 0 .93-3.29V8.66a8.16 8.16 0 0 0 4.77 1.52V6.73c-.79 0-1.56-.02-2.26-.04Z"/></svg>',
+        'youtube'   => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M23.5 6.19a3.02 3.02 0 0 0-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 0 0 .5 6.19C0 8.08 0 12 0 12s0 3.92.5 5.81a3.02 3.02 0 0 0 2.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 0 0 2.12-2.14C24 15.92 24 12 24 12s0-3.92-.5-5.81ZM9.55 15.57V8.43L15.82 12l-6.27 3.57Z"/></svg>',
+        'whatsapp'  => '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.61-.92-2.21-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.08c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.69.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2.01-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35ZM12.05 21.7h-.01a9.6 9.6 0 0 1-4.9-1.34l-.35-.21-3.65.96.97-3.56-.23-.37a9.58 9.58 0 0 1-1.47-5.12c0-5.3 4.32-9.61 9.63-9.61a9.56 9.56 0 0 1 6.8 2.82 9.51 9.51 0 0 1 2.82 6.8c0 5.3-4.32 9.62-9.62 9.62ZM20.5 3.49A11.9 11.9 0 0 0 12.05 0C5.46 0 .1 5.36.1 11.95c0 2.1.55 4.16 1.6 5.98L0 24l6.22-1.63a11.9 11.9 0 0 0 5.82 1.49h.01c6.58 0 11.94-5.36 11.95-11.95a11.87 11.87 0 0 0-3.5-8.42Z"/></svg>',
+        'email'     => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2.5 6.5 8.4 6.3c.65.5 1.55.5 2.2 0l8.4-6.3"/></svg>',
+    ];
+
+    return $icons[$name] ?? '';
+}
+
+/**
+ * Render the social icon list.
+ *
+ * @param string $class_name Root CSS class for the list.
+ * @return string List markup, or an empty string when there are no links.
+ */
+function ai_zippy_child_social_links_html(string $class_name = 'achiever-social'): string
+{
+    $links = ai_zippy_child_social_links();
+    if (empty($links)) {
+        return '';
+    }
+
+    $items = '';
+    foreach ($links as $link) {
+        $icon = ai_zippy_child_icon_svg($link['name']);
+        if ($icon === '') {
+            continue;
+        }
+        $items .= sprintf(
+            '<li class="%1$s__item"><a class="%1$s__link %1$s__link--%2$s" href="%3$s" target="_blank" rel="noopener noreferrer" aria-label="%4$s">%5$s</a></li>',
+            esc_attr($class_name),
+            esc_attr($link['name']),
+            esc_url($link['url']),
+            esc_attr(ucfirst($link['name'])),
+            $icon // phpcs:ignore WordPress.Security.EscapeOutput -- static theme SVG
+        );
+    }
+
+    if ($items === '') {
+        return '';
+    }
+
+    return sprintf('<ul class="%s">%s</ul>', esc_attr($class_name), $items);
+}
+
+/**
+ * [achiever_social] — renders the social icon list inside static template parts,
+ * which cannot call PHP directly.
+ */
+add_shortcode('achiever_social', static function ($atts): string {
+    $atts = shortcode_atts(['class' => 'achiever-social'], $atts, 'achiever_social');
+    return ai_zippy_child_social_links_html(sanitize_html_class($atts['class'], 'achiever-social'));
+});
+
+/**
+ * Fill the footer's social placeholder with the icon list.
+ *
+ * The footer is a static template part, so it carries an empty
+ * `[data-achiever-social]` element that this filter populates. Keeping the
+ * markup here means the links and SVGs are defined in exactly one place.
+ */
+add_filter('render_block', static function (string $content): string {
+    if (strpos($content, 'data-achiever-social') === false) {
+        return $content;
+    }
+    return str_replace(
+        '<div class="achiever-footer__social-col" data-achiever-social></div>',
+        '<div class="achiever-footer__social-col">' . ai_zippy_child_social_links_html('achiever-social') . '</div>',
+        $content
+    );
+}, 10, 1);
+
+// =============================================================================
 // Auto-register child theme blocks (wp-scripts build output)
 // =============================================================================
 
@@ -245,14 +466,36 @@ function ai_zippy_child_override_css(): string
             display: none !important;
         }
 
-        /* ─── HEADER & FOOTER LOGO OVERRIDES ────────────────────────── */
-        html body .achiever-header__logo,
+        /* ─── HEADER LOGO (larger than the footer logo) ─────────────── */
+        html body .achiever-header__logo {
+            max-height: 110px !important;
+        }
+
+        html body .achiever-header__logo .wp-block-site-logo,
+        html body .achiever-header__logo .custom-logo-link {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: 110px !important;
+            max-height: 110px !important;
+            width: auto !important;
+        }
+
+        html body .achiever-header__logo img,
+        html body .achiever-header__logo svg {
+            height: 110px !important;
+            max-height: 110px !important;
+            width: auto !important;
+            max-width: 340px !important;
+            object-fit: contain !important;
+            display: block !important;
+        }
+
+        /* ─── FOOTER LOGO ───────────────────────────────────────────── */
         html body .achiever-footer__logo {
             max-height: 80px !important;
         }
 
-        html body .achiever-header__logo .wp-block-site-logo,
-        html body .achiever-header__logo .custom-logo-link,
         html body .achiever-footer__logo .wp-block-site-logo,
         html body .achiever-footer__logo .custom-logo-link {
             display: inline-flex !important;
@@ -263,8 +506,6 @@ function ai_zippy_child_override_css(): string
             width: auto !important;
         }
 
-        html body .achiever-header__logo img,
-        html body .achiever-header__logo svg,
         html body .achiever-footer__logo img,
         html body .achiever-footer__logo svg {
             height: 80px !important;
@@ -275,7 +516,7 @@ function ai_zippy_child_override_css(): string
             display: block !important;
         }
 
-        /* ─── SECTION TITLES (70px) ────────────────────────────────── */
+        /* ─── SECTION TITLES (52px) ────────────────────────────────── */
         html body h1.achiever-classes-hero__heading,
         html body h2.achiever-classes-hero__section-title,
         html body .achiever-classes-detail__copy h2,
@@ -290,8 +531,8 @@ function ai_zippy_child_override_css(): string
         html body .achiever-party__title,
         html body .achiever-instagram__title,
         html body .achiever-testimonials__title {
-            font-size: 70px !important;
-            line-height: 1.1 !important;
+            font-size: 52px !important;
+            line-height: 1.05 !important;
         }
 
         @media (max-width: 767px) {
@@ -299,7 +540,7 @@ function ai_zippy_child_override_css(): string
             html body h2.achiever-classes-hero__section-title,
             html body .achiever-classes-detail__copy h2,
             html body .achiever-classes-detail__gallery h2 {
-                font-size: 42px !important;
+                font-size: 34px !important;
             }
         }
 
@@ -310,13 +551,13 @@ function ai_zippy_child_override_css(): string
             background-size: cover !important;
             background-position: center top !important;
             background-repeat: no-repeat !important;
-            min-height: 450px !important;
+            min-height: 340px !important;
             display: flex !important;
             flex-direction: column !important;
             justify-content: center !important;
             align-items: center !important;
-            padding-top: 40px !important;
-            padding-bottom: 60px !important;
+            padding-top: 32px !important;
+            padding-bottom: 24px !important;
             position: relative !important;
             box-sizing: border-box !important;
         }
@@ -451,7 +692,7 @@ function ai_zippy_child_override_css(): string
 
         html body .achiever-course-intro__heading {
             font-family: "Baloo 2", sans-serif !important;
-            font-size: 70px !important;
+            font-size: 52px !important;
             font-weight: 900 !important;
             color: #ff6584 !important;
             text-transform: uppercase !important;
@@ -922,7 +1163,7 @@ function ai_zippy_child_override_css(): string
             margin: 0 !important;
             color: #ff6584 !important;
             font-family: "Poppins", sans-serif !important;
-            font-size: 90px !important;
+            font-size: clamp(34px, 4.6vw, 52px) !important;
             font-weight: 800 !important;
             line-height: 0.94 !important;
             letter-spacing: 0.1em !important;
@@ -1013,7 +1254,7 @@ function ai_zippy_child_override_css(): string
             }
             html body .achiever-classes-detail__gallery .achiever-classes-detail__gallery-header h2 {
                 width: min(100%, 350px) !important;
-                font-size: 48px !important;
+                font-size: clamp(34px, 4.6vw, 52px) !important;
                 line-height: 0.98 !important;
                 letter-spacing: 0.015em !important;
             }
