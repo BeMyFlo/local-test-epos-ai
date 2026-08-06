@@ -11,7 +11,7 @@
   "attributes": {
     "heading": { "type": "string", "default": "Ask us questions" },
     "subheading": { "type": "string", "default": "Book an appointment with us to save time!" },
-    "phoneLabel": { "type": "string", "default": "Contact us at" },
+    "phoneLabel": { "type": "string", "default": "Whatsapp us at" },
     "phone": { "type": "string", "default": "+65 9123 4537" },
     "emailLabel": { "type": "string", "default": "Email" },
     "email": { "type": "string", "default": "info@achieversarts.com" },

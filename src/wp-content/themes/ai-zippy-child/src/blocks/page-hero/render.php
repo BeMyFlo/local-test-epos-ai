@@ -13,6 +13,13 @@ $subtitle = $attributes['subtitle'] ?? 'Discover your creative journey through a
 $breadcrumb_home_text = $attributes['breadcrumbHomeText'] ?? 'Home';
 $breadcrumb_home_url  = $attributes['breadcrumbHomeUrl'] ?? '/';
 $breadcrumb_current   = $attributes['breadcrumbCurrent'] ?? '';
+
+// Saved attributes still carry the old page names — rewrite them on output.
+if (function_exists('ai_zippy_child_rename_page_text')) {
+    $eyebrow            = ai_zippy_child_rename_page_text($eyebrow);
+    $heading            = ai_zippy_child_rename_page_text($heading);
+    $breadcrumb_current = ai_zippy_child_rename_page_text($breadcrumb_current);
+}
 $background_image     = $attributes['backgroundImage'] ?? '';
 $background_alt       = $attributes['backgroundAlt'] ?? '';
 $mascot_image          = $attributes['mascotImage'] ?: home_url('/wp-content/uploads/2026/07/Sensory-Playhaus_COLOR.png');

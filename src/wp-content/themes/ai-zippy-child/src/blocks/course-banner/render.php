@@ -13,6 +13,12 @@ defined('ABSPATH') || exit;
 $tagline             = $attributes['tagline'] ?? "Let's Artventure";
 $tagline_description = $attributes['taglineDescription'] ?? '';
 $heading             = $attributes['heading'] ?? 'FOUNDATION ART COURSE';
+
+// The "Let's Artventure" tagline belongs to the home page only.
+if (!is_front_page()) {
+    $tagline             = '';
+    $tagline_description = '';
+}
 $background_image    = $attributes['backgroundImage'] ?? '';
 $background_color    = sanitize_hex_color($attributes['backgroundColor'] ?? '#ffffff') ?: '#ffffff';
 $background_position = in_array(($attributes['backgroundPosition'] ?? ''), ['center top', 'center center', 'center bottom'], true) ? $attributes['backgroundPosition'] : 'center top';

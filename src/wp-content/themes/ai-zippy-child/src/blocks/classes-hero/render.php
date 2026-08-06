@@ -7,11 +7,18 @@
 
 defined('ABSPATH') || exit;
 
-$heading       = $attributes['heading'] ?? "REGULAR\nART CLASSES";
+$heading       = $attributes['heading'] ?? "REGULAR\nCLASSES";
 $breadcrumb_home_text = $attributes['breadcrumbHomeText'] ?? 'Home';
 $breadcrumb_home_url = $attributes['breadcrumbHomeUrl'] ?? '/';
-$breadcrumb_current = $attributes['breadcrumbCurrent'] ?? 'Regular Art Classes';
-$section_title = $attributes['sectionTitle'] ?? 'REGULAR ART CLASSES';
+$breadcrumb_current = $attributes['breadcrumbCurrent'] ?? 'Regular Classes';
+$section_title = $attributes['sectionTitle'] ?? 'REGULAR CLASSES';
+
+// Saved attributes still carry the old page names — rewrite them on output.
+if (function_exists('ai_zippy_child_rename_page_text')) {
+    $heading            = ai_zippy_child_rename_page_text($heading);
+    $breadcrumb_current = ai_zippy_child_rename_page_text($breadcrumb_current);
+    $section_title      = ai_zippy_child_rename_page_text($section_title);
+}
 $background_image = $attributes['backgroundImage'] ?? '';
 $classes       = $attributes['classes'] ?? [];
 $track_id      = wp_unique_id('achiever-classes-track-');

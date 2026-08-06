@@ -2,6 +2,11 @@
 defined('ABSPATH') || exit;
 
 $heading = $attributes['heading'] ?? "BEYOND\nTHE CANVAS";
+// Saved values lost the escape character from "BEYOND\nTHE CANVAS", leaving
+// either a literal "\n" or a bare "n" glued between the two words — which
+// rendered as "BEYONDnTHE CANVAS". Restore the real line break in both cases.
+$heading = str_replace('\n', "\n", $heading);
+$heading = preg_replace('/(?<=[A-Z])n(?=[A-Z])/', "\n", $heading);
 $description = $attributes['description'] ?? 'Beyond The Canvas by The Artivity Collective brings together a unique family of creative brands and experiences designed to inspire self-expression, hands-on learning, and artistic exploration for all ages.';
 $decor_image = $attributes['decorImage'] ?? '';
 $decor_alt = $attributes['decorAlt'] ?? 'Cat decoration';

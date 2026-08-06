@@ -3,6 +3,12 @@ defined('ABSPATH') || exit;
 
 $heading     = $attributes['heading'] ?? '';
 $subheading  = $attributes['subheading'] ?? '';
+
+// Saved attributes still carry the old page names — rewrite them on output.
+if (function_exists('ai_zippy_child_rename_page_text')) {
+    $heading    = ai_zippy_child_rename_page_text($heading);
+    $subheading = ai_zippy_child_rename_page_text($subheading);
+}
 $layout      = $attributes['layout'] ?? 'grid';
 $items       = $attributes['items'] ?? [];
 $is_carousel = 'carousel' === $layout;

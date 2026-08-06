@@ -12,10 +12,24 @@ defined('ABSPATH') || exit;
 
 $tagline             = $attributes['tagline'] ?? '';
 $tagline_description = $attributes['taglineDescription'] ?? '';
-$heading             = $attributes['heading'] ?? "REGULAR\nART CLASSES";
+$heading             = $attributes['heading'] ?? "REGULAR\nCLASSES";
+
+// The "Let's Artventure" tagline belongs to the home page only. Inner pages
+// saved it into their block attributes, so clear it here rather than relying on
+// each page's stored value being edited.
+if (!is_front_page()) {
+    $tagline             = '';
+    $tagline_description = '';
+}
 $breadcrumb_home_text = $attributes['breadcrumbHomeText'] ?? 'Home';
 $breadcrumb_home_url = $attributes['breadcrumbHomeUrl'] ?? '/';
-$breadcrumb_current  = $attributes['breadcrumbCurrent'] ?? 'Regular Art Classes';
+$breadcrumb_current  = $attributes['breadcrumbCurrent'] ?? 'Regular Classes';
+
+// Saved attributes still carry the old page names — rewrite them on output.
+if (function_exists('ai_zippy_child_rename_page_text')) {
+    $heading            = ai_zippy_child_rename_page_text($heading);
+    $breadcrumb_current = ai_zippy_child_rename_page_text($breadcrumb_current);
+}
 $background_image    = $attributes['backgroundImage'] ?? '';
 
 // When a custom background image is set in the editor, output it as an inline
