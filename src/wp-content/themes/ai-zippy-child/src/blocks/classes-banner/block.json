@@ -11,10 +11,10 @@
   "attributes": {
     "tagline": { "type": "string", "default": "" },
     "taglineDescription": { "type": "string", "default": "" },
-    "heading": { "type": "string", "default": "REGULAR\nART CLASSES" },
+    "heading": { "type": "string", "default": "REGULAR\nCLASSES" },
     "breadcrumbHomeText": { "type": "string", "default": "Home" },
     "breadcrumbHomeUrl": { "type": "string", "default": "/" },
-    "breadcrumbCurrent": { "type": "string", "default": "Regular Art Classes" },
+    "breadcrumbCurrent": { "type": "string", "default": "Regular Classes" },
     "backgroundImage": { "type": "string", "default": "" },
     "backgroundAlt": { "type": "string", "default": "Banner background" }
   },

@@ -9,7 +9,7 @@
   "description": "Editable carousel of class cards with prev/next navigation.",
   "supports": { "html": false, "align": ["wide", "full"] },
   "attributes": {
-    "sectionTitle": { "type": "string", "default": "REGULAR ART CLASSES" },
+    "sectionTitle": { "type": "string", "default": "REGULAR CLASSES" },
     "classes": {
       "type": "array",
       "default": [

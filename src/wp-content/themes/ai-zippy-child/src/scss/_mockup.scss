@@ -5,6 +5,7 @@ $yellow: #fcf0ac;
 $navy: #1e3a6e;
 $rose: #f2708a;
 $copy: #5b6472;
+$grey-light: #f5f5f5; // header + footer background
 
 html,
 body {
@@ -78,10 +79,11 @@ main.achiever-page,
   }
 }
 
+// The header scrolls away with the page — it is deliberately not sticky.
 .wp-site-blocks > header.wp-block-template-part {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  position: static;
+  top: auto;
+  z-index: auto;
 }
 
 .achiever-header {
@@ -89,8 +91,8 @@ main.achiever-page,
   top: auto !important;
   z-index: auto;
   margin: 0 !important;
-  padding: 24px 48px 8px !important;
-  background: $blue !important;
+  padding: 12px 48px 6px !important;
+  background: $grey-light !important;
 
   &__inner {
     display: flex !important;
@@ -99,7 +101,7 @@ main.achiever-page,
     max-width: 1240px !important;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 4px;
     margin: 0 auto !important;
     box-sizing: border-box;
   }
@@ -135,7 +137,7 @@ main.achiever-page,
     justify-content: center;
     margin: 0 auto !important;
     text-align: center;
-    max-height: 80px;
+    max-height: 110px;
 
     .wp-block-site-logo,
     .custom-logo-link,
@@ -143,8 +145,8 @@ main.achiever-page,
       display: inline-flex !important;
       align-items: center !important;
       justify-content: center !important;
-      height: 80px !important;
-      max-height: 80px !important;
+      height: 110px !important;
+      max-height: 110px !important;
       width: auto !important;
     }
 
@@ -153,10 +155,10 @@ main.achiever-page,
     img,
     svg {
       display: block !important;
-      height: 80px !important;
-      max-height: 80px !important;
+      height: 110px !important;
+      max-height: 110px !important;
       width: auto !important;
-      max-width: 260px !important;
+      max-width: 340px !important;
       object-fit: contain !important;
       margin: 0 auto !important;
     }
@@ -181,7 +183,7 @@ main.achiever-page,
     }
 
     .wp-block-navigation-item__content {
-      padding: 8px 18px !important;
+      padding: 5px 16px !important;
       border-radius: 999px;
       color: $navy !important;
       font-size: 13px !important;
@@ -242,40 +244,38 @@ body.page-template-page-course
   }
 }
 
+// The shortened menu labels ("REGULAR CLASSES", "WORKSHOPS", "CAMPS & COURSES")
+// fit without the aggressive squeeze these breakpoints used to need.
 @media (min-width: 1100px) and (max-width: 1299px) {
   .achiever-header__nav .wp-block-navigation__container {
-    gap: 8px 5px !important;
+    gap: 8px 8px !important;
   }
   .achiever-header__nav .wp-block-navigation-item__content {
-    padding-inline: 6px !important;
-    font-size: 11px !important;
+    padding-inline: 9px !important;
+    font-size: 11.5px !important;
   }
 }
 
 @media (min-width: 1024px) and (max-width: 1099px) {
   .achiever-header__nav .wp-block-navigation__container {
-    gap: 8px 3px !important;
+    gap: 8px 6px !important;
   }
   .achiever-header__nav .wp-block-navigation-item__content {
-    padding-inline: 5px !important;
-    font-size: 10.5px !important;
+    padding-inline: 7px !important;
+    font-size: 11px !important;
   }
-}
-
-body.admin-bar .wp-site-blocks > header.wp-block-template-part {
-  top: 32px;
 }
 
 .achiever-footer {
   margin: 0 !important;
   padding: 44px 60px 56px !important;
-  background: $blue !important;
+  background: $grey-light !important;
   color: $navy !important;
 
   &__grid {
     display: flex !important;
     flex-wrap: wrap;
-    gap: 48px;
+    gap: 32px;
     max-width: 1240px;
     margin: 0 auto !important;
     align-items: flex-start;
@@ -338,9 +338,11 @@ body.admin-bar .wp-site-blocks > header.wp-block-template-part {
     }
   }
 
+  // The three studio columns sit close together rather than stretching apart,
+  // which leaves room for the social column pushed to the far right.
   &__studio {
-    min-width: 190px;
-    flex: 1 1 190px;
+    min-width: 0;
+    flex: 0 1 180px;
     margin: 0 !important;
     color: $navy;
     font-size: 11.5px;
@@ -354,6 +356,18 @@ body.admin-bar .wp-site-blocks > header.wp-block-template-part {
     }
   }
 
+  // Sits last in the grid and takes the remaining space so its icons align right.
+  &__social-col {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: flex-start;
+    margin: 0 !important;
+
+    @media (min-width: 900px) {
+      justify-content: flex-end;
+    }
+  }
+
   &__hours {
     min-width: 160px;
     flex: 1 1 160px;
@@ -363,6 +377,56 @@ body.admin-bar .wp-site-blocks > header.wp-block-template-part {
     line-height: 1.9;
     p {
       margin: 0 0 8px !important;
+    }
+  }
+}
+
+// =============================================================================
+// Social icon list — shared by the footer and the contact page
+// =============================================================================
+
+.achiever-social {
+  display: flex !important;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0 !important;
+  padding: 0 !important;
+  list-style: none !important;
+
+  &__item {
+    margin: 0 !important;
+  }
+
+  &__link {
+    display: inline-flex !important;
+    width: 36px;
+    height: 36px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: $navy;
+    color: #fff !important;
+    text-decoration: none !important;
+    transition:
+      transform 160ms ease,
+      background-color 160ms ease;
+
+    svg {
+      display: block;
+      width: 19px;
+      height: 19px;
+    }
+
+    &:hover,
+    &:focus-visible {
+      background: $rose;
+      transform: translateY(-2px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $navy;
+      outline-offset: 2px;
     }
   }
 }
@@ -430,7 +494,9 @@ body .az-scroll-top.is-content-obscured {
   height: auto !important;
   min-height: 0 !important;
   margin: 0 !important;
-  padding-block: clamp(32px, 3.5vw, 48px) clamp(88px, 7vw, 120px) !important;
+  // Bottom padding only needs to clear the slider dots — it used to leave a
+  // large empty band under the "Book Now" button.
+  padding-block: clamp(28px, 3vw, 40px) clamp(40px, 3.5vw, 56px) !important;
   background: #fff url("/wp-content/uploads/2026/07/hero-bg-mascots.png")
     no-repeat center top / 100% auto !important;
   overflow: visible !important;
@@ -531,9 +597,10 @@ body .az-scroll-top.is-content-obscured {
     margin: 0 !important;
     color: #e0567a !important;
     font-family: "Baloo 2", sans-serif !important;
-    font-size: clamp(40px, 6vw, 80px) !important;
+    font-size: clamp(34px, 4.6vw, 52px) !important;
     font-weight: 800 !important;
-    line-height: 1.5 !important;
+    // Tight enough that "REGULAR" and "ART CLASSES" read as one block.
+    line-height: 1.05 !important;
     letter-spacing: 0 !important;
   }
   &__description {
@@ -610,10 +677,13 @@ body .az-scroll-top.is-content-obscured {
   }
 }
 
+// Most specific hero rule on the home page, so it decides the final padding.
+// The bottom value only needs to clear the decor — it used to leave a large
+// empty band under the "Book Now" button.
 .achiever-page
   .wp-block-post-content
   > .wp-block-ai-zippy-home-hero.achiever-hero {
-  padding-block: clamp(32px, 3.5vw, 48px) clamp(88px, 7vw, 120px) !important;
+  padding-block: clamp(28px, 3vw, 40px) clamp(36px, 3vw, 48px) !important;
 }
 
 .achiever-class-types {
@@ -642,7 +712,7 @@ body .az-scroll-top.is-content-obscured {
   &__title {
     margin: 0 0 clamp(24px, 2vw, 32px) !important;
     padding: 0 !important;
-    font-size: clamp(40px, 5vw, 76px) !important;
+    font-size: clamp(34px, 4.6vw, 52px) !important;
     line-height: 1 !important;
     letter-spacing: 0.12em !important;
   }
@@ -765,12 +835,14 @@ body .az-scroll-top.is-content-obscured {
 .achiever-brands {
   position: relative;
   margin: 0 !important;
-  padding: 48px 18px 140px !important;
+  // Bottom padding leaves room for the wave that is pulled up over it (60px
+  // mobile / 90px desktop) plus a little breathing space.
+  padding: 48px 18px 90px !important;
   background: $pink !important;
   text-align: center;
 
   @media (min-width: 768px) {
-    padding: 56px 60px 190px !important;
+    padding: 56px 60px 120px !important;
   }
 
   &__container {
@@ -917,14 +989,18 @@ body .az-scroll-top.is-content-obscured {
   &__decor--empty {
     display: none;
   }
+  // The wave is a separate element pulled up over the pink section. It must
+  // carry the same pink behind it, otherwise the white page shows through as a
+  // hairline seam above the curve.
   &__wave {
     position: relative !important;
     z-index: 1;
     display: block !important;
     width: 100% !important;
     height: 60px !important;
-    margin: 0 0 0 0 !important;
+    margin: 0 0 -1px 0 !important;
     margin-block-start: -60px !important;
+    background: $pink;
     color: #fff;
 
     @media (min-width: 768px) {
@@ -934,10 +1010,12 @@ body .az-scroll-top.is-content-obscured {
   }
 }
 
+// Sits directly under the wave — no top padding, so the wave flows straight
+// into the features row as one continuous section.
 .achiever-brands__features {
   max-width: 1200px !important;
   margin: 0 auto !important;
-  padding: 32px 20px !important;
+  padding: 0 20px 32px !important;
   display: grid !important;
   grid-template-columns: repeat(2, 1fr) !important;
   gap: 28px 20px !important;
@@ -945,12 +1023,12 @@ body .az-scroll-top.is-content-obscured {
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 32px 24px !important;
-    padding: 40px 40px !important;
+    padding: 0 40px 40px !important;
   }
 
   @media (min-width: 1024px) {
     grid-template-columns: repeat(6, 1fr) !important;
-    padding: 48px 40px !important;
+    padding: 0 40px 48px !important;
   }
 }
 .achiever-brands__feature {
@@ -1913,7 +1991,7 @@ body .az-scroll-top.is-content-obscured {
 
   &__heading {
     font-family: "Baloo 2", sans-serif !important;
-    font-size: 64px !important;
+    font-size: clamp(34px, 4.6vw, 52px) !important;
     font-weight: 900 !important;
     color: #534c9c !important;
     text-transform: uppercase !important;
@@ -2241,7 +2319,7 @@ body .az-scroll-top.is-content-obscured {
     overflow: hidden;
   }
   .achiever-header {
-    padding: 20px 18px 24px !important;
+    padding: 10px 18px 12px !important;
   }
   .achiever-header__decor {
     display: none;
@@ -2401,7 +2479,7 @@ body .az-scroll-top.is-content-obscured {
   }
   .achiever-classes-hero__heading,
   .achiever-course-intro__overview > h1 {
-    font-size: 38px !important;
+    font-size: 34px !important;
   }
   .achiever-classes-detail__inner {
     flex-direction: column;
@@ -2584,12 +2662,6 @@ body .az-scroll-top.is-content-obscured {
   }
 }
 
-@media (max-width: 782px) {
-  body.admin-bar .wp-site-blocks > header.wp-block-template-part {
-    top: 46px;
-  }
-}
-
 // =============================================================================
 // Full-bleed home sliders (party / brands gallery / instagram)
 // Design: edge-to-edge photo strip, no gaps, no rounding, 3 tiles per view,
@@ -2654,6 +2726,37 @@ body .az-scroll-top.is-content-obscured {
   object-fit: cover !important;
 }
 
+// Posters strip: show each poster whole rather than cropping it to fill the
+// slot, with a small gap so they read as separate posters. The images mix
+// square (1:1) and landscape (~1.4:1) ratios, so the slot is sized for the
+// squares and `contain` letterboxes the wider ones against white.
+// No top margin — the strip belongs to the same block as the features row.
+.achiever-brands__gallery-slider {
+  margin-top: 0 !important;
+}
+
+.achiever-brands__gallery-slider .achiever-brands__gallery {
+  gap: 12px !important;
+  padding-inline: 12px !important;
+}
+
+.achiever-brands__gallery-slider .achiever-brands__gallery-item {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-basis: calc((100vw - 48px) / 4) !important;
+  width: calc((100vw - 48px) / 4) !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1 !important;
+  background: #fff !important;
+}
+
+.achiever-brands__gallery-slider .achiever-brands__gallery-item img {
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #fff !important;
+}
+
 // Overlay chevron arrows on the strip
 .achiever-party__gallery-slider .achiever-scroll-arrow,
 .achiever-brands__gallery-slider .achiever-scroll-arrow,
@@ -2692,6 +2795,13 @@ body .az-scroll-top.is-content-obscured {
     flex-basis: 86vw !important;
     width: 86vw !important;
     height: 300px !important;
+  }
+
+  // Posters keep their square slot so `contain` still shows them whole.
+  .achiever-brands__gallery-slider .achiever-brands__gallery-item {
+    flex-basis: 72vw !important;
+    width: 72vw !important;
+    height: auto !important;
   }
 
   .achiever-party__gallery-slider .achiever-scroll-arrow,

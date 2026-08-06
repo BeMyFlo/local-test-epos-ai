@@ -44,6 +44,12 @@ $track_id = wp_unique_id('achiever-class-types-track-');
   <div id="<?php echo esc_attr($track_id); ?>" class="achiever-class-types__grid achiever-scroll-track" data-scroll-track tabindex="0">
     <?php foreach ($types as $type) :
         $label    = $type['label'] ?? '';
+        // Saved labels still carry the old page names — rewrite them on output.
+        // The subtitle is left alone: "(Single Session)" describes the lesson
+        // format, not the page it links to.
+        if (function_exists('ai_zippy_child_rename_page_text')) {
+            $label = ai_zippy_child_rename_page_text($label);
+        }
         $subtitle = $type['subtitle'] ?? '';
         $image    = $type['image'] ?? '';
         $alt      = $type['alt'] ?? $label;

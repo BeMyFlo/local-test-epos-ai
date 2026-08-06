@@ -10,7 +10,12 @@
 
 defined('ABSPATH') || exit;
 
-$section_title = $attributes['sectionTitle'] ?? 'REGULAR ART CLASSES';
+$section_title = $attributes['sectionTitle'] ?? 'REGULAR CLASSES';
+
+// Saved attributes still carry the old page names — rewrite them on output.
+if (function_exists('ai_zippy_child_rename_page_text')) {
+    $section_title = ai_zippy_child_rename_page_text($section_title);
+}
 $classes       = $attributes['classes'] ?? [];
 $track_id      = wp_unique_id('achiever-classes-track-');
 
