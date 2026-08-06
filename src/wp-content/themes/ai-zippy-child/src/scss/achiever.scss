@@ -2346,26 +2346,22 @@ main.achiever-page,
 .achiever-seasonal__card, .achiever-products__card { border-radius: 18px; overflow: hidden; box-shadow: 0 8px 20px rgba(82,96,139,.1); }
 .achiever-seasonal__card { background: #d6f1ff; }
 .achiever-products__card { display: block; background: #fffbd1; }
-// These classes sit on the <img> itself (no wrapper div) — size and crop it
-// directly. Width accounts for the 10px inset frame so the image never
-// overflows the card edge.
+// These classes sit on the <img> itself (no wrapper div) — size it directly.
+// `contain` shows the whole poster instead of cropping it; the box matches the
+// posters' own landscape ratio (~1.41, A4 sideways) so there are no empty bands
+// above and below, and the padding gives each one breathing room in the card.
 .achiever-seasonal__card-image, .achiever-products__card-img {
   display: block;
+  box-sizing: border-box;
   width: calc(100% - 20px);
   height: auto;
-  aspect-ratio: 1;
+  aspect-ratio: 1.41 / 1;
   margin: 10px 10px 0;
-  object-fit: cover;
-  object-position: center 30%;
+  padding: 6px;
+  object-fit: contain;
+  object-position: center center;
   background: #fff8cf;
 }
-.achiever-seasonal__card:nth-child(2) img { object-position: center 39%; }
-.achiever-seasonal__card:nth-child(3) img { object-position: center 46%; }
-.achiever-seasonal__card:nth-child(4) img { object-position: center 20%; }
-.achiever-products__card-img img { object-position: center 46%; }
-.achiever-products__card:nth-child(2) img { object-position: center 31%; }
-.achiever-products__card:nth-child(3) img { object-position: center 40%; }
-.achiever-products__card:nth-child(4) img { object-position: center 19%; }
 .achiever-seasonal__card-content, .achiever-products__card-body { display: flex; flex-direction: column; align-items: center; padding: 18px 14px 22px; }
 .achiever-seasonal__card-name, .achiever-products__card-name { color: #1a1040; display: block; font-size: 18px; font-weight: 800; line-height: 1.2; margin: 0 0 6px; }
 .achiever-seasonal__card-category, .achiever-seasonal__card-age-time,
@@ -2499,14 +2495,10 @@ main.achiever-page,
 @media (max-width: 560px) { .achiever-class-types__grid { grid-template-columns: repeat(2,minmax(122px,1fr)); } .achiever-class-types__card:nth-child(5) { grid-column: 1 / -1; max-width: 160px; justify-self: center; } .achiever-hero__arrow { display: none; } .achiever-party__slide, .achiever-instagram__item { flex-basis: 70vw; } }
 
 // Fix home-brands bleed from full-page mockup background.
+// Padding and background colour are owned by _mockup.scss (it loads later);
+// this rule only has to cancel the inherited mockup background image.
 .achiever-brands {
-  padding: 48px 18px 140px !important;
-  background: #f8dbe8 !important;
   background-image: none !important;
-
-  @media (min-width: 768px) {
-    padding-bottom: 190px !important;
-  }
 }
 .achiever-brands__container {
   position: relative;
@@ -2620,7 +2612,9 @@ main.achiever-page,
   padding: 24px 70px 42px !important;
   align-items: flex-start !important;
   background: linear-gradient(180deg, #fff9fb 0 8%, #fff 24% 84%, #f9dce9 84% 100%) !important;
-  border-top: 8px solid #cfeeff;
+  // No top border: it used to blend into the old blue header. Now that the
+  // header is light grey it would read as a stray blue line under it.
+  border-top: 0;
 }
 .achiever-hero::before {
     content: "";
@@ -2750,9 +2744,9 @@ main.achiever-page,
 
 // Fix hero CTA spacing and pencil tray placement.
 .achiever-hero {
-  height: 430px !important;
-  min-height: 430px !important;
-  padding-bottom: 76px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding-bottom: 48px !important;
   background: linear-gradient(180deg, #fff9fb 0 8%, #fff 24% 82%, #f9dce9 82% 100%) !important;
 }
 .achiever-hero__slides,
@@ -2789,10 +2783,13 @@ main.achiever-page,
 }
 
 // Hero mascot/decor refinement to match the supplied banner proportions.
+// Height follows the content instead of a fixed 660px, and the bottom padding
+// only clears the decor — both used to leave a large empty band under the
+// "Book Now" button.
 .achiever-hero {
-  height: 660px !important;
-  min-height: 660px !important;
-  padding: 42px 120px 108px !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 36px 120px 48px !important;
   background:
     radial-gradient(circle at 3% 15%, rgba(255, 205, 216, 0.92) 0 76px, transparent 78px),
     radial-gradient(circle at 16% 5%, rgba(255, 213, 177, 0.88) 0 80px, transparent 82px),
@@ -3195,7 +3192,7 @@ main.achiever-page,
   z-index: 2;
   margin: 0 0 clamp(28px, 3vw, 44px);
   color: #5d78bf;
-  font-size: clamp(42px, 6vw, 86px);
+  font-size: clamp(34px, 4.6vw, 52px);
   font-weight: 900;
   line-height: 0.98;
   letter-spacing: 0.18em;
@@ -3344,13 +3341,18 @@ main.achiever-page,
   background: #fff9bf;
 }
 
+// Posters are shown whole (`contain`) rather than cropped to fill, matching the
+// base rule on .achiever-seasonal__card-image / .achiever-products__card-img.
 .achiever-page .achiever-seasonal__card img,
 .achiever-page .achiever-best-sellers__card img,
 .achiever-page [class*="seasonal"] [class*="card"] img,
 .achiever-page [class*="best"] [class*="card"] img {
-  width: 100%;
-  aspect-ratio: 1.12 / 1;
-  object-fit: cover;
+  box-sizing: border-box;
+  width: calc(100% - 20px);
+  aspect-ratio: 1.41 / 1;
+  padding: 6px;
+  object-fit: contain;
+  object-position: center center;
   display: block;
 }
 
@@ -3826,7 +3828,7 @@ main.achiever-page,
   max-width: 1120px;
   margin: 0 auto clamp(28px, 2.7vw, 40px);
   color: #ef6f91;
-  font-size: clamp(64px, 7.2vw, 122px);
+  font-size: clamp(34px, 4.6vw, 52px);
   font-weight: 900;
   line-height: 0.98;
   letter-spacing: 0.18em;
@@ -4190,7 +4192,7 @@ main.achiever-page,
   }
 }
 
-/* ─── HOME SECTION TITLES 70PX ON DESKTOP ─────────────────────────── */
+/* ─── HOME SECTION TITLES 52PX ON DESKTOP ─────────────────────────── */
 @media (min-width: 1024px) {
   .achiever-class-types__title,
   .achiever-seasonal__title,
@@ -4215,7 +4217,7 @@ main.achiever-page,
   .wp-block-ai-zippy-home-party h2,
   .wp-block-ai-zippy-home-instagram h2,
   .wp-block-ai-zippy-home-testimonials h2 {
-    font-size: 70px !important;
+    font-size: 52px !important;
   }
 }
 
@@ -4283,13 +4285,13 @@ main.achiever-page,
     background-size: cover !important;
     background-position: center top !important;
     background-repeat: no-repeat !important;
-    min-height: 450px !important;
+    min-height: 340px !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
     align-items: center !important;
-    padding-top: 40px !important;
-    padding-bottom: 40px !important;
+    padding-top: 32px !important;
+    padding-bottom: 24px !important;
     position: relative !important;
     box-sizing: border-box !important;
   }
@@ -4297,16 +4299,17 @@ main.achiever-page,
   &__heading {
     color: #ff6584 !important;
     font-family: "Baloo 2", sans-serif !important;
-    font-size: clamp(42px, 6vw, 70px) !important;
+    font-size: clamp(34px, 4.6vw, 52px) !important;
     font-weight: 900 !important;
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    margin-top: 10px !important;
+    margin-top: 6px !important;
+    margin-bottom: 0 !important;
   }
 
   &__carousel-section {
     background: #fdfec7 !important; /* Pastel Yellow */
-    padding-block: clamp(60px, 7vw, 110px) !important;
+    padding-block: clamp(40px, 5vw, 72px) !important;
     position: relative !important;
     overflow: hidden !important;
   }
@@ -4314,16 +4317,16 @@ main.achiever-page,
   &__section-title {
     color: #5b7dba !important;
     font-family: "Baloo 2", sans-serif !important;
-    font-size: clamp(36px, 5vw, 70px) !important;
+    font-size: clamp(34px, 4.6vw, 52px) !important;
     font-weight: 900 !important;
     text-transform: uppercase !important;
     text-align: center !important;
-    margin-bottom: clamp(30px, 4vw, 56px) !important;
+    margin-bottom: clamp(24px, 3vw, 40px) !important;
   }
 
   @media (min-width: 992px) {
     &__section-title {
-      font-size: 70px !important;
+      font-size: 52px !important;
     }
   }
 
@@ -4647,7 +4650,7 @@ main.achiever-page,
   }
 }
 
-/* ─── DESKTOP 70PX SECTION TITLES ───────────────────────────────── */
+/* ─── DESKTOP 52PX SECTION TITLES ───────────────────────────────── */
 html body h1.achiever-classes-hero__heading,
 html body h2.achiever-classes-hero__section-title,
 html body .achiever-classes-detail__copy h2,
@@ -4663,8 +4666,8 @@ html body .achiever-party__title,
 html body .achiever-instagram__title,
 html body .achiever-instagram__heading,
 html body .achiever-testimonials__title {
-  font-size: 70px !important;
-  line-height: 1.1 !important;
+  font-size: 52px !important;
+  line-height: 1.05 !important;
 }
 
 @media (max-width: 767px) {
@@ -4672,7 +4675,7 @@ html body .achiever-testimonials__title {
   html body h2.achiever-classes-hero__section-title,
   html body .achiever-classes-detail__copy h2,
   html body .achiever-classes-detail__gallery h2 {
-    font-size: 42px !important;
+    font-size: 34px !important;
   }
 }
 
