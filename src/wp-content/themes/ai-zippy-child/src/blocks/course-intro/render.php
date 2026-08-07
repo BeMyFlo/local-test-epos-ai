@@ -91,7 +91,8 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-course-
     
     <!-- Curved Wave Divider -->
     <div class="achiever-course-intro__wave" aria-hidden="true">
-      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,70 C260,70 520,84 780,84 C1040,84 1240,40 1440,52 L1440,120 L0,120 Z" fill="#ffffff"></path></svg>
+      <?php // Fill overshoots the viewBox bottom (130 > 120) so fractional scaling never leaves a hairline seam. ?>
+      <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,70 C260,70 520,84 780,84 C1040,84 1240,40 1440,52 L1440,130 L0,130 Z" fill="#ffffff"></path></svg>
     </div>
   </section>
 

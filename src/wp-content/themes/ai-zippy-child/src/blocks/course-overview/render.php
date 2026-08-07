@@ -25,6 +25,6 @@ $wrapper_attributes = get_block_wrapper_attributes(['class'=>'achiever-course-in
    </div>
    <div class="achiever-course-intro__info-pill achiever-course-overview__info-pill"><span><?php echo esc_html($attributes['lessons'] ?? ''); ?></span><span><?php echo esc_html($attributes['duration'] ?? ''); ?></span><strong><?php echo esc_html($attributes['ageRange'] ?? ''); ?></strong></div>
    <?php if (!empty($attributes['image'])) : ?><div class="achiever-course-intro__decor-rocket achiever-course-overview__decor-rocket" style="<?php echo esc_attr($decor_rocket_style); ?>"><img src="<?php echo esc_url($attributes['image']); ?>" alt="<?php echo esc_attr($attributes['imageAlt'] ?? ''); ?>" loading="lazy"></div><?php endif; ?></div>
-  </div><div class="achiever-course-intro__wave" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,70 C260,70 520,84 780,84 C1040,84 1240,40 1440,52 L1440,120 L0,120 Z" fill="#fff"/></svg></div>
+  </div><div class="achiever-course-intro__wave" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,70 C260,70 520,84 780,84 C1040,84 1240,40 1440,52 L1440,130 L0,130 Z" fill="#fff"/></svg></div>
  </div>
 </section>
