@@ -7,6 +7,9 @@ $rose: #f2708a;
 $copy: #5b6472;
 $grey-light: #f5f5f5; // header + footer background
 
+// Gap between slides on the full-bleed photo strips (party / brands / instagram)
+$strip-gap: 10px;
+
 html,
 body {
   width: 100%;
@@ -451,26 +454,53 @@ body.page-template-page-course
     opacity 160ms ease,
     transform 160ms ease;
 
+  &:hover {
+    background: #1eb955;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+  }
+
   &:focus-visible {
     outline: 3px solid $navy;
     outline-offset: 3px;
   }
 
-  span {
-    width: 26px;
-    height: 20px;
-    border-radius: 7px 7px 7px 2px;
-    background: #fff;
+  svg {
+    display: block;
+    width: 30px;
+    height: 30px;
+    color: #fff;
   }
 }
 
+// Back-to-top sits on white sections, so the default white pill disappeared
+// against the page. Give it the brand navy fill and a white chevron.
 body .az-scroll-top {
   right: 20px !important;
   bottom: 20px !important;
   z-index: 998;
+  width: 48px !important;
+  height: 48px !important;
+  border: 0 !important;
+  background: $navy !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(30, 58, 110, 0.35) !important;
   transition:
     opacity 160ms ease,
-    transform 160ms ease;
+    transform 160ms ease,
+    background-color 160ms ease;
+
+  svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+  }
+
+  &:hover {
+    background: $rose !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(242, 112, 138, 0.45) !important;
+  }
 }
 
 .achiever-chat-bubble.is-content-obscured,
@@ -992,6 +1022,15 @@ body .az-scroll-top.is-content-obscured {
   // The wave is a separate element pulled up over the pink section. It must
   // carry the same pink behind it, otherwise the white page shows through as a
   // hairline seam above the curve.
+  //
+  // The seam below the curve is a separate problem: at fractional device pixel
+  // ratios the scaled SVG's bottom edge lands mid-pixel and antialiases, so the
+  // pink backdrop bleeds through as a hairline under the wave. Two things close
+  // it: the path overshoots its viewBox (see render.php), and a linear-gradient
+  // paints the bottom few pixels of the element white underneath the artwork.
+  // The gradient sits on the wave itself so it spans the full viewport width —
+  // putting it on the features row would not, since that row is capped at
+  // 1200px and the seam would remain visible in the margins on wide screens.
   &__wave {
     position: relative !important;
     z-index: 1;
@@ -1000,7 +1039,9 @@ body .az-scroll-top.is-content-obscured {
     height: 60px !important;
     margin: 0 0 -1px 0 !important;
     margin-block-start: -60px !important;
-    background: $pink;
+    background:
+      linear-gradient(to top, #fff 0 4px, transparent 4px),
+      #{$pink};
     color: #fff;
 
     @media (min-width: 768px) {
@@ -1773,6 +1814,23 @@ body .az-scroll-top.is-content-obscured {
       width: 100% !important;
       height: 115px !important;
       display: block !important;
+    }
+
+    // Seals the bottom edge. `preserveAspectRatio="none"` scales the SVG to a
+    // fractional pixel height on most screens, so the fill antialiases against
+    // the element edge and the pink section behind it shows through as a
+    // hairline. This bar overlaps that last pixel with the white of the section
+    // below, at every device pixel ratio. It is pinned to bottom: 0 (not a
+    // negative offset) because pink-section clips with overflow: hidden.
+    &::after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 4px;
+      background: #fff;
+      content: "";
+      pointer-events: none;
     }
   }
 
@@ -2622,13 +2680,15 @@ body .az-scroll-top.is-content-obscured {
     width: 48px;
     height: 48px;
   }
-  .achiever-chat-bubble span {
-    width: 23px;
-    height: 18px;
+  .achiever-chat-bubble svg {
+    width: 26px;
+    height: 26px;
   }
   body .az-scroll-top {
     right: max(12px, env(safe-area-inset-right)) !important;
     bottom: max(12px, env(safe-area-inset-bottom)) !important;
+    width: 44px !important;
+    height: 44px !important;
   }
 }
 
@@ -2683,12 +2743,13 @@ body .az-scroll-top.is-content-obscured {
 .achiever-instagram__slider .achiever-instagram__grid {
   display: flex !important;
   flex-wrap: nowrap !important;
-  gap: 0 !important;
+  align-items: stretch !important;
+  gap: $strip-gap !important;
   width: 100% !important;
   max-width: none !important;
   justify-content: flex-start !important;
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 0 $strip-gap !important;
   overflow-x: auto !important;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory !important;
@@ -2699,11 +2760,13 @@ body .az-scroll-top.is-content-obscured {
   }
 }
 
+// Three tiles per view. The track has one gap on each outer edge plus three
+// between/at the slides, so 4 gaps of gutter come out of the viewport width.
 .achiever-party__gallery-slider .achiever-party__photo-slot,
 .achiever-brands__gallery-slider .achiever-brands__gallery-item,
 .achiever-instagram__slider .achiever-instagram__item {
-  flex: 0 0 calc(100vw / 3) !important;
-  width: calc(100vw / 3) !important;
+  flex: 0 0 calc((100vw - #{$strip-gap * 4}) / 3) !important;
+  width: calc((100vw - #{$strip-gap * 4}) / 3) !important;
   min-width: 0 !important;
   height: 365px !important;
   aspect-ratio: auto !important;
@@ -2726,34 +2789,18 @@ body .az-scroll-top.is-content-obscured {
   object-fit: cover !important;
 }
 
-// Posters strip: show each poster whole rather than cropping it to fill the
-// slot, with a small gap so they read as separate posters. The images mix
-// square (1:1) and landscape (~1.4:1) ratios, so the slot is sized for the
-// squares and `contain` letterboxes the wider ones against white.
+// Posters strip: 4 tiles per view instead of 3. The source images mix square
+// (1:1) and landscape (~1.4:1) ratios — every slot is locked to the same fixed
+// height and the images `cover` it, so the strip reads as one even band rather
+// than a ragged row of letterboxed posters.
 // No top margin — the strip belongs to the same block as the features row.
 .achiever-brands__gallery-slider {
   margin-top: 0 !important;
 }
 
-.achiever-brands__gallery-slider .achiever-brands__gallery {
-  gap: 12px !important;
-  padding-inline: 12px !important;
-}
-
 .achiever-brands__gallery-slider .achiever-brands__gallery-item {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  flex-basis: calc((100vw - 48px) / 4) !important;
-  width: calc((100vw - 48px) / 4) !important;
-  height: auto !important;
-  aspect-ratio: 1 / 1 !important;
-  background: #fff !important;
-}
-
-.achiever-brands__gallery-slider .achiever-brands__gallery-item img {
-  object-fit: contain !important;
-  object-position: center center !important;
+  flex-basis: calc((100vw - #{$strip-gap * 5}) / 4) !important;
+  width: calc((100vw - #{$strip-gap * 5}) / 4) !important;
   background: #fff !important;
 }
 
@@ -2797,11 +2844,11 @@ body .az-scroll-top.is-content-obscured {
     height: 300px !important;
   }
 
-  // Posters keep their square slot so `contain` still shows them whole.
+  // Posters are wider than tall — a slightly shorter slot keeps the crop sane.
   .achiever-brands__gallery-slider .achiever-brands__gallery-item {
     flex-basis: 72vw !important;
     width: 72vw !important;
-    height: auto !important;
+    height: 240px !important;
   }
 
   .achiever-party__gallery-slider .achiever-scroll-arrow,
