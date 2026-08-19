@@ -932,15 +932,16 @@ body .az-scroll-top.is-content-obscured {
     gap: 36px !important;
     width: 100% !important;
   }
-  // The CTA lives in the left intro column, under the description. On mobile the
-  // whole column is centred; from 768px up it aligns left with the heading.
+  // The CTA lives in the left intro column, under the description. __intro is a
+  // plain block, so the pill's horizontal placement comes from that column's
+  // text-align — centred on mobile, left from 768px up.
+  //
+  // Do not set `display` here: the base .achiever-btn is inline-flex with
+  // align-items:center, and overriding it drops the label to the baseline
+  // instead of the middle of the pill.
   &__cta {
-    display: inline-block !important;
     margin-top: 28px !important;
-
-    @media (min-width: 768px) {
-      align-self: flex-start !important;
-    }
+    vertical-align: middle;
   }
   &__grid {
     display: flex !important;
