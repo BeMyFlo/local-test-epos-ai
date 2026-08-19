@@ -1,6 +1,6 @@
 import SelectedImagePreview from '../_shared/SelectedImagePreview.js';
 import { InspectorControls, MediaUpload, MediaUploadCheck, useBlockProps } from '@wordpress/block-editor';
-import { Button, PanelBody, RangeControl, TextareaControl, TextControl } from '@wordpress/components';
+import { Button, PanelBody, RangeControl, TextareaControl, TextControl, ToggleControl } from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import DecorPositionControls from '../_shared/DecorPositionControls.js';
 export default function Edit({ attributes, setAttributes, name }) {
@@ -20,6 +20,11 @@ export default function Edit({ attributes, setAttributes, name }) {
         <TextareaControl label="Description" value={attributes.description || ''} onChange={(description) => setAttributes({ description })} />
         <TextControl label="CTA text" value={attributes.ctaText || ''} onChange={(ctaText) => setAttributes({ ctaText })} />
         <TextControl label="CTA URL" value={attributes.ctaUrl || ''} onChange={(ctaUrl) => setAttributes({ ctaUrl })} />
+        <ToggleControl
+          label="Open CTA in a new tab"
+          checked={attributes.ctaNewTab ?? true}
+          onChange={(ctaNewTab) => setAttributes({ ctaNewTab })}
+        />
       </PanelBody>
 
       <PanelBody title="Decoration / Cartoon Images" initialOpen={true}>
@@ -172,12 +177,18 @@ export default function Edit({ attributes, setAttributes, name }) {
             </MediaUploadCheck>
           </div>
           <TextControl label="Icon alt text" value={item.alt || ''} onChange={(v) => updateItem('brands', index, 'alt', v)} />
+          <TextareaControl
+            label="Caption (under logo)"
+            help="Leave empty to show the logo with no caption."
+            value={item.caption || ''}
+            onChange={(v) => updateItem('brands', index, 'caption', v)}
+          />
           <Button isDestructive variant="secondary" onClick={() => setAttributes({ brands: brands.filter((_, i) => i !== index) })}>Remove item</Button>
         </PanelBody>)}
-        <Button variant="primary" onClick={() => setAttributes({ brands: [...brands, { name: '', icon: '', alt: '' }] })}>Add item</Button>
+        <Button variant="primary" onClick={() => setAttributes({ brands: [...brands, { name: '', icon: '', alt: '', caption: '' }] })}>Add item</Button>
       </PanelBody>
 
-      <PanelBody title="Features (bottom icon strip)" initialOpen={false}>
+      <PanelBody title="Features (bottom icon strip — off by default)" initialOpen={false}>
         {features.map((item, index) => <PanelBody key={index} title={item.label || `Feature ${index + 1}`} initialOpen={false}>
           <div style={{ marginBottom: '15px' }}>
             <label className="components-base-control__label" style={{ display: 'block', marginBottom: '8px' }}>Feature Icon</label>
