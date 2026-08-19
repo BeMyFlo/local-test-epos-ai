@@ -932,8 +932,16 @@ body .az-scroll-top.is-content-obscured {
     gap: 36px !important;
     width: 100% !important;
   }
+  // The CTA lives in the left intro column, under the description. __intro is a
+  // plain block, so the pill's horizontal placement comes from that column's
+  // text-align — centred on mobile, left from 768px up.
+  //
+  // Do not set `display` here: the base .achiever-btn is inline-flex with
+  // align-items:center, and overriding it drops the label to the baseline
+  // instead of the middle of the pill.
   &__cta {
-    align-self: center !important;
+    margin-top: 28px !important;
+    vertical-align: middle;
   }
   &__grid {
     display: flex !important;
@@ -947,7 +955,9 @@ body .az-scroll-top.is-content-obscured {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
+    // Top-aligned so a logo with a three-line caption does not push the
+    // shorter-caption logos beside it out of line.
+    align-items: flex-start;
     gap: 24px 40px;
     width: 100%;
 
@@ -959,7 +969,10 @@ body .az-scroll-top.is-content-obscured {
     }
   }
   &__item {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     flex: 0 1 calc(var(--brand-icon-size, 90) * 1px);
     width: calc(var(--brand-icon-size, 90) * 1px);
     min-width: 0;
@@ -1003,6 +1016,23 @@ body .az-scroll-top.is-content-obscured {
   }
   &__name {
     display: none !important;
+  }
+  // Caption sits under each logo. It replaces the old bottom feature strip —
+  // the wording moved up here, one line per brand, and brands without a
+  // caption simply render the logo alone.
+  &__caption {
+    margin: 0 !important;
+    color: $navy !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
+    text-align: center !important;
+    text-transform: none !important;
+    letter-spacing: 0 !important;
+
+    @media (min-width: 768px) {
+      font-size: 13px !important;
+    }
   }
   &__decor {
     position: absolute;
@@ -1048,6 +1078,17 @@ body .az-scroll-top.is-content-obscured {
       height: 90px !important;
       margin-block-start: -90px !important;
     }
+  }
+}
+
+// The features strip is off by default (its wording moved into the per-logo
+// captions). When it is absent the wave lands directly on the gallery slider,
+// so the gap the strip used to contribute is restored here instead.
+.achiever-brands__wave + .achiever-brands__gallery-slider {
+  margin-top: 40px !important;
+
+  @media (min-width: 768px) {
+    margin-top: 56px !important;
   }
 }
 

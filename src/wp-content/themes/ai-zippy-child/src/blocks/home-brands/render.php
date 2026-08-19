@@ -39,8 +39,11 @@ if (empty($gallery_images)) {
         ['url' => '/wp-content/uploads/2026/07/MangaDrawing2-1.png', 'alt' => 'Studio Gallery 5'],
     ];
 }
-$cta_text = $attributes['ctaText'] ?? 'CLICK TO SEE MORE';
-$cta_url = $attributes['ctaUrl'] ?? '#';
+$cta_text = $attributes['ctaText'] ?? 'READ MORE';
+$cta_url = $attributes['ctaUrl'] ?? 'https://www.artivitytime.com/';
+// The CTA points at a sibling brand site, so it opens in a new tab by default.
+$cta_new_tab = !empty($attributes['ctaNewTab'] ?? true);
+$cta_target = $cta_new_tab ? ' target="_blank" rel="noopener noreferrer"' : '';
 $brand_icon_size = (int) ($attributes['brandIconSize'] ?? 90);
 $wrapper_attributes = get_block_wrapper_attributes([
     'class' => 'achiever-brands',
@@ -68,6 +71,7 @@ $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
     <div class="achiever-brands__intro">
       <h2 class="achiever-brands__heading"><?php echo nl2br(esc_html($heading)); ?></h2>
       <p class="achiever-brands__description"><?php echo nl2br(esc_html($description)); ?></p>
+      <?php if ($cta_text) : ?><a class="achiever-btn achiever-btn--primary achiever-brands__cta" href="<?php echo esc_url($cta_url); ?>"<?php echo $cta_target; // phpcs:ignore WordPress.Security.EscapeOutput -- static attribute string ?>><?php echo esc_html($cta_text); ?></a><?php endif; ?>
     </div>
     <div class="achiever-brands__showcase">
       <?php
@@ -81,14 +85,15 @@ $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
         <?php foreach ($brand_rows as $row) : ?>
           <div class="achiever-brands__row">
             <?php foreach ($row as $brand) : ?>
+              <?php $caption = trim((string) ($brand['caption'] ?? '')); ?>
               <div class="achiever-brands__item">
                 <?php if ($brand['icon'] ?? '') : ?><img class="achiever-brands__icon" src="<?php echo esc_url($brand['icon']); ?>" alt="<?php echo esc_attr($brand['alt'] ?? ($brand['name'] ?? '')); ?>" loading="lazy" /><?php endif; ?>
+                <?php if ($caption) : ?><p class="achiever-brands__caption"><?php echo esc_html($caption); ?></p><?php endif; ?>
               </div>
             <?php endforeach; ?>
           </div>
         <?php endforeach; ?>
       </div>
-      <?php if ($cta_text) : ?><a class="achiever-btn achiever-btn--primary achiever-brands__cta" href="<?php echo esc_url($cta_url); ?>"><?php echo esc_html($cta_text); ?></a><?php endif; ?>
     </div>
   </div>
 </section>
