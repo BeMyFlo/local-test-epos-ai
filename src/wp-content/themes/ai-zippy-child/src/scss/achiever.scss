@@ -4148,6 +4148,9 @@ main.achiever-page,
   }
 }
 
+// One full card per view on phones. min-width is reset to 0 here: the 180px
+// floor the wider breakpoints carry would otherwise win over a 100% basis on
+// narrow screens and let the next card bleed into frame.
 @media (max-width: 768px) {
   .achiever-scroll-slider {
     padding: 0 28px;
@@ -4160,9 +4163,9 @@ main.achiever-page,
     .achiever-testimonials__grid {
       gap: 14px !important;
       > * {
-        flex: 0 0 calc(50% - 7px) !important;
-        width: calc(50% - 7px) !important;
-        min-width: 180px !important;
+        flex: 0 0 100% !important;
+        width: 100% !important;
+        min-width: 0 !important;
       }
     }
   }
