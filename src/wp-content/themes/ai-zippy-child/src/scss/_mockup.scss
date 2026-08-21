@@ -1009,13 +1009,17 @@ body .az-scroll-top.is-content-obscured {
     background: linear-gradient(135deg, #fff, #cdeef8);
     content: "";
   }
+  // No aspect-ratio here: the logos range from near-square (Glam Bakes) to very
+  // wide (Artivity, Yanails). Forcing a square box would letterbox the wide
+  // ones and leave a large empty gap above and below the artwork. Capping the
+  // height instead lets every logo keep its own ratio while the row stays even.
   &__icon {
     display: block;
-    width: 100% !important;
-    max-width: calc(var(--brand-icon-size, 90) * 1px);
+    width: auto !important;
+    max-width: 100% !important;
     height: auto !important;
+    max-height: calc(var(--brand-icon-size, 90) * 1px);
     box-sizing: border-box;
-    aspect-ratio: 1;
     margin: 0 auto;
     border-radius: 0 !important;
     object-fit: contain;
@@ -1024,11 +1028,14 @@ body .az-scroll-top.is-content-obscured {
   // and a description capped so it wraps like the mockup rather than running
   // the full width of the column.
   &__item--featured {
-    gap: 12px;
+    gap: 8px;
 
-    .achiever-brands__icon,
+    .achiever-brands__icon {
+      max-height: calc(var(--brand-icon-size, 90) * 1.25px);
+    }
+
     &:not(:has(img))::before {
-      max-width: calc(var(--brand-icon-size, 90) * 1.5px);
+      max-width: calc(var(--brand-icon-size, 90) * 1.25px);
     }
 
     .achiever-brands__caption {
