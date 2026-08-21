@@ -141,12 +141,17 @@ export default function Edit({ attributes, setAttributes, name }) {
           step={2}
         />
         <RangeControl
-          label="Logos in first row"
-          value={attributes.brandsFirstRow ?? 3}
-          onChange={(brandsFirstRow) => setAttributes({ brandsFirstRow })}
+          label="Grid columns (desktop)"
+          value={attributes.brandsColumns ?? 3}
+          onChange={(brandsColumns) => setAttributes({ brandsColumns })}
           min={1}
-          max={8}
+          max={6}
           step={1}
+        />
+        <TextControl
+          label="Intro line above logos"
+          value={attributes.brandsIntro || ''}
+          onChange={(brandsIntro) => setAttributes({ brandsIntro })}
         />
         {brands.map((item, index) => <PanelBody key={index} title={item.name || `Item ${index + 1}`} initialOpen={false}>
           <TextControl label="Name" value={item.name || ''} onChange={(v) => updateItem('brands', index, 'name', v)} />
@@ -178,14 +183,20 @@ export default function Edit({ attributes, setAttributes, name }) {
           </div>
           <TextControl label="Icon alt text" value={item.alt || ''} onChange={(v) => updateItem('brands', index, 'alt', v)} />
           <TextareaControl
-            label="Caption (under logo)"
-            help="Leave empty to show the logo with no caption."
+            label="Description (under name)"
+            help="Leave empty to show the logo and name only."
             value={item.caption || ''}
             onChange={(v) => updateItem('brands', index, 'caption', v)}
           />
+          <ToggleControl
+            label="Feature this brand"
+            help="Shows it on its own row above the grid, at a larger size. Only the first featured brand is used."
+            checked={!!item.featured}
+            onChange={(v) => updateItem('brands', index, 'featured', v)}
+          />
           <Button isDestructive variant="secondary" onClick={() => setAttributes({ brands: brands.filter((_, i) => i !== index) })}>Remove item</Button>
         </PanelBody>)}
-        <Button variant="primary" onClick={() => setAttributes({ brands: [...brands, { name: '', icon: '', alt: '', caption: '' }] })}>Add item</Button>
+        <Button variant="primary" onClick={() => setAttributes({ brands: [...brands, { name: '', icon: '', alt: '', caption: '', featured: false }] })}>Add item</Button>
       </PanelBody>
 
       <PanelBody title="Features (bottom icon strip — off by default)" initialOpen={false}>

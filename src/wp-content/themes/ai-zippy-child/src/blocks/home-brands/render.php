@@ -75,25 +75,53 @@ $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
     </div>
     <div class="achiever-brands__showcase">
       <?php
-      $first_row_count = max(1, (int) ($attributes['brandsFirstRow'] ?? 3));
-      $brand_rows = array_filter([
-          array_slice($brands, 0, $first_row_count),
-          array_slice($brands, $first_row_count),
-      ]);
-      ?>
-      <div class="achiever-brands__grid">
-        <?php foreach ($brand_rows as $row) : ?>
-          <div class="achiever-brands__row">
-            <?php foreach ($row as $brand) : ?>
-              <?php $caption = trim((string) ($brand['caption'] ?? '')); ?>
-              <div class="achiever-brands__item">
-                <?php if ($brand['icon'] ?? '') : ?><img class="achiever-brands__icon" src="<?php echo esc_url($brand['icon']); ?>" alt="<?php echo esc_attr($brand['alt'] ?? ($brand['name'] ?? '')); ?>" loading="lazy" /><?php endif; ?>
-                <?php if ($caption) : ?><p class="achiever-brands__caption"><?php echo esc_html($caption); ?></p><?php endif; ?>
-              </div>
-            <?php endforeach; ?>
+      $brands_intro = trim((string) ($attributes['brandsIntro'] ?? ''));
+      $columns = max(1, (int) ($attributes['brandsColumns'] ?? 3));
+
+      // One brand can be flagged as featured: it leads the showcase on its own
+      // row above the grid, at a larger logo size. Only the first such flag
+      // counts — the rest fall through to the grid.
+      $featured = null;
+      $grid_brands = [];
+      foreach ($brands as $brand) {
+          if ($featured === null && !empty($brand['featured'])) {
+              $featured = $brand;
+              continue;
+          }
+          $grid_brands[] = $brand;
+      }
+
+      /**
+       * Logo plus its name and one-line description.
+       */
+      $render_brand = static function (array $brand, string $modifier = '') {
+          $caption = trim((string) ($brand['caption'] ?? ''));
+          $name    = trim((string) ($brand['name'] ?? ''));
+          $classes = 'achiever-brands__item' . ($modifier ? ' ' . $modifier : '');
+          ?>
+          <div class="<?php echo esc_attr($classes); ?>">
+            <?php if ($brand['icon'] ?? '') : ?>
+              <img class="achiever-brands__icon" src="<?php echo esc_url($brand['icon']); ?>" alt="<?php echo esc_attr($brand['alt'] ?? $name); ?>" loading="lazy" />
+            <?php endif; ?>
+            <?php if ($name) : ?><p class="achiever-brands__name"><?php echo esc_html($name); ?></p><?php endif; ?>
+            <?php if ($caption) : ?><p class="achiever-brands__caption"><?php echo esc_html($caption); ?></p><?php endif; ?>
           </div>
-        <?php endforeach; ?>
-      </div>
+          <?php
+      };
+      ?>
+      <?php if ($brands_intro) : ?>
+        <p class="achiever-brands__showcase-intro"><?php echo esc_html($brands_intro); ?></p>
+      <?php endif; ?>
+      <?php if ($featured) : ?>
+        <?php $render_brand($featured, 'achiever-brands__item--featured'); ?>
+      <?php endif; ?>
+      <?php if ($grid_brands) : ?>
+        <div class="achiever-brands__grid" style="--brand-columns:<?php echo esc_attr($columns); ?>;">
+          <?php foreach ($grid_brands as $brand) : ?>
+            <?php $render_brand($brand); ?>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
     </div>
   </div>
 </section>
