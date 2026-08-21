@@ -929,7 +929,7 @@ body .az-scroll-top.is-content-obscured {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    gap: 36px !important;
+    gap: 28px !important;
     width: 100% !important;
   }
   // The CTA lives in the left intro column, under the description. __intro is a
@@ -943,38 +943,42 @@ body .az-scroll-top.is-content-obscured {
     margin-top: 28px !important;
     vertical-align: middle;
   }
-  &__grid {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    gap: 40px !important;
-    width: 100% !important;
+  // Intro line above the logos ("Unique experiences by Achievers Arts").
+  &__showcase-intro {
     margin: 0 !important;
-  }
-  &__row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    // Top-aligned so a logo with a three-line caption does not push the
-    // shorter-caption logos beside it out of line.
-    align-items: flex-start;
-    gap: 24px 40px;
-    width: 100%;
+    color: $navy !important;
+    font-size: 15px !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
 
     @media (min-width: 768px) {
-      // Never wrap on desktop — the row keeps its logo count (3/4)
-      // and logos shrink instead of dropping to a new line.
-      flex-wrap: nowrap;
-      gap: clamp(24px, 4vw, 56px);
+      font-size: 16px !important;
     }
   }
+  // Two columns on phones, then the editor-set column count from 768px up.
+  // Rows are implicit, so brand count and column count stay independent.
+  &__grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    align-items: start !important;
+    gap: 32px 20px !important;
+    width: 100% !important;
+    margin: 0 !important;
+
+    @media (min-width: 768px) {
+      grid-template-columns: repeat(var(--brand-columns, 3), minmax(0, 1fr)) !important;
+      gap: 40px clamp(20px, 3vw, 40px) !important;
+    }
+  }
+  // The item fills its grid cell; --brand-icon-size caps the logo inside it
+  // (see &__icon) rather than the cell itself, so names and descriptions get
+  // the full column width to wrap in.
   &__item {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    flex: 0 1 calc(var(--brand-icon-size, 90) * 1px);
-    width: calc(var(--brand-icon-size, 90) * 1px);
+    width: 100%;
     min-width: 0;
     height: auto !important;
     min-height: 0 !important;
@@ -996,6 +1000,7 @@ body .az-scroll-top.is-content-obscured {
   &__item:not(:has(img))::before {
     display: block;
     width: 100% !important;
+    max-width: calc(var(--brand-icon-size, 90) * 1px);
     height: auto !important;
     box-sizing: border-box;
     aspect-ratio: 1;
@@ -1004,18 +1009,54 @@ body .az-scroll-top.is-content-obscured {
     background: linear-gradient(135deg, #fff, #cdeef8);
     content: "";
   }
+  // No aspect-ratio here: the logos range from near-square (Glam Bakes) to very
+  // wide (Artivity, Yanails). Forcing a square box would letterbox the wide
+  // ones and leave a large empty gap above and below the artwork. Capping the
+  // height instead lets every logo keep its own ratio while the row stays even.
   &__icon {
     display: block;
-    width: 100% !important;
+    width: auto !important;
+    max-width: 100% !important;
     height: auto !important;
+    max-height: calc(var(--brand-icon-size, 90) * 1px);
     box-sizing: border-box;
-    aspect-ratio: 1;
     margin: 0 auto;
     border-radius: 0 !important;
     object-fit: contain;
   }
+  // The featured brand leads the showcase on its own row, with a larger logo
+  // and a description capped so it wraps like the mockup rather than running
+  // the full width of the column.
+  &__item--featured {
+    gap: 8px;
+
+    .achiever-brands__icon {
+      max-height: calc(var(--brand-icon-size, 90) * 1.25px);
+    }
+
+    &:not(:has(img))::before {
+      max-width: calc(var(--brand-icon-size, 90) * 1.25px);
+    }
+
+    .achiever-brands__caption {
+      max-width: 34ch;
+    }
+  }
   &__name {
-    display: none !important;
+    display: block !important;
+    margin: 0 !important;
+    color: $navy !important;
+    font-family: "Poppins", sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    line-height: 1.25 !important;
+    text-align: center !important;
+    letter-spacing: 0 !important;
+    text-transform: none !important;
+
+    @media (min-width: 768px) {
+      font-size: 16px !important;
+    }
   }
   // Caption sits under each logo. It replaces the old bottom feature strip —
   // the wording moved up here, one line per brand, and brands without a

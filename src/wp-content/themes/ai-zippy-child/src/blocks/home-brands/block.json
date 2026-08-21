@@ -51,17 +51,21 @@
     "decorRightMobileSize": { "type": "number", "default": 75 },
     "decorRightZIndex": { "type": "number", "default": 5 },
     "brandIconSize": { "type": "number", "default": 120 },
-    "brandsFirstRow": { "type": "number", "default": 3 },
+    "brandsColumns": { "type": "number", "default": 3 },
+    "brandsIntro": {
+      "type": "string",
+      "default": "Unique experiences by Achievers Arts"
+    },
     "brands": {
       "type": "array",
       "default": [
-        { "name": "Sensory Playhaus", "icon": "", "alt": "Sensory Playhaus logo", "caption": "Sensory play and messy art exploration for children" },
-        { "name": "Art a space", "icon": "", "alt": "Art a space logo", "caption": "Expressive abstract art experiences" },
-        { "name": "Minipreneur Academy", "icon": "", "alt": "Minipreneur Academy logo", "caption": "Young creator & mini entrepreneurship programmes" },
-        { "name": "Artivity", "icon": "", "alt": "Artivity logo", "caption": "" },
-        { "name": "The Glam Bakes", "icon": "", "alt": "The Glam Bakes logo", "caption": "Handmade charms & creative accessories" },
-        { "name": "Arts Curate", "icon": "", "alt": "Arts Curate logo", "caption": "Curated art gallery & professional art showcases" },
-        { "name": "Yanails Atelier", "icon": "", "alt": "Yanails Atelier logo", "caption": "Custom hand-painted press-on nail artistry" }
+        { "name": "Artivity", "icon": "", "alt": "Artivity logo", "caption": "Home of creative camps, crafts, and artistic merch.", "featured": true },
+        { "name": "Art a Space", "icon": "", "alt": "Art a Space logo", "caption": "Express yourself through abstract art." },
+        { "name": "Sensory Playhaus", "icon": "", "alt": "Sensory Playhaus logo", "caption": "Hands-on sensory play for little explorers." },
+        { "name": "Yanails Atelier", "icon": "", "alt": "Yanails Atelier logo", "caption": "Design your own press-on nails." },
+        { "name": "The Glam Bakes", "icon": "", "alt": "The Glam Bakes logo", "caption": "DIY polymer clay & shrinky dink accessories." },
+        { "name": "Minipreneur Academy", "icon": "", "alt": "Minipreneur Academy logo", "caption": "Learn to create, sell, and thrive." },
+        { "name": "Arts Curate", "icon": "", "alt": "Arts Curate logo", "caption": "Painting by local artists for sale." }
       ]
     },
     "galleryImages": {
