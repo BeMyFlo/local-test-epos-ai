@@ -6,6 +6,25 @@ $categories_title = $attributes['categoriesTitle'] ?? 'Categories';
 $all_categories_text = $attributes['allCategoriesText'] ?? 'All';
 $empty_message = $attributes['emptyMessage'] ?? '';
 $products_per_page = max(1, min(48, (int) ($attributes['productsPerPage'] ?? 12)));
+
+// Content source: 'all' | 'category' | 'selection'.
+$source = in_array($attributes['source'] ?? 'all', ['all', 'category', 'selection'], true)
+    ? ($attributes['source'] ?? 'all')
+    : 'all';
+$chosen_categories = array_values(array_filter(array_map(
+    'sanitize_title',
+    (array) ($attributes['categories'] ?? [])
+)));
+$chosen_product_ids = array_values(array_filter(array_map(
+    'absint',
+    (array) ($attributes['productIds'] ?? [])
+)));
+$show_filters = (bool) ($attributes['showFilters'] ?? true);
+$orderby = in_array($attributes['orderby'] ?? 'date', ['date', 'title', 'menu_order', 'price', 'popularity', 'rating'], true)
+    ? ($attributes['orderby'] ?? 'date')
+    : 'date';
+$order = strtoupper($attributes['order'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
+
 $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-woo-listing']);
 $woocommerce_ready = class_exists('WooCommerce') && function_exists('wc_get_products') && post_type_exists('product');
 $requested_category = isset($_GET['product_cat']) ? sanitize_title(wp_unslash($_GET['product_cat'])) : '';
@@ -14,31 +33,57 @@ $products = [];
 $categories = [];
 
 if ($woocommerce_ready) {
-    $categories = get_terms(['taxonomy' => 'product_cat', 'hide_empty' => true]);
+    $category_args = ['taxonomy' => 'product_cat', 'hide_empty' => true];
+
+    // When the editor pinned specific categories, the filter bar lists only those.
+    if ($source === 'category' && $chosen_categories) {
+        $category_args['slug'] = $chosen_categories;
+    }
+
+    $categories = get_terms($category_args);
     if (is_wp_error($categories)) {
         $categories = [];
     }
+
     $allowed_category_slugs = wp_list_pluck($categories, 'slug');
     if ($requested_category && in_array($requested_category, $allowed_category_slugs, true)) {
         $selected_category = $requested_category;
     }
-    $query = [
-        'status' => 'publish',
-        'visibility' => 'visible',
-        'limit' => $products_per_page,
-        'orderby' => 'date',
-        'order' => 'DESC',
-    ];
-    if ($selected_category) {
-        $query['category'] = [$selected_category];
+
+    if ($source === 'selection' && $chosen_product_ids) {
+        // Explicit product picks keep the editor's chosen order.
+        $products = wc_get_products([
+            'status' => 'publish',
+            'visibility' => 'visible',
+            'include' => $chosen_product_ids,
+            'orderby' => 'include',
+            'limit' => count($chosen_product_ids),
+        ]);
+    } else {
+        $query = [
+            'status' => 'publish',
+            'visibility' => 'visible',
+            'limit' => $products_per_page,
+            'orderby' => $orderby,
+            'order' => $order,
+        ];
+
+        if ($selected_category) {
+            $query['category'] = [$selected_category];
+        } elseif ($source === 'category' && $chosen_categories) {
+            $query['category'] = $chosen_categories;
+        }
+
+        $products = wc_get_products($query);
     }
-    $products = wc_get_products($query);
 }
+
+$render_filters = $show_filters && $source !== 'selection';
 ?>
 <section <?php echo $wrapper_attributes; ?>>
   <div class="achiever-woo-listing__inner">
     <?php if ($heading) : ?><h2><?php echo esc_html($heading); ?></h2><?php endif; ?>
-    <?php if ($woocommerce_ready && $categories) : ?>
+    <?php if ($render_filters && $woocommerce_ready && $categories) : ?>
       <nav class="achiever-woo-listing__filters" aria-label="<?php echo esc_attr($categories_title); ?>">
         <strong><?php echo esc_html($categories_title); ?></strong>
         <a href="<?php echo esc_url(remove_query_arg('product_cat')); ?>"<?php if (!$selected_category) : ?> aria-current="page"<?php endif; ?>><?php echo esc_html($all_categories_text); ?></a>

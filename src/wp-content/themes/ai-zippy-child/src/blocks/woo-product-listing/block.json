@@ -13,7 +13,13 @@
     "categoriesTitle": { "type": "string", "default": "Categories" },
     "allCategoriesText": { "type": "string", "default": "All" },
     "emptyMessage": { "type": "string", "default": "Products will appear here when WooCommerce products are available." },
-    "productsPerPage": { "type": "number", "default": 12 }
+    "productsPerPage": { "type": "number", "default": 12 },
+    "source": { "type": "string", "default": "all" },
+    "categories": { "type": "array", "default": [] },
+    "productIds": { "type": "array", "default": [] },
+    "showFilters": { "type": "boolean", "default": true },
+    "orderby": { "type": "string", "default": "date" },
+    "order": { "type": "string", "default": "DESC" }
   },
   "textdomain": "ai-zippy",
   "editorScript": "file:./index.js",
