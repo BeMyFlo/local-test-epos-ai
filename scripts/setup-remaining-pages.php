@@ -48,10 +48,10 @@ if (!is_file($manifest_path)) {
 }
 
 $pages = require $manifest_path;
-$locked_slugs = ['home', 'regular-art-classes', 'foundation-art-course'];
-$expected_count = 31;
+$locked_slugs = ['home'];
+$expected_count = 33;
 $expected_populate = 8;
-$expected_create = 23;
+$expected_create = 25;
 
 if (!is_array($pages) || count($pages) !== $expected_count) {
     fwrite(STDERR, 'ERROR manifest must contain exactly ' . $expected_count . " pages.\n");

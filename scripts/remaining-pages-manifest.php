@@ -10,6 +10,7 @@ $pages = [
         'content' => <<<'BLOCKS'
 <!-- wp:ai-zippy/page-hero {"eyebrow":"","heading":"ABOUT US","subtitle":"","breadcrumbCurrent":"About Us","variant":"pink"} /-->
 <!-- wp:ai-zippy/about-content /-->
+<!-- wp:ai-zippy/course-gallery {"heading":"Your Smile, Our Passion"} /-->
 <!-- wp:ai-zippy/course-enquiry-form {"heading":"Ask us questions","subheading":"Book an appointment","submitText":"SEND ENQUIRY"} /-->
 BLOCKS,
     ],
@@ -39,7 +40,7 @@ BLOCKS,
         'existing_empty_only' => true,
         'content' => <<<'BLOCKS'
 <!-- wp:ai-zippy/page-hero {"eyebrow":"","heading":"OUR CAMPS & COURSES","subtitle":"","breadcrumbCurrent":"Our Camps & Courses","variant":"blue"} /-->
-<!-- wp:ai-zippy/offering-listing {"heading":"Our Classes","layout":"grid","items":[{"title":"Camps","age":"Ages 4 & up","tagline":"Creative Holiday Adventures Filled with Fun & Exploration","description":"Our Art Camps are exciting multi-day creative programmes designed to keep children engaged through hands-on art projects, themed activities, and interactive experiences during the school holidays. Perfect for young artists who love to create, explore, and make new friends.","features":["Fun-filled holiday art experiences","Explore different mediums, crafts & creative techniques","Engaging themed activities & guided projects","All materials fully provided","Beginner-friendly and highly interactive"],"image":"","alt":"","ctaText":"See More","ctaUrl":"/our-camps/"},{"title":"Short Courses","age":"Ages 4 & up","tagline":"Focused Creative Learning in a Flexible Format","description":"Our Short Courses are specially designed programmes that allow students to explore and develop specific art skills over a shorter commitment period. Perfect for learners who want a structured yet flexible creative learning experience.","features":["Learn focused art skills through guided lessons","Explore painting, sketching, crafts & mixed media","Structured learning in a shorter course format","All materials fully provided","Suitable for beginners and growing young artists"],"image":"","alt":"","ctaText":"See More","ctaUrl":"/short-courses/"}]} /-->
+<!-- wp:ai-zippy/offering-listing {"heading":"Our Classes","layout":"grid","items":[{"title":"Camps","age":"Ages 4 & up","tagline":"Creative Holiday Adventures Filled with Fun & Exploration","description":"Our Art Camps are exciting multi-day creative programmes designed to keep children engaged through hands-on art projects, themed activities, and interactive experiences during the school holidays. Perfect for young artists who love to create, explore, and make new friends.","features":["Fun-filled holiday art experiences","Explore different mediums, crafts & creative techniques","Engaging themed activities & guided projects","All materials fully provided","Beginner-friendly and highly interactive"],"image":"/wp-content/uploads/2026/07/ArtCamp-2025.png","alt":"Camps","ctaText":"See More","ctaUrl":"/our-camps/"},{"title":"Short Courses","age":"Ages 4 & up","tagline":"Focused Creative Learning in a Flexible Format","description":"Our Short Courses are specially designed programmes that allow students to explore and develop specific art skills over a shorter commitment period. Perfect for learners who want a structured yet flexible creative learning experience.","features":["Learn focused art skills through guided lessons","Explore painting, sketching, crafts & mixed media","Structured learning in a shorter course format","All materials fully provided","Suitable for beginners and growing young artists"],"image":"/wp-content/uploads/2026/07/ShortCourse_mainQ.jpg","alt":"Short Courses","ctaText":"See More","ctaUrl":"/short-courses/"}]} /-->
 BLOCKS,
     ],
     'our-camps' => [
@@ -98,10 +99,37 @@ BLOCKS,
     ],
 ];
 
+// Copy from the client's "beyond the canva offering writeup" doc. Where the doc
+// and the sitemap disagree on an age range, the doc wins (client's instruction).
+$offering_copy = require __DIR__ . '/offering-copy.php';
+
+/**
+ * Merge doc copy over a slug's defaults, leaving anything the doc omits intact.
+ */
+$apply_copy = static function (string $slug, array $entry) use ($offering_copy): array {
+    if (empty($offering_copy[$slug])) {
+        return $entry;
+    }
+
+    $copy = $offering_copy[$slug];
+
+    if (!empty($copy['age'])) {
+        $entry['age'] = $copy['age'];
+    }
+    if (!empty($copy['tagline'])) {
+        $entry['tagline'] = $copy['tagline'];
+    }
+    if (!empty($copy['description'])) {
+        $entry['description'] = $copy['description'];
+    }
+
+    return $entry;
+};
+
 $regular_classes = [
     'artventurer' => ['title' => 'Artventurer', 'age' => 'Age 3 & up', 'description' => 'Explore the world of Arts', 'image' => '/wp-content/uploads/2026/07/Artventurer-2025.jpg'],
     'canvas-wizard' => ['title' => 'Canvas Wizard', 'age' => 'Age 6 & up', 'description' => 'For the Painters', 'image' => '/wp-content/uploads/2026/07/CanvasWizard-2026.jpg'],
-    'foundation-art-course' => ['title' => 'Foundation Art Class', 'age' => 'Age 4–6', 'description' => 'For Strong Art Beginnings', 'existing' => true, 'image' => '/wp-content/uploads/2026/07/FoundationArt-5.png'],
+    'foundation-art-course' => ['title' => 'Foundation Art Class', 'age' => 'Age 4–6', 'description' => 'For Strong Art Beginnings', 'image' => '/wp-content/uploads/2026/07/FoundationArt-5.png'],
     'sketcher-master' => ['title' => 'Sketcher Master', 'age' => 'Age 7 & up', 'description' => 'For the Sketch Enthusiast', 'image' => '/wp-content/uploads/2026/07/SketcherMaster-2026.jpg'],
     'little-draws' => ['title' => 'Little Draws', 'age' => 'Age 5 & up', 'description' => 'Joyful Little Draws', 'image' => '/wp-content/uploads/2026/07/LittleDraws-2026.jpg'],
     'junior-fine-arts' => ['title' => 'Junior Fine Arts', 'age' => 'Age 8 & up', 'description' => 'For the Prodigy', 'image' => '/wp-content/uploads/2026/07/JuniorFineArts-2026.jpg'],
@@ -165,6 +193,46 @@ foreach ($regular_classes as $slug => $class) {
     ];
 }
 
+// Regular Art Classes overview - all 8 classes per sitemap slide 20.
+$regular_class_items = [];
+foreach ($regular_classes as $regular_slug => $regular_class) {
+    $regular_class_items[] = [
+        'title' => $regular_class['title'],
+        'age' => $regular_class['age'],
+        'description' => $regular_class['description'],
+        'image' => !empty($regular_class['image']) ? home_url($regular_class['image']) : '',
+        'alt' => $regular_class['title'],
+        'ctaText' => 'See More',
+        'ctaUrl' => '/' . $regular_slug . '/',
+    ];
+}
+
+$pages['regular-art-classes'] = [
+    'title' => 'Regular Art Classes',
+    'template' => 'page-classes',
+    'content' => '<!-- wp:ai-zippy/page-hero ' . json_encode([
+            'eyebrow' => '',
+            'heading' => 'REGULAR ART CLASSES',
+            'subtitle' => '',
+            'breadcrumbCurrent' => 'Regular Classes',
+            'variant' => 'pink',
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
+        . '<!-- wp:ai-zippy/offering-listing ' . json_encode([
+            'heading' => 'REGULAR CLASSES',
+            'layout' => 'carousel',
+            'items' => $regular_class_items,
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
+        . '<!-- wp:ai-zippy/offering-listing ' . json_encode([
+            'heading' => 'Class Offerings',
+            'layout' => 'grid',
+            'items' => $regular_class_items,
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
+        . '<!-- wp:ai-zippy/course-gallery ' . json_encode([
+            'heading' => 'Your Smile, Our Passion',
+            'images' => [],
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->',
+];
+
 $pages['arty-events-parties'] = [
     'title' => 'Arty Events & Parties',
     'template' => 'page-events',
@@ -173,15 +241,6 @@ $pages['arty-events-parties'] = [
 <!-- wp:ai-zippy/page-hero {"eyebrow":"","heading":"ARTY EVENTS & PARTIES","subtitle":"","breadcrumbCurrent":"Arty Events & Parties","variant":"pink"} /-->
 <!-- wp:ai-zippy/events-content /-->
 <!-- wp:ai-zippy/course-enquiry-form {"anchor":"course-enquiry","heading":"Ask us questions","subheading":"Book an appointment","programmeOptions":["Arty Time","Private Parties / Events"],"submitText":"SEND ENQUIRY"} /-->
-BLOCKS,
-];
-
-$pages['art-workshops'] = [
-    'title' => 'Art Workshops',
-    'template' => 'page-listing',
-    'content' => <<<'BLOCKS'
-<!-- wp:ai-zippy/page-hero {"eyebrow":"","heading":"ART WORKSHOPS","subtitle":"","breadcrumbCurrent":"Art Workshops","variant":"yellow"} /-->
-<!-- wp:ai-zippy/woo-product-listing {"heading":"Workshops","categoriesTitle":"Categories","allCategoriesText":"All Workshops","emptyMessage":"Workshop products will appear here once they are published.","productsPerPage":12} /-->
 BLOCKS,
 ];
 
@@ -196,7 +255,7 @@ BLOCKS,
 ];
 
 $workshops = [
-    'express-art-classes' => ['title' => 'Express Art', 'existing' => true],
+    'express-art-classes' => ['title' => 'Express Art', 'existing' => true, 'image' => '/wp-content/uploads/2026/07/ExpressArt-Card.jpg'],
     'acrylic-painting' => ['title' => 'Acrylic Painting', 'image' => '/wp-content/uploads/2026/07/AcrylicPainting.jpg'],
     'inks-calligraphy' => ['title' => 'Inks & Calligraphy', 'image' => '/wp-content/uploads/2026/07/InksCalligraphy.png'],
     'clay-artivity' => ['title' => 'Clay x Artivity'],
@@ -264,6 +323,50 @@ foreach ($workshops as $slug => $workshop) {
     ];
 }
 
+// Art Workshops overview - all 10 workshop landing pages per sitemap slide 30,
+// followed by the WooCommerce-backed shop listing for bookable workshop products.
+$workshop_items = [];
+foreach ($workshops as $workshop_slug => $workshop_entry) {
+    $workshop_items[] = [
+        'title' => $workshop_entry['title'],
+        'age' => '',
+        'description' => '',
+        'image' => !empty($workshop_entry['image']) ? home_url($workshop_entry['image']) : '',
+        'alt' => $workshop_entry['title'],
+        'ctaText' => 'See More',
+        'ctaUrl' => '/' . $workshop_slug . '/',
+    ];
+}
+
+$pages['art-workshops'] = [
+    'title' => 'Art Workshops',
+    'template' => 'page-listing',
+    'content' => '<!-- wp:ai-zippy/page-hero ' . json_encode([
+            'eyebrow' => '',
+            'heading' => 'ART WORKSHOPS',
+            'subtitle' => '',
+            'breadcrumbCurrent' => 'Art Workshops',
+            'variant' => 'yellow',
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
+        . '<!-- wp:ai-zippy/offering-listing ' . json_encode([
+            'heading' => 'Our Workshops',
+            'layout' => 'grid',
+            'items' => $workshop_items,
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
+        . '<!-- wp:ai-zippy/woo-product-listing ' . json_encode([
+            'heading' => 'Book a Workshop',
+            // Defaults to every product with the category filter shown. Editors can
+            // switch this to specific categories or hand-picked products from the
+            // block sidebar once workshop products exist in WooCommerce.
+            'source' => 'all',
+            'categories' => [],
+            'categoriesTitle' => 'Categories',
+            'allCategoriesText' => 'All Workshops',
+            'emptyMessage' => 'Workshop products will appear here once they are published.',
+            'productsPerPage' => 12,
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->',
+];
+
 $pages['contact-us'] = [
     'title' => 'Contact Us',
     'template' => 'page-contact',
@@ -285,5 +388,43 @@ $pages['our-studios'] = [
 <!-- wp:ai-zippy/studios-directory /-->
 BLOCKS,
 ];
+
+// Fill the detail pages with the client's doc copy. Runs last so it covers pages
+// built by the loops above and the hand-written camp entries alike. The doc is
+// the agreed source of truth, so its age and copy replace the short placeholders.
+foreach ($offering_copy as $copy_slug => $copy) {
+    if (empty($pages[$copy_slug]['content'])) {
+        continue;
+    }
+
+    $blocks = parse_blocks($pages[$copy_slug]['content']);
+    $changed = false;
+
+    foreach ($blocks as &$block) {
+        if (($block['blockName'] ?? '') !== 'ai-zippy/service-detail') {
+            continue;
+        }
+
+        if (!empty($copy['age'])) {
+            $block['attrs']['ageRange'] = $copy['age'];
+            $changed = true;
+        }
+
+        if (!empty($copy['description'])) {
+            // Lead with the tagline, then the doc's body paragraphs.
+            $body = $copy['description'];
+            if (!empty($copy['tagline'])) {
+                $body = $copy['tagline'] . "\n\n" . $body;
+            }
+            $block['attrs']['description'] = $body;
+            $changed = true;
+        }
+    }
+    unset($block);
+
+    if ($changed) {
+        $pages[$copy_slug]['content'] = serialize_blocks($blocks);
+    }
+}
 
 return $pages;
