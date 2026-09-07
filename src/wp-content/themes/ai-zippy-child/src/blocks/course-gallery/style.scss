@@ -3,8 +3,23 @@
   padding: 0 !important;
   overflow: hidden;
 
+  // Hidden by default: most pages embed this gallery directly under a section
+  // heading of their own. Pages that set a heading (About Us asks for
+  // "Your Smile, Our Passion") opt back in via the modifier below.
   &__heading {
     display: none !important;
+  }
+
+  &__heading:not(:empty) {
+    display: block !important;
+    margin: 0 0 1.75rem;
+    padding: 0 1rem;
+    color: var(--wp--preset--color--achiever-pink, #ef5f83);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+    text-transform: uppercase;
   }
 
   &__decor {

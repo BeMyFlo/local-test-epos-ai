@@ -39,7 +39,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-classes
         <span aria-hidden="true">›</span>
         <span aria-current="page"><?php echo esc_html($breadcrumb_current); ?></span>
       </nav>
-      <h1 class="achiever-classes-hero__heading"><?php echo nl2br(esc_html($heading)); ?></h1>
+      <h1 class="achiever-classes-hero__heading"><?php echo nl2br(esc_html(achiever_normalize_newlines($heading))); ?></h1>
     </div>
   </section>
   <section class="achiever-classes-hero__carousel-section">

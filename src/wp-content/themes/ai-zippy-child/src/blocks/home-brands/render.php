@@ -69,8 +69,8 @@ $gallery_track_id = wp_unique_id('achiever-brands-gallery-track-');
   <?php endif; ?>
   <div class="achiever-brands__container">
     <div class="achiever-brands__intro">
-      <h2 class="achiever-brands__heading"><?php echo nl2br(esc_html($heading)); ?></h2>
-      <p class="achiever-brands__description"><?php echo nl2br(esc_html($description)); ?></p>
+      <h2 class="achiever-brands__heading"><?php echo nl2br(esc_html(achiever_normalize_newlines($heading))); ?></h2>
+      <p class="achiever-brands__description"><?php echo nl2br(esc_html(achiever_normalize_newlines($description))); ?></p>
       <?php if ($cta_text) : ?><a class="achiever-btn achiever-btn--primary achiever-brands__cta" href="<?php echo esc_url($cta_url); ?>"<?php echo $cta_target; // phpcs:ignore WordPress.Security.EscapeOutput -- static attribute string ?>><?php echo esc_html($cta_text); ?></a><?php endif; ?>
     </div>
     <div class="achiever-brands__showcase">
