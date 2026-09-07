@@ -62,7 +62,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-classes
         <div class="achiever-classes-detail__copy">
           <?php if ($age) : ?><p class="achiever-classes-detail__age"><?php echo esc_html($age); ?></p><?php endif; ?>
           <h2><?php echo esc_html($title); ?></h2>
-          <p><?php echo nl2br(esc_html($description)); ?></p>
+          <p><?php echo nl2br(esc_html(achiever_normalize_newlines($description))); ?></p>
           <?php if ($cta_text) : ?><a class="achiever-btn" href="<?php echo esc_url($cta_url); ?>"><?php echo esc_html($cta_text); ?></a><?php endif; ?>
         </div>
 

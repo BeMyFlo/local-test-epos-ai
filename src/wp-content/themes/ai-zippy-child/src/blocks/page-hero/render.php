@@ -58,7 +58,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
             <p class="achiever-page-hero__eyebrow"><?php echo esc_html($eyebrow); ?></p>
         <?php endif; ?>
 
-        <h1 class="achiever-page-hero__heading"><?php echo nl2br(esc_html($heading)); ?></h1>
+        <h1 class="achiever-page-hero__heading"><?php echo nl2br(esc_html(achiever_normalize_newlines($heading))); ?></h1>
 
         <?php if ($subtitle) : ?>
             <p class="achiever-page-hero__subtitle"><?php echo esc_html($subtitle); ?></p>

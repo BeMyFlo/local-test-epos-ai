@@ -85,7 +85,7 @@ $paint_jar_style = sprintf(
 
       <div id="<?php echo esc_attr($slides_id); ?>" class="achiever-hero__slides" aria-live="polite">
         <?php foreach ($slides as $index => $slide) :
-            $heading     = $slide['heading'] ?? '';
+            $heading     = achiever_normalize_newlines($slide['heading'] ?? '');
             $description = $slide['description'] ?? '';
             $cta_text    = $slide['ctaText'] ?? '';
             $cta_url     = $slide['ctaUrl'] ?? '#';

@@ -1297,3 +1297,22 @@ $form_handler = get_stylesheet_directory() . '/inc/form-handler.php';
 if (file_exists($form_handler)) {
     require_once $form_handler;
 }
+
+/**
+ * Normalise literal "\n" escape sequences back into real newlines.
+ *
+ * Block attributes saved through the editor can persist a newline as the two
+ * characters backslash + n. Rendering that through nl2br() leaves the escape
+ * visible (e.g. "REGULAR\nART CLASSES" reads as "REGULARNART CLASSES"), so
+ * every block heading that supports line breaks runs through this first.
+ */
+if (!function_exists('achiever_normalize_newlines')) :
+function achiever_normalize_newlines($text): string
+{
+    if (!is_string($text) || $text === '') {
+        return '';
+    }
+
+    return str_replace(['\r\n', '\n', '\r'], "\n", $text);
+}
+endif;
