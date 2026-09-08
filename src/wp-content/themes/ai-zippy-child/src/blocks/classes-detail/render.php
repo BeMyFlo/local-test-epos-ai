@@ -89,6 +89,10 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-classes
     </section>
   <?php endforeach; ?>
 
+  <?php // An empty gallery would still print the pink header band, the mascot
+        // and the slider arrows over a blank strip, so the whole section is
+        // skipped until images are added. ?>
+  <?php if ($gallery_images) : ?>
   <section class="achiever-classes-detail__gallery">
     <div class="achiever-classes-detail__gallery-header">
       <?php if ($gallery_mascot) : ?><img class="achiever-classes-detail__mascot-sticker" src="<?php echo esc_url($gallery_mascot); ?>" alt="<?php echo esc_attr($gallery_mascot_alt); ?>" loading="lazy" style="<?php echo esc_attr($gallery_mascot_style); ?>" /><?php endif; ?>
@@ -109,4 +113,5 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'achiever-classes
       <button class="achiever-classes-detail__gallery-arrow achiever-classes-detail__gallery-arrow--next" type="button" aria-label="Next gallery images" aria-controls="<?php echo esc_attr($gallery_track_id); ?>" data-classes-gallery-next>›</button>
     </div>
   </section>
+  <?php endif; ?>
 </div>

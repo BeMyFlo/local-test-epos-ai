@@ -2,6 +2,45 @@
 
 defined('ABSPATH') || exit;
 
+// The four camps, shared by the "OUR FUN CAMPS!" carousel (sitemap slide 2) and
+// the alternating feature blocks below it (slide 1). Both sections list the same
+// four camps, but the carousel carries only image + name while the feature
+// blocks carry the full write-up, so the two do not read as duplicates.
+$camps = [
+    'arts-camp'     => ['title' => 'Arts',         'image' => '/wp-content/uploads/2026/07/ArtCamp-2025.png'],
+    'crafts-camp'   => ['title' => 'Crafts',       'image' => '/wp-content/uploads/2026/07/CraftCamp-2025.png'],
+    'holiday-camp'  => ['title' => 'Holiday Camp', 'image' => '/wp-content/uploads/2026/07/HolidayCamp-2025.png'],
+    'artivity-camp' => ['title' => 'Artivity',     'image' => '/wp-content/uploads/2026/07/ArtivityCamp.png'],
+];
+
+$offering_copy = require __DIR__ . '/offering-copy.php';
+
+$camp_carousel_items = [];
+$camp_sections = [];
+foreach ($camps as $camp_slug => $camp) {
+    $copy = $offering_copy[$camp_slug] ?? [];
+
+    // Carousel: image and class name only, per the sitemap's scrollable banner.
+    $camp_carousel_items[] = [
+        'title' => $camp['title'],
+        'image' => $camp['image'],
+        'alt' => $camp['title'] . ' Camp',
+        'ctaText' => 'See More',
+        'ctaUrl' => '/' . $camp_slug . '/',
+    ];
+
+    // Feature block: Category(Age) heading, class name, full description, See More.
+    $camp_sections[] = [
+        'title' => strtoupper($camp['title']),
+        'age' => $copy['age'] ?? 'Age 4 & up',
+        'description' => $copy['description'] ?? '',
+        'image' => $camp['image'],
+        'alt' => $camp['title'] . ' Camp',
+        'ctaText' => 'SEE MORE',
+        'ctaUrl' => '/' . $camp_slug . '/',
+    ];
+}
+
 $pages = [
     'about-us' => [
         'title' => 'About Us',
@@ -43,14 +82,30 @@ BLOCKS,
 <!-- wp:ai-zippy/offering-listing {"heading":"Our Classes","layout":"grid","items":[{"title":"Camps","age":"Ages 4 & up","tagline":"Creative Holiday Adventures Filled with Fun & Exploration","description":"Our Art Camps are exciting multi-day creative programmes designed to keep children engaged through hands-on art projects, themed activities, and interactive experiences during the school holidays. Perfect for young artists who love to create, explore, and make new friends.","features":["Fun-filled holiday art experiences","Explore different mediums, crafts & creative techniques","Engaging themed activities & guided projects","All materials fully provided","Beginner-friendly and highly interactive"],"image":"/wp-content/uploads/2026/07/ArtCamp-2025.png","alt":"Camps","ctaText":"See More","ctaUrl":"/our-camps/"},{"title":"Short Courses","age":"Ages 4 & up","tagline":"Focused Creative Learning in a Flexible Format","description":"Our Short Courses are specially designed programmes that allow students to explore and develop specific art skills over a shorter commitment period. Perfect for learners who want a structured yet flexible creative learning experience.","features":["Learn focused art skills through guided lessons","Explore painting, sketching, crafts & mixed media","Structured learning in a shorter course format","All materials fully provided","Suitable for beginners and growing young artists"],"image":"/wp-content/uploads/2026/07/ShortCourse_mainQ.jpg","alt":"Short Courses","ctaText":"See More","ctaUrl":"/short-courses/"}]} /-->
 BLOCKS,
     ],
+    // Sitemap: hero, then the "OUR FUN CAMPS!" scrollable banner (slide 2), then
+    // the alternating Category(Age) / Class Name / Description / See More
+    // feature blocks (slide 1). The two sections carry different content so the
+    // page does not repeat itself.
     'our-camps' => [
         'title' => 'Our Camps',
         'template' => 'page-listing',
-        'content' => <<<'BLOCKS'
-<!-- wp:ai-zippy/page-hero {"eyebrow":"","heading":"OUR CAMPS","subtitle":"","breadcrumbCurrent":"Our Camps","variant":"yellow"} /-->
-<!-- wp:ai-zippy/offering-listing {"heading":"OUR FUN CAMPS!","layout":"carousel","items":[{"title":"Arts","image":"/wp-content/uploads/2026/07/ArtCamp-2025.png","alt":"Arts Camp","ctaText":"See More","ctaUrl":"/arts-camp/"},{"title":"Crafts","image":"/wp-content/uploads/2026/07/CraftCamp-2025.png","alt":"Crafts Camp","ctaText":"See More","ctaUrl":"/crafts-camp/"},{"title":"Holiday Camp","image":"/wp-content/uploads/2026/07/HolidayCamp-2025.png","alt":"Holiday Camp","ctaText":"See More","ctaUrl":"/holiday-camp/"},{"title":"Artivity","image":"/wp-content/uploads/2026/07/ArtivityCamp.png","alt":"Artivity Camp","ctaText":"See More","ctaUrl":"/artivity-camp/"}]} /-->
-<!-- wp:ai-zippy/offering-listing {"heading":"Camp Offerings","layout":"grid","items":[{"title":"Arts","image":"/wp-content/uploads/2026/07/ArtCamp-2025.png","alt":"Arts Camp","ctaText":"See More","ctaUrl":"/arts-camp/"},{"title":"Crafts","image":"/wp-content/uploads/2026/07/CraftCamp-2025.png","alt":"Crafts Camp","ctaText":"See More","ctaUrl":"/crafts-camp/"},{"title":"Holiday Camp","image":"/wp-content/uploads/2026/07/HolidayCamp-2025.png","alt":"Holiday Camp","ctaText":"See More","ctaUrl":"/holiday-camp/"},{"title":"Artivity","image":"/wp-content/uploads/2026/07/ArtivityCamp.png","alt":"Artivity Camp","ctaText":"See More","ctaUrl":"/artivity-camp/"}]} /-->
-BLOCKS,
+        'content' => '<!-- wp:ai-zippy/page-hero ' . json_encode([
+                'eyebrow' => '',
+                'heading' => 'OUR CAMPS',
+                'subtitle' => '',
+                'breadcrumbCurrent' => 'Our Camps',
+                'variant' => 'yellow',
+            ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
+            . '<!-- wp:ai-zippy/offering-listing ' . json_encode([
+                'heading' => 'OUR FUN CAMPS!',
+                'layout' => 'carousel',
+                'items' => $camp_carousel_items,
+            ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
+            . '<!-- wp:ai-zippy/classes-detail ' . json_encode([
+                'sections' => $camp_sections,
+                'galleryTitle' => 'YOUR SMILE, OUR PASSION.',
+                'galleryImages' => [],
+            ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->',
     ],
     'arts-camp' => [
         'title' => 'Arts Camp',
@@ -101,8 +156,6 @@ BLOCKS,
 
 // Copy from the client's "beyond the canva offering writeup" doc. Where the doc
 // and the sitemap disagree on an age range, the doc wins (client's instruction).
-$offering_copy = require __DIR__ . '/offering-copy.php';
-
 /**
  * Merge doc copy over a slug's defaults, leaving anything the doc omits intact.
  */
@@ -194,7 +247,13 @@ foreach ($regular_classes as $slug => $class) {
 }
 
 // Regular Art Classes overview - all 8 classes per sitemap slide 20.
+//
+// The page carries the two sections the brief marks up separately: the round
+// carousel at the top (short tagline only) and, below it, the alternating
+// left/right feature blocks that carry the full write-up. Both list all 8
+// classes and every entry links to that class's own page.
 $regular_class_items = [];
+$regular_class_sections = [];
 foreach ($regular_classes as $regular_slug => $regular_class) {
     $regular_class_items[] = [
         'title' => $regular_class['title'],
@@ -203,6 +262,19 @@ foreach ($regular_classes as $regular_slug => $regular_class) {
         'image' => !empty($regular_class['image']) ? home_url($regular_class['image']) : '',
         'alt' => $regular_class['title'],
         'ctaText' => 'See More',
+        'ctaUrl' => '/' . $regular_slug . '/',
+    ];
+
+    // The feature blocks show the long copy from the offering doc; the carousel
+    // above keeps the one-line tagline so the two sections do not read alike.
+    $detail = $apply_copy($regular_slug, $regular_class);
+    $regular_class_sections[] = [
+        'title' => strtoupper($regular_class['title']),
+        'age' => $detail['age'] ?? '',
+        'description' => $detail['description'] ?? ($regular_class['description'] ?? ''),
+        'image' => !empty($regular_class['image']) ? home_url($regular_class['image']) : '',
+        'alt' => $regular_class['title'],
+        'ctaText' => 'SEE MORE',
         'ctaUrl' => '/' . $regular_slug . '/',
     ];
 }
@@ -222,14 +294,13 @@ $pages['regular-art-classes'] = [
             'layout' => 'carousel',
             'items' => $regular_class_items,
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
-        . '<!-- wp:ai-zippy/offering-listing ' . json_encode([
-            'heading' => 'Class Offerings',
-            'layout' => 'grid',
-            'items' => $regular_class_items,
-        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->' . "\n"
-        . '<!-- wp:ai-zippy/course-gallery ' . json_encode([
-            'heading' => 'Your Smile, Our Passion',
-            'images' => [],
+        // classes-detail renders the alternating feature blocks and closes with
+        // its own "Your Smile, Our Passion" gallery, so no separate
+        // course-gallery block is added here.
+        . '<!-- wp:ai-zippy/classes-detail ' . json_encode([
+            'sections' => $regular_class_sections,
+            'galleryTitle' => 'YOUR SMILE, OUR PASSION.',
+            'galleryImages' => [],
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . ' /-->',
 ];
 

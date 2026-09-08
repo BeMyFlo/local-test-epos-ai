@@ -3379,16 +3379,20 @@ main.achiever-page,
   line-height: 1.12;
 }
 
-.achiever-page .achiever-seasonal__card a,
-.achiever-page .achiever-best-sellers__card a,
-.achiever-page [class*="seasonal"] [class*="card"] a,
-.achiever-page [class*="best"] [class*="card"] a {
+// Scoped to the CTA rather than every `a` in the card: the product image is
+// itself wrapped in a link, and the bare `a` selector turned that wrapper into
+// a second pink pill and knocked the real button off centre.
+.achiever-page .achiever-seasonal__card .achiever-seasonal__card-cta,
+.achiever-page .achiever-best-sellers__card .achiever-products__card-cta,
+.achiever-page [class*="seasonal"] [class*="card"] [class*="card-cta"],
+.achiever-page [class*="best"] [class*="card"] [class*="card-cta"] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  align-self: center;
   min-width: 156px;
   min-height: 42px;
-  margin: 18px 0 34px;
+  margin: 18px auto 34px;
   padding: 10px 22px;
   border-radius: 999px;
   color: #5d78bf;
@@ -4692,4 +4696,55 @@ html body .achiever-testimonials__title {
   font-family: "Baloo 2", sans-serif !important;
   font-weight: 900 !important;
   text-transform: uppercase !important;
+}
+
+// Card CTA alignment — the slider stretches every card to the tallest one, but
+// the body inside it only grew to fit its own text, so a two-line title pushed
+// its "BOOK NOW" lower than a one-line neighbour's. Making the card a column
+// flexbox, letting the body take the leftover height and pinning the CTA to the
+// bottom lines every button up across the row regardless of title length.
+.achiever-seasonal__card,
+.achiever-products__card,
+.achiever-page .achiever-seasonal__card,
+.achiever-page .achiever-best-sellers__card {
+  display: flex !important;
+  flex-direction: column;
+}
+
+// The body is a centred column so the title, meta and button all share one
+// horizontal axis no matter how many lines the title wraps to.
+.achiever-seasonal__card-content,
+.achiever-products__card-body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+// `margin-top: auto` pins the button to the bottom of that column so buttons
+// line up across the row; `align-self: center` keeps it centred, which the
+// auto top margin would otherwise be the only margin governing.
+.achiever-seasonal__card-cta,
+.achiever-products__card-cta,
+.achiever-page .achiever-seasonal__card .achiever-seasonal__card-cta,
+.achiever-page .achiever-best-sellers__card .achiever-products__card-cta {
+  margin-top: auto;
+  align-self: center;
+}
+
+// The title and meta lines are block children of a flex column, so `text-align`
+// on the card alone does not centre them once they wrap.
+.achiever-seasonal__card-name,
+.achiever-seasonal__card-category,
+.achiever-seasonal__card-age-time,
+.achiever-products__card-name,
+.achiever-products__card-category,
+.achiever-products__card-age-time,
+.achiever-page .achiever-seasonal__card h3,
+.achiever-page .achiever-seasonal__card p,
+.achiever-page .achiever-best-sellers__card h3,
+.achiever-page .achiever-best-sellers__card p {
+  width: 100%;
+  text-align: center;
 }

@@ -109,14 +109,80 @@ function achiever_content_matches(string $stored, string $generated): bool
  */
 function achiever_decode_block_entities(string $content): string
 {
-    return preg_replace_callback(
-        '/<!--\s+wp:[^\s]+\s+(\{.*?\})\s+\/-->/s',
+    return serialize_blocks(achiever_decode_blocks(parse_blocks($content)));
+}
+
+/**
+ * Decode every string attribute of a block tree.
+ */
+function achiever_decode_blocks(array $blocks): array
+{
+    foreach ($blocks as $index => $block) {
+        if (!empty($block['attrs'])) {
+            $blocks[$index]['attrs'] = achiever_decode_value($block['attrs']);
+        }
+
+        if (!empty($block['innerBlocks'])) {
+            $blocks[$index]['innerBlocks'] = achiever_decode_blocks($block['innerBlocks']);
+        }
+    }
+
+    return $blocks;
+}
+
+/**
+ * Recover an attribute value that a previous save mangled.
+ *
+ * Two separate corruptions stack up here:
+ *
+ *  1. esc_html/KSES turns the "&" of the JSON escape into "&amp;", so the
+ *     stored escape reads as the six characters "u0026amp;" once the
+ *     backslash is accounted for.
+ *  2. wp_unslash on the next save eats the leading backslash, leaving the bare
+ *     text "u0026amp;" which renders literally on the card.
+ *
+ * html_entity_decode alone cannot fix either one, because at that point
+ * "u0026amp;" is a JSON escape followed by literal characters rather than an
+ * HTML entity. Working on the decoded attribute value instead lets us undo the
+ * entity escaping and re-resolve any escape that lost its backslash.
+ */
+function achiever_decode_value($value)
+{
+    if (is_array($value)) {
+        foreach ($value as $key => $item) {
+            $value[$key] = achiever_decode_value($item);
+        }
+
+        return $value;
+    }
+
+    if (!is_string($value)) {
+        return $value;
+    }
+
+    // Repeat so a value escaped more than once ("&amp;amp;") collapses to a
+    // single "&". Capped so a literal "&amp;" cannot spin here.
+    for ($i = 0; $i < 5; $i++) {
+        $decoded = html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        if ($decoded === $value) {
+            break;
+        }
+        $value = $decoded;
+    }
+
+    // Re-resolve escapes whose leading backslash was stripped on an earlier
+    // save, so a stray "u0026" becomes "&" again.
+    $value = preg_replace_callback(
+        '/u([0-9a-fA-F]{4})/',
         static function (array $matches): string {
-            $decoded = html_entity_decode($matches[1], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-            return str_replace($matches[1], $decoded, $matches[0]);
+            $char = json_decode('"\u' . $matches[1] . '"');
+            return is_string($char) ? $char : $matches[0];
         },
-        $content
-    ) ?? $content;
+        $value
+    ) ?? $value;
+
+    // The recovered "&" may itself still carry the "amp;" tail.
+    return html_entity_decode($value, ENT_QUOTES | ENT_HTML5, 'UTF-8');
 }
 
 // Only these slugs may be rewritten over existing content. Everything else is
@@ -163,7 +229,7 @@ foreach ($sync_slugs as $slug) {
     }
 
     $page = $pages[$slug];
-    $content = serialize_blocks(parse_blocks($page['content']));
+    $content = achiever_decode_block_entities(serialize_blocks(parse_blocks($page['content'])));
     $existing = get_page_by_path($slug, OBJECT, 'page');
 
     $plan[$slug] = [
@@ -183,7 +249,7 @@ foreach ($detail_slugs as $slug) {
     }
 
     $page = $pages[$slug];
-    $content = serialize_blocks(parse_blocks($page['content']));
+    $content = achiever_decode_block_entities(serialize_blocks(parse_blocks($page['content'])));
     $existing = get_page_by_path($slug, OBJECT, 'page');
 
     if (!$existing) {
