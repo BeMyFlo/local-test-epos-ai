@@ -1077,6 +1077,37 @@ function ai_zippy_child_override_css(): string
             width: 100% !important;
         }
 
+        /* A two-item listing (the Camps / Short Courses overview) shows two wide
+           cards centred on the row instead of two thirds of a 3-up grid. */
+        html body .achiever-offering-listing__track:has(> .achiever-offering-listing__card:nth-child(2):last-child) {
+            grid-template-columns: repeat(2, 1fr) !important;
+            max-width: 900px !important;
+            margin: 0 auto !important;
+        }
+
+        /* A carousel listing scrolls horizontally in a single row. The grid rule
+           above is set with !important, so the flex layout has to match it or
+           the cards wrap into a 3-up grid and the arrows scroll nothing. */
+        html body .achiever-offering-listing--carousel .achiever-offering-listing__track {
+            display: flex !important;
+            grid-template-columns: none !important;
+            flex-wrap: nowrap !important;
+            overflow-x: auto !important;
+            max-width: none !important;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+        }
+
+        html body .achiever-offering-listing--carousel .achiever-offering-listing__track::-webkit-scrollbar {
+            display: none;
+        }
+
+        html body .achiever-offering-listing--carousel .achiever-offering-listing__card {
+            flex: 0 0 min(340px, 82vw) !important;
+            scroll-snap-align: start;
+        }
+
         @media (max-width: 991px) {
             html body .achiever-offering-listing__track {
                 grid-template-columns: repeat(2, 1fr) !important;

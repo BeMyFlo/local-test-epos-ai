@@ -65,6 +65,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
           $cta_url     = $item['ctaUrl'] ?? '';
           $category    = $item['category'] ?? '';
           $tagline     = $item['tagline'] ?? '';
+          $features    = is_array($item['features'] ?? null) ? $item['features'] : [];
         ?>
           <article class="achiever-offering-listing__card">
             <div class="achiever-offering-listing__image">
@@ -76,6 +77,13 @@ $wrapper_attributes = get_block_wrapper_attributes([
               <?php if ($age) : ?><p class="achiever-offering-listing__age"><?php echo esc_html($age); ?></p><?php endif; ?>
               <?php if ($tagline) : ?><p class="achiever-offering-listing__tagline"><?php echo esc_html($tagline); ?></p><?php endif; ?>
               <?php if ($description) : ?><p><?php echo esc_html($description); ?></p><?php endif; ?>
+              <?php if ($features) : ?>
+                <ul class="achiever-offering-listing__features">
+                  <?php foreach ($features as $feature) : ?>
+                    <li><?php echo esc_html($feature); ?></li>
+                  <?php endforeach; ?>
+                </ul>
+              <?php endif; ?>
               <?php if ($cta_text && $cta_url) : ?><a class="achiever-btn" href="<?php echo esc_url($cta_url); ?>"><?php echo esc_html($cta_text); ?></a><?php endif; ?>
             </div>
           </article>
