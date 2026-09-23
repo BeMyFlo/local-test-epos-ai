@@ -1,12 +1,60 @@
 // =============================================================================
 // films-list — SCSS partial for block `ai-zippy/films-list` (block-map §2).
-// Mockup source lines owned here: 195–233 (.film-list, .film-card family,
-// .play-badge, .film-tag, .film-runtime, .film-body family, .film-meta,
-// .watch-btn, .no-video-flag, .vmodal* lightbox chrome) minus .film-tools
-// 208–211. The block also renders #filmModal (mockup markup L1000–1018).
-// 900px rows owned here (mockup L296): .film-hero — copied VERBATIM with the
-// note that no base rule for .film-hero exists in the source (ui-spec §9).
-// Stub created at S2a; content lands at S3 with the block.
-// Rules for [.film-tools (L208–211)] are NOT ported (block-map §5 row 5 /
-// §4.1).
+// Mockup source lines owned here: 196–207 (.film-list, .film-card (+hover),
+// .film-poster (+img, ::after, hover), .play-badge (+::before, hover),
+// .film-tag, .film-runtime) and 212–233 (.film-body family, .film-meta,
+// .watch-btn, .no-video-flag, .vmodal* lightbox chrome). The block also
+// renders #filmModal (mockup markup L1000–1017); .modal-overlay +
+// @keyframes pop already live in _components.
+// 900px rows owned here (mockup L296): .film-hero.
+// Stub created at S2a; filled at S3 with the block — rules below are verbatim
+// from the mockup (values copied, never reformatted). No [S3]-added guards:
+// .film-list is auto-fill minmax(300px,1fr) — fluid, one column at 375px
+// (ui-spec §9 "auto-fill shop/film grids are already fluid"); the vmodal is
+// width:100%;max-width:920px inside .modal-overlay{padding:40px 18px} — no
+// overflow vector (P4-D7).
+// Rules for [the hover tool bar (L208–211)] are NOT ported (block-map §5
+// row 5 / §4.1).
 // =============================================================================
+
+.film-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:26px}
+.film-card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .18s,box-shadow .18s}
+.film-card:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(20,48,61,.14)}
+.film-poster{position:relative;cursor:pointer;background:var(--bg-soft);overflow:hidden}
+.film-poster img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.film-poster::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 55%,rgba(20,48,61,.5));opacity:0;transition:opacity .2s}
+.film-poster:hover::after{opacity:1}
+.play-badge{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:62px;height:62px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center;box-shadow:0 6px 18px rgba(20,48,61,.28);transition:transform .18s,background .18s;z-index:2}
+.film-poster:hover .play-badge{transform:translate(-50%,-50%) scale(1.09);background:#fff}
+.play-badge::before{content:"";width:0;height:0;margin-left:5px;border-left:19px solid var(--ink);border-top:12px solid transparent;border-bottom:12px solid transparent}
+.film-tag{position:absolute;top:12px;left:12px;background:var(--prism);color:var(--ink);font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:999px;z-index:3}
+.film-runtime{position:absolute;bottom:12px;right:12px;background:rgba(20,48,61,.85);color:#fff;font-size:.74rem;font-weight:600;padding:4px 10px;border-radius:6px;z-index:3}
+
+.film-body{padding:20px 22px 24px;display:flex;flex-direction:column;gap:9px;flex:1}
+.film-body h3{font-size:1.08rem}
+.film-body p{color:var(--ink-soft);font-size:.92rem;flex:1}
+.film-meta{display:flex;gap:7px;flex-wrap:wrap}
+.film-meta span{font-size:.74rem;font-weight:600;color:var(--ink-soft);background:var(--bg-soft);border:1px solid var(--line);padding:4px 11px;border-radius:999px}
+.watch-btn{margin-top:4px;align-self:flex-start;padding:10px 20px;font-size:.85rem}
+.no-video-flag{display:inline-flex;align-items:center;gap:6px;font-size:.76rem;font-weight:600;color:#8a6417;background:#fdf6e0;border:1px solid var(--yellow);padding:4px 11px;border-radius:999px}
+
+/* ---- film lightbox ---- */
+.vmodal{background:#0f2733;border-radius:20px;box-shadow:0 26px 70px rgba(0,0,0,.5);width:100%;max-width:920px;overflow:hidden;animation:pop .22s ease}
+.vmodal-video{position:relative;background:#000}
+.vmodal-video video{width:100%;aspect-ratio:16/9;display:block;background:#000}
+.vmodal-empty{aspect-ratio:16/9;display:grid;place-items:center;text-align:center;padding:30px;color:#cfe3ea}
+.vmodal-empty h4{color:#fff;font-size:1.05rem;margin-bottom:8px}
+.vmodal-empty p{font-size:.9rem;max-width:44ch;margin:0 auto;color:#a9c6d1}
+.vmodal-info{padding:22px 26px 26px;color:#e8f2f6}
+.vmodal-info h3{font-size:1.3rem;color:#fff;margin-bottom:8px}
+.vmodal-info p{font-size:.94rem;color:#b9d2dc;line-height:1.7}
+.vmodal-meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.vmodal-meta span{font-size:.74rem;font-weight:600;color:#cfe3ea;background:rgba(255,255,255,.1);padding:4px 11px;border-radius:999px}
+.vmodal-close{position:absolute;top:14px;right:14px;width:36px;height:36px;border-radius:50%;border:none;background:rgba(0,0,0,.55);color:#fff;font-size:1.1rem;cursor:pointer;z-index:5;font-weight:700}
+.vmodal-close:hover{background:#000}
+
+// Mockup L296 — the `.film-hero` row of the 900px tier (verbatim; no base
+// .film-hero rule exists in the source — ui-spec §9 note, cloned anyway).
+@media (max-width:900px){
+  .film-hero{grid-template-columns:1fr}
+}

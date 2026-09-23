@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/cta-banner",
+	"version": "1.0.0",
+	"title": "CTA Banner",
+	"category": "ai-zippy",
+	"icon": "megaphone",
+	"description": "Shared CTA card band — films, events and upcoming pages (soft band or plain wrap-tight variant).",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"heading": {
+			"type": "string",
+			"default": "Want a film of your own?"
+		},
+		"text": {
+			"type": "string",
+			"default": "We produce feature films end-to-end, on location and on budget. See our tiers and start an enquiry."
+		},
+		"btnLabel": {
+			"type": "string",
+			"default": "Make A Feature Film"
+		},
+		"btnUrl": {
+			"type": "string",
+			"default": "/film/"
+		},
+		"soft": {
+			"type": "boolean",
+			"default": true
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
