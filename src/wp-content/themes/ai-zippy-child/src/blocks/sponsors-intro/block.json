@@ -1,0 +1,75 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/sponsors-intro",
+	"version": "1.0.0",
+	"title": "Sponsors Intro",
+	"category": "ai-zippy",
+	"icon": "heart",
+	"description": "Sponsors page — partner pitch card grid + CTA.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Be Our Sponsors"
+		},
+		"title": {
+			"type": "string",
+			"default": "Partner With A Brand That Moves"
+		},
+		"sub": {
+			"type": "string",
+			"default": "Sponsoring PricemrCopper means placing your brand inside films, on stages, and along global trade routes. We welcome corporate partners who want visibility with substance."
+		},
+		"cards": {
+			"type": "array",
+			"default": [
+				{
+					"iconVariant": "i1",
+					"emoji": "🎞️",
+					"heading": "On-Screen Placement",
+					"text": "Your brand featured in our film productions and music videos, reaching audiences in NYC, Singapore, and beyond."
+				},
+				{
+					"iconVariant": "i2",
+					"emoji": "🎤",
+					"heading": "Event Visibility",
+					"text": "Logos, booths, and shout-outs at concerts, live screenings, and creative showcases we host."
+				},
+				{
+					"iconVariant": "i3",
+					"emoji": "🤝",
+					"heading": "Co-Branded Merchandise",
+					"text": "Joint merchandise drops and custom product lines pairing your brand with ours."
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"iconVariant": { "type": "string" },
+					"emoji": { "type": "string" },
+					"heading": { "type": "string" },
+					"text": { "type": "string" }
+				}
+			}
+		},
+		"btnText": {
+			"type": "string",
+			"default": "Become A Sponsor"
+		},
+		"btnUrl": {
+			"type": "string",
+			"default": "/enquiries/"
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
