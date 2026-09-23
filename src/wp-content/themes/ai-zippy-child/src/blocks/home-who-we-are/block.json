@@ -1,0 +1,79 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/home-who-we-are",
+	"version": "1.0.0",
+	"title": "Home Who We Are",
+	"category": "ai-zippy",
+	"icon": "businessperson",
+	"description": "Homepage intro — eyebrow, section title, three paragraphs and the Core Pillars card grid.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "PricemrCopper"
+		},
+		"title": {
+			"type": "string",
+			"default": "Who We Are"
+		},
+		"para1": {
+			"type": "string",
+			"default": "Welcome to PRICEMRCOPPER, a dynamic multi-industry enterprise operating at the intersection of global trade and creative media. Based in Singapore, we bridge commerce and culture by managing two core divisions: international goods trading, independent film and music production."
+		},
+		"para2": {
+			"type": "string",
+			"default": "We leverage our strategic location in Asia's premier business hub to move physical goods seamlessly across borders, compelling storytelling through featured film making and musical events."
+		},
+		"para3": {
+			"type": "string",
+			"default": "At PRICEMRCOPPER, we believe that connecting markets and connecting people through art require the same core values: precision, reliability, and vision."
+		},
+		"pillarsTitle": {
+			"type": "string",
+			"default": "Our Core Pillars"
+		},
+		"cards": {
+			"type": "array",
+			"default": [
+				{
+					"iconVariant": "i1",
+					"emoji": "🌏",
+					"heading": "Global Trading",
+					"text": "Strategic sourcing and sales of international goods."
+				},
+				{
+					"iconVariant": "i2",
+					"emoji": "🎬",
+					"heading": "Film Production",
+					"text": "Developing, financing, and producing engaging cinematic content."
+				},
+				{
+					"iconVariant": "i3",
+					"emoji": "🎵",
+					"heading": "Music Business",
+					"text": "Artist management, music production and concerts."
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"iconVariant": { "type": "string" },
+					"emoji": { "type": "string" },
+					"heading": { "type": "string" },
+					"text": { "type": "string" }
+				}
+			}
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

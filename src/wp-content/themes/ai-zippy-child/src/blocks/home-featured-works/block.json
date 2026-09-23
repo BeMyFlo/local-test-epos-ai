@@ -1,0 +1,71 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/home-featured-works",
+	"version": "1.0.0",
+	"title": "Home Featured Works",
+	"category": "ai-zippy",
+	"icon": "format-gallery",
+	"description": "Homepage featured works — three image cards with gradient caption overlays on a soft band.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Featured Works"
+		},
+		"title": {
+			"type": "string",
+			"default": "What We're Proud Of"
+		},
+		"works": {
+			"type": "array",
+			"default": [
+				{
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "home-feature-mad-vibe-city.png",
+					"imgAlt": "Mad Vibe City film",
+					"capHeading": "Mad Vibe City — Feature Film",
+					"capText": "Our flagship cinematic production, shot across NYC and Singapore."
+				},
+				{
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "home-feature-music-beats.avif",
+					"imgAlt": "Music beats",
+					"capHeading": "Original Music Beats",
+					"capText": "Studio-produced tracks powering films, events, and artists."
+				},
+				{
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "home-feature-global-logistics.avif",
+					"imgAlt": "Global logistics",
+					"capHeading": "Global Logistics Network",
+					"capText": "Reliable trade routes connecting suppliers and markets worldwide."
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"imgId": { "type": "number" },
+					"imgUrl": { "type": "string" },
+					"imgFile": { "type": "string" },
+					"imgAlt": { "type": "string" },
+					"capHeading": { "type": "string" },
+					"capText": { "type": "string" }
+				}
+			}
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

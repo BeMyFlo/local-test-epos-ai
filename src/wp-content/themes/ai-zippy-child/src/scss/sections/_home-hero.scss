@@ -3,6 +3,29 @@
 // Mockup source lines owned here: 78–88 (.hero, .hero-grid, .hero h1,
 // .hero p.lead, .hero-img).
 // 900px rows owned here (mockup L296): .hero-grid.
-// Stub created at S2a; content lands at S3 with the block.
-// Rules for [none] are NOT ported (block-map §5 row 5 / §4.1).
+// Stub created at S2a; filled at S3 with the block — rules below are verbatim
+// from the mockup (values copied, never reformatted).
 // =============================================================================
+
+.hero{position:relative;overflow:hidden;background:
+  radial-gradient(760px 420px at 10% 0%,rgba(252,219,126,.55),transparent 62%),
+  radial-gradient(720px 440px at 88% 8%,rgba(178,241,248,.60),transparent 62%),
+  radial-gradient(640px 420px at 62% 100%,rgba(133,190,219,.38),transparent 62%),
+  radial-gradient(520px 320px at 42% 40%,rgba(245,243,205,.55),transparent 70%),
+  var(--bg)}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center}
+.hero h1{font-size:clamp(2.2rem,4.6vw,3.6rem);font-weight:800;margin:14px 0 18px}
+.hero p.lead{font-size:1.12rem;color:var(--ink-soft);max-width:52ch}
+.hero-img{border-radius:24px;box-shadow:var(--shadow);width:100%;aspect-ratio:4/3;object-fit:cover}
+
+// Mockup L296 — the `.hero-grid` row of the 900px tier (verbatim).
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+}
+
+// [S3] G5 guard — NOT a mockup rule (added at S3): `_base.scss` §10 covers
+// `.wrap>*` but not this grid's children; value reuses the prior-art build
+// that passed G5 on this design.
+@media (max-width:767px){
+  .hero-grid > *{min-width:0}
+}
