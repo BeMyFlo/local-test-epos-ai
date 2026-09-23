@@ -1,0 +1,116 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/films-list",
+	"version": "1.0.0",
+	"title": "Films List",
+	"category": "ai-zippy",
+	"icon": "playlist-video",
+	"description": "Films page — the film poster grid and the lightbox modal (filmModal) its cards open.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Our Films"
+		},
+		"title": {
+			"type": "string",
+			"default": "Watch Our Films"
+		},
+		"sub": {
+			"type": "string",
+			"default": "Features, cut versions, and selected scenes from our productions. Click any title to watch or get in touch if you’d like a full screener."
+		},
+		"films": {
+			"type": "array",
+			"default": [
+				{
+					"tag": "Feature Film",
+					"runtime": "135 min",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "films-poster-mad-vibe-city.png",
+					"imgAlt": "Mad Vibe City poster",
+					"title": "Mad Vibe City",
+					"meta": ["2024", "Feature Film", "New York · Singapore"],
+					"desc": "Our debut feature film, produced on location across New York and Singapore. A story of movement, music, and the cities that never quite sleep — and a demonstration of our capacity to execute large-scale, international media projects.",
+					"videoUrl": ""
+				},
+				{
+					"tag": "Cut Version",
+					"runtime": "4:12",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "films-poster-film-2.svg",
+					"imgAlt": "Mad Vibe City - Opening Sequence poster",
+					"title": "Film 2",
+					"meta": ["2024"],
+					"desc": "<br>",
+					"videoUrl": ""
+				},
+				{
+					"tag": "Cut Version",
+					"runtime": "3:38",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "films-poster-film-3.svg",
+					"imgAlt": "Mad Vibe City - Singapore Nights poster",
+					"title": "Film 3",
+					"meta": ["2024"],
+					"desc": "<br>",
+					"videoUrl": ""
+				},
+				{
+					"tag": "Behind The Scenes",
+					"runtime": "6:05",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "films-poster-film-4.svg",
+					"imgAlt": "Behind The Lens poster",
+					"title": "Film 4",
+					"meta": ["2024", "BTS", "Both Locations"],
+					"desc": "<br>",
+					"videoUrl": ""
+				},
+				{
+					"tag": "Music",
+					"runtime": "2:54",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "films-poster-film-5.svg",
+					"imgAlt": "Original Score Sessions poster",
+					"title": "Film 5",
+					"meta": ["2025", "Music", "Studio"],
+					"desc": "<br>",
+					"videoUrl": ""
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"tag": { "type": "string" },
+					"runtime": { "type": "string" },
+					"imgId": { "type": "number" },
+					"imgUrl": { "type": "string" },
+					"imgFile": { "type": "string" },
+					"imgAlt": { "type": "string" },
+					"title": { "type": "string" },
+					"meta": { "type": "array", "items": { "type": "string" } },
+					"desc": { "type": "string" },
+					"videoUrl": { "type": "string" }
+				}
+			}
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}
