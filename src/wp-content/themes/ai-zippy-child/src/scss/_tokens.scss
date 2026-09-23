@@ -1,0 +1,55 @@
+// =============================================================================
+// _tokens.scss — design tokens (CSS custom properties).
+//
+// Block 1 is the mockup's `:root` verbatim (pricemrcopper_final_mockup.html
+// L11–32): same custom-property names, same values — every later cloned rule
+// keeps working untouched. Block 2 holds the S2 foundation-only additions
+// (prefix `--pmc-`), NOT in the mockup: consumed by _base/_header/_footer
+// only; section partials keep the mockup's literal values. Sources: ui-spec
+// §5 / mockup metrics; --pmc-header-h derives from the mockup header box
+// (14+14 padding + 44 logo + 1 border), prior-art derived.
+//
+// Plain `:root` on purpose — WordPress rewrites it to `.editor-styles-wrapper`
+// when the file is loaded as an editor style.
+// =============================================================================
+
+/* ============ TOKENS (mockup L11–32, verbatim) ============ */
+:root{
+  --ink:#14303d;
+  --ink-soft:#5b7280;
+  --bg:#ffffff;
+  --bg-soft:#fbfaf1;
+  --line:#e4ecef;
+  /* --- brand palette --- */
+  --yellow:#FCDB7E;
+  --cream:#F5F3CD;
+  --aqua:#B2F1F8;
+  --sky:#85BEDB;
+  /* deeper tints, used where text/icons need contrast */
+  --yellow-deep:#d9a12b;
+  --aqua-deep:#3fa9bd;
+  --sky-deep:#3f8bb0;
+  --prism:linear-gradient(90deg,var(--yellow),var(--cream),var(--aqua),var(--sky));
+  --prism-deep:linear-gradient(90deg,var(--yellow-deep),var(--aqua-deep),var(--sky-deep));
+  --radius:16px;
+  --shadow:0 10px 30px rgba(27,30,40,.08);
+  --display:'Sora',sans-serif;
+  --body:'Inter',sans-serif;
+}
+
+/* Foundation additions [S2] — not in the mockup. Consumed by _base/_header/
+   _footer only; section partials keep the mockup's literal values. */
+:root{
+  --pmc-container:1180px;      /* .wrap / .header-inner / .footer-inner */
+  --pmc-gutter:24px;
+  --pmc-gutter-sm:18px;        /* ≤767px side gutter */
+  --pmc-section-pad:64px;
+  --pmc-section-pad-tight:48px;
+  --pmc-prism-h:6px;           /* .prism-bar height (mockup L46) */
+  --pmc-header-h:73px;         /* desktop header height — anchor scroll offset */
+  --pmc-nav-panel-max-h:calc(100vh - 90px);
+  --pmc-z-prism:60;
+  --pmc-z-header:50;
+  --pmc-z-nav:55;
+  --pmc-z-modal:200;
+}

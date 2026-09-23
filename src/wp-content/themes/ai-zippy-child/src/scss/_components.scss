@@ -1,0 +1,100 @@
+// =============================================================================
+// _components.scss — shared UI cloned VERBATIM from the mockup <style>.
+// Only components used by 2+ blocks or by the template parts live here
+// (block-map §5 rows 3 + 4, ui-spec §7).
+//
+//   L46      .prism-bar
+//   L47      .grad-text
+//   L48–49   .eyebrow + ::before
+//   L89–93   .btn-row, .btn, .btn:hover, .btn-primary, .btn-ghost
+//   L96–104  .grid-3, .grid-2, .card (+h3/p/.icon), .icon.i1/.i2/.i3
+//   L133–135 .field controls + focus
+//   L156–160 .split (+img), .step-list, .step, .step .n
+//   L163–164 form.enquiry, .form-ok
+//   L238–241 .modal-overlay, .modal, @keyframes pop
+//   L296     @media(max-width:900px) owner rows: .grid-3, .grid-2, .split
+//
+// EXCLUDED (owner is a section partial, S3 — block-map §5 row 4): .hero*,
+// .feature-card, .story*, .sub-card*, .tier*, .film-*, .vmodal*, .product*,
+// .custom-*, .qty-row, .upload-preview, .ticket-line, modal internals
+// L242–274, .events-grid, .event-*, .contact-*, .map-frame.
+// DROPPED entirely (authoring layer — block-map §5 row 5): [contenteditable],
+// .editable-img, .edit-hint, .export-btn, .page/@keyframes fade, .film-tools,
+// .add-event, .vhint.
+// =============================================================================
+
+@use "@parent-scss/variables" as *;
+
+/* ============ SIGNATURE: PRISM RIBBON (mockup L46, verbatim) ============ */
+.prism-bar{height:6px;background:var(--prism);position:sticky;top:0;z-index:60}
+
+/* ============ SIGNATURE: PRISM TEXT CLIP (mockup L47, verbatim) ============ */
+.grad-text{background:var(--prism-deep);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* ============ EYEBROW (mockup L48–49, verbatim) ============ */
+.eyebrow{display:inline-flex;align-items:center;gap:10px;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:14px}
+.eyebrow::before{content:"";width:26px;height:6px;border-radius:3px;background:var(--prism)}
+
+/* ============ BUTTONS (mockup L89–93, verbatim) ============ */
+.btn-row{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
+.btn{display:inline-block;font-family:var(--display);font-weight:700;font-size:.95rem;padding:13px 26px;border-radius:999px;border:none;cursor:pointer;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--prism);color:var(--ink);box-shadow:0 8px 22px rgba(133,190,219,.45)}
+.btn-ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+
+/* [S2] Core buttons rendered inside the neutral shells stay pill-shaped
+   (zero specificity — never fights the clone). */
+:where(.pmc-main) :where(a.wp-block-button__link){border-radius:999px}
+
+/* ============ CARDS + GRIDS (mockup L96–104, verbatim) ============ */
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+.card h3{font-size:1.15rem;margin-bottom:10px}
+.card p{color:var(--ink-soft);font-size:.95rem}
+.card .icon{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:1.3rem;margin-bottom:16px;color:var(--ink)}
+.icon.i1{background:linear-gradient(135deg,var(--aqua),var(--sky))}
+.icon.i2{background:linear-gradient(135deg,var(--cream),var(--aqua))}
+.icon.i3{background:linear-gradient(135deg,var(--yellow),var(--cream))}
+
+/* ============ FORM CONTROLS (mockup L133–135, verbatim) ============ */
+.field label{display:block;font-size:.82rem;font-weight:600;margin-bottom:6px;color:var(--ink-soft)}
+.field input,.field select,.field textarea{padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;font-family:var(--body);font-size:.95rem;background:#fff;width:100%}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--sky-deep);box-shadow:0 0 0 3px rgba(178,241,248,.55)}
+
+/* ============ SPLIT + STEP LIST (mockup L156–160, verbatim) ============ */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.split img{border-radius:20px;box-shadow:var(--shadow);width:100%;aspect-ratio:4/3;object-fit:cover}
+.step-list{display:grid;gap:16px;margin-top:24px}
+.step{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.step .n{flex:0 0 36px;height:36px;border-radius:10px;background:var(--prism);color:var(--ink);font-family:var(--display);font-weight:800;display:grid;place-items:center;font-size:.9rem}
+
+/* ============ ENQUIRY FORM (mockup L163–164, verbatim) ============ */
+form.enquiry{display:grid;gap:18px;max-width:640px}
+.form-ok{display:none;background:#eafbfd;border:1.5px solid var(--aqua);color:#14586b;padding:14px 18px;border-radius:12px;font-size:.92rem}
+
+/* ============ MODAL OVERLAY (mockup L238–241, verbatim) ============ */
+.modal-overlay{position:fixed;inset:0;background:rgba(20,48,61,.55);backdrop-filter:blur(3px);z-index:200;display:none;align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 18px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:22px;box-shadow:0 24px 60px rgba(20,48,61,.3);width:100%;max-width:560px;overflow:hidden;animation:pop .22s ease}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+
+/* ============ RESPONSIVE — mockup tier (L296 owner rows, verbatim) ============ */
+@media (max-width:900px){
+  .grid-3,.grid-2,.split{grid-template-columns:1fr}
+}
+
+/* ============ [S2] RESPONSIVE ADDITIONS (prior-art G5 values) ============
+   The mockup's only tier is 900px (above). These keep the shared components
+   usable at 768px / 375px (gate G5). */
+@include until(900px){
+  .modal-overlay{padding:24px 14px}
+}
+@include until(md){
+  .btn{font-size:.9rem;padding:12px 22px}
+  .btn-row{gap:10px;margin-top:22px}
+  .btn-row .btn{flex:1 1 auto;text-align:center}
+  .card{padding:22px}
+  .step{gap:12px;padding:16px}
+  .step-list{gap:12px;margin-top:18px}
+}

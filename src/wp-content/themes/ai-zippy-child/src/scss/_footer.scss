@@ -1,0 +1,55 @@
+// =============================================================================
+// _footer.scss — the footer template part (S2b owned, not a block).
+//
+// Cloned VERBATIM from pricemrcopper_final_mockup.html <style>:
+//   L178    footer             → scoped to `.pmc-footer`
+//   L179    .footer-inner
+//   L180–182 footer h4 / footer a / footer a:hover   (scoped)
+//   L183    .footer-bottom
+//   L296    @media(max-width:900px){ .footer-inner{grid-template-columns:1fr} }
+//
+// NOTE — `margin-top:64px` survives the blockGap reset in _base.scss because
+// the reset targets `.wp-site-blocks > *` (the template-part wrapper); the
+// footer element is a grandchild, so it is not matched.
+//
+// Footer inline font sizes (mockup L977–978) are markup content → preserved
+// in parts/footer.html at S2b, not CSS.
+// =============================================================================
+
+@use "@parent-scss/variables" as *;
+
+/* ============ FOOTER (mockup L178–183, verbatim — scoped) ============ */
+.pmc-footer{background:var(--ink);color:#c6dae2;margin-top:64px}
+.footer-inner{max-width:1180px;margin:0 auto;padding:52px 24px 32px;display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px}
+.pmc-footer h4{color:#fff;font-size:1rem;margin-bottom:14px}
+.pmc-footer a{display:block;font-size:.9rem;padding:4px 0;color:#c6dae2}
+.pmc-footer a:hover{color:#fff}
+/* [S2 a11y] keyboard parity. */
+.pmc-footer a:focus-visible{color:#fff;outline:2px solid var(--aqua);outline-offset:2px}
+/* [S2] Core List block resets — inert with raw markup, correct if S2b later
+   uses core list blocks for the link columns. */
+.pmc-footer .wp-block-list{list-style:none;margin:0;padding:0}
+.pmc-footer .wp-block-list li{margin:0}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.14);text-align:center;padding:18px;font-size:.82rem;color:#93aeb9}
+/* [S2] reset for the core paragraph wrapper inside the bottom bar. */
+.footer-bottom p{margin:0}
+
+/* ============ RESPONSIVE — mockup tier (L296 owner row, verbatim) ============ */
+@media (max-width:900px){
+  .footer-inner{grid-template-columns:1fr}
+}
+
+/* ============ [S2] Tier 2 (≤1100px) — prior-art values ============
+   3 columns of link lists still fit; only the padding/gap tighten. */
+@include until(1100px){
+  .footer-inner{padding:48px 24px 28px;gap:28px}
+}
+
+/* ============ [S2] Tier 4 (≤767px) — prior-art values ============
+   Single column already applies from the 900px tier; keep the dark block
+   clear of the viewport edges and readable at 375px (G5). */
+@include until(md){
+  .pmc-footer{margin-top:44px}
+  .footer-inner{padding:40px var(--pmc-gutter-sm) 24px;gap:26px}
+  .footer-bottom{padding:16px var(--pmc-gutter-sm);font-size:.78rem}
+}
