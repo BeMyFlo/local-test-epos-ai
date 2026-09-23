@@ -1,1 +1,1 @@
-https://github.com/BeMyFlo/local-test-epos-ai/compare/main...agent/f87817d4-pricemrcopper-t2-6-s1-mockup-analysis-ui
+https://github.com/BeMyFlo/local-test-epos-ai/compare/main...agent/38586b1c-pricemrcopper-t3-6-s2a-theme-foundation
