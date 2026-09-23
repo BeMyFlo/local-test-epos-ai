@@ -1,0 +1,68 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/upcoming-list",
+	"version": "1.0.0",
+	"title": "Upcoming List",
+	"category": "ai-zippy",
+	"icon": "tickets",
+	"description": "Events page — the upcoming events grid and the ticket purchase modal (ticketModal) its cards open.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Events"
+		},
+		"title": {
+			"type": "string",
+			"default": "Upcoming Events"
+		},
+		"sub": {
+			"type": "string",
+			"default": "Join us at our next gathering. Save the date — full details and registration are announced closer to the day."
+		},
+		"events": {
+			"type": "array",
+			"default": [
+				{
+					"badge": "Upcoming",
+					"day": "24",
+					"month": "Oct 2026",
+					"title": "MacRitchie Reservoir Event",
+					"desc": "An open-air gathering at Singapore’s MacRitchie Reservoir — music, film, and community set against the water and the treetops. Details to be confirmed.",
+					"meta": ["📍 MacRitchie Reservoir, Singapore", "📅 24th October 2026"],
+					"price": "$25",
+					"videoPosterId": 0,
+					"videoPosterUrl": "",
+					"videoPosterFile": "event-teaser-poster.svg"
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"badge": { "type": "string" },
+					"day": { "type": "string" },
+					"month": { "type": "string" },
+					"title": { "type": "string" },
+					"desc": { "type": "string" },
+					"meta": { "type": "array", "items": { "type": "string" } },
+					"price": { "type": "string" },
+					"videoPosterId": { "type": "number" },
+					"videoPosterUrl": { "type": "string" },
+					"videoPosterFile": { "type": "string" }
+				}
+			}
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}
