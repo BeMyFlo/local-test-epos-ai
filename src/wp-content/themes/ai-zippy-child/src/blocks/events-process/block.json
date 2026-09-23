@@ -1,0 +1,79 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/events-process",
+	"version": "1.0.0",
+	"title": "Events Process",
+	"category": "ai-zippy",
+	"icon": "megaphone",
+	"description": "Events collab page — split with the event production image and the three-step process list.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Collaborate For Events"
+		},
+		"title": {
+			"type": "string",
+			"default": "Let's Build Something Live"
+		},
+		"intro": {
+			"type": "string",
+			"default": "From intimate live screenings to full-scale concerts, we plan, produce, and promote events end-to-end. Transparent costing, a proven process, and a track record of creative media experiences audiences remember."
+		},
+		"steps": {
+			"type": "array",
+			"default": [
+				{
+					"n": "1",
+					"heading": "Concept & Costing",
+					"text": "We shape the event concept with you and lock a clear, itemised budget."
+				},
+				{
+					"n": "2",
+					"heading": "Production",
+					"text": "Venue, staging, sound, visuals, artists, and logistics — all handled by our team."
+				},
+				{
+					"n": "3",
+					"heading": "Showtime & Beyond",
+					"text": "Live execution plus media capture for content that outlives the night."
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"n": { "type": "string" },
+					"heading": { "type": "string" },
+					"text": { "type": "string" }
+				}
+			}
+		},
+		"imgId": {
+			"type": "number",
+			"default": 0
+		},
+		"imgUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"imgAlt": {
+			"type": "string",
+			"default": "Event production"
+		},
+		"imgFile": {
+			"type": "string",
+			"default": "event-production.avif"
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
