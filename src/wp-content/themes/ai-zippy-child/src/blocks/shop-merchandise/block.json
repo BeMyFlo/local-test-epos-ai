@@ -1,0 +1,224 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/shop-merchandise",
+	"version": "1.0.0",
+	"title": "Shop Merchandise",
+	"category": "ai-zippy",
+	"icon": "store",
+	"description": "Shop page — the 14-product merchandise grid and the custom-order box (static catalog, WooCommerce off).",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Shop"
+		},
+		"title": {
+			"type": "string",
+			"default": "Official Merchandise"
+		},
+		"sub": {
+			"type": "string",
+			"default": "Wear the vibe, sip the vibe, live the vibe. Standard items ship at any quantity — and bulk orders of 50+ unlock full customisation."
+		},
+		"products": {
+			"type": "array",
+			"default": [
+				{
+					"name": "Black Long Sleeves Hoodie",
+					"price": "$45",
+					"size": "S–XXL",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-01.jpg"
+				},
+				{
+					"name": "White Round Neck Print T-Shirt",
+					"price": "$35",
+					"size": "S–XXL",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-02.jpg"
+				},
+				{
+					"name": "Mad Vibe City Drink Tumbler Can 650ml",
+					"price": "$55",
+					"size": "650ml",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-03.jpg"
+				},
+				{
+					"name": "Unisex White Polo T-Shirt",
+					"price": "$35",
+					"size": "S–XXL",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-04.jpg"
+				},
+				{
+					"name": "Sports Stainless Steel Water Bottle 500ml",
+					"price": "$45",
+					"size": "500ml",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-05.jpg"
+				},
+				{
+					"name": "Stainless Steel Mug with Handle 12oz",
+					"price": "$35",
+					"size": "12oz",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-06.jpg"
+				},
+				{
+					"name": "Drink Glass Mugs with Straw 500ml",
+					"price": "$30",
+					"size": "500ml",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-07.jpg"
+				},
+				{
+					"name": "Stainless Steel Tumbler",
+					"price": "$35",
+					"size": "Std",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-08.jpg"
+				},
+				{
+					"name": "Notebook Sets & Calendars",
+					"price": "$37",
+					"size": "A5",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-09.jpg"
+				},
+				{
+					"name": "Cap",
+					"price": "$28",
+					"size": "Free size",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-10.jpg"
+				},
+				{
+					"name": "Mug",
+					"price": "$35",
+					"size": "11oz",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-11.jpg"
+				},
+				{
+					"name": "Toy Bears",
+					"price": "$35",
+					"size": "30cm",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-12.jpg"
+				},
+				{
+					"name": "Notebook Sets (Boxed)",
+					"price": "$55",
+					"size": "Boxed set",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-13.jpg"
+				},
+				{
+					"name": "Mad Vibe City Tank Tops / T-Shirts",
+					"price": "$65",
+					"size": "S–XXL",
+					"imgId": 0,
+					"imgUrl": "",
+					"imgFile": "product-14.jpg"
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"name": { "type": "string" },
+					"price": { "type": "string" },
+					"size": { "type": "string" },
+					"imgId": { "type": "number" },
+					"imgUrl": { "type": "string" },
+					"imgFile": { "type": "string" }
+				}
+			}
+		},
+		"customEyebrow": {
+			"type": "string",
+			"default": "Custom Orders"
+		},
+		"customTitle": {
+			"type": "string",
+			"default": "Customise Your Purchase"
+		},
+		"customSub": {
+			"type": "string",
+			"default": "Add your own image and text to any product — perfect for corporate gifts, events, and team merchandise. Custom image & text uploads unlock at a minimum quantity of <b>50 units</b>."
+		},
+		"productOptions": {
+			"type": "array",
+			"default": [
+				"Black Long Sleeves Hoodie — $45",
+				"White Round Neck Print T-Shirt — $35",
+				"Mad Vibe City Drink Tumbler Can 650ml — $55",
+				"Unisex White Polo T-Shirt — $35",
+				"Sports Stainless Steel Water Bottle 500ml — $45",
+				"Stainless Steel Mug with Handle 12oz — $35",
+				"Drink Glass Mugs with Straw 500ml — $30",
+				"Stainless Steel Tumbler — $35",
+				"Notebook Sets & Calendars — $37",
+				"Cap — $28",
+				"Mug — $35",
+				"Toy Bears — $35",
+				"Notebook Sets (Boxed) — $55",
+				"Mad Vibe City Tank Tops / T-Shirts — $65"
+			],
+			"items": { "type": "string" }
+		},
+		"lockMsg": {
+			"type": "string",
+			"default": "Custom image & text upload is available for orders of <b>50 units or more</b>. Increase your quantity to unlock customisation."
+		},
+		"unlockMsg": {
+			"type": "string",
+			"default": "Customisation unlocked! Upload your image and text below."
+		},
+		"imageLabel": {
+			"type": "string",
+			"default": "Your Custom Image"
+		},
+		"textLabel": {
+			"type": "string",
+			"default": "Your Custom Text"
+		},
+		"textPlaceholder": {
+			"type": "string",
+			"default": "e.g. Company name, slogan, or event title"
+		},
+		"submitLabel": {
+			"type": "string",
+			"default": "Submit Custom Order"
+		},
+		"okMsg": {
+			"type": "string",
+			"default": "Custom order received! Our team will contact you to confirm artwork and delivery."
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}
