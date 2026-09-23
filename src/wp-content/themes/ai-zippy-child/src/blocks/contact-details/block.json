@@ -1,0 +1,65 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/contact-details",
+	"version": "1.0.0",
+	"title": "Contact Details",
+	"category": "ai-zippy",
+	"icon": "location",
+	"description": "Contact page — contact item cards and the Google Maps embed.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Contact Us"
+		},
+		"title": {
+			"type": "string",
+			"default": "We'd Love To Hear From You"
+		},
+		"items": {
+			"type": "array",
+			"default": [
+				{
+					"icon": "📍",
+					"heading": "PricemrCopper Company",
+					"lines": ["60 Paya Lebar Road", "#06-28 Paya Lebar Square", "Singapore 409051"]
+				},
+				{
+					"icon": "✉️",
+					"lines": ["hello@pricemrcopper.com"]
+				},
+				{
+					"icon": "📞",
+					"lines": ["+65 6219 4184"]
+				},
+				{
+					"icon": "🕘",
+					"lines": ["Mon–Fri, 9:00 AM – 6:00 PM (SGT)"]
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"icon": { "type": "string" },
+					"heading": { "type": "string" },
+					"lines": { "type": "array", "items": { "type": "string" } }
+				}
+			}
+		},
+		"mapUrl": {
+			"type": "string",
+			"default": "https://www.google.com/maps?q=60+Paya+Lebar+Road+Paya+Lebar+Square+Singapore+409051&output=embed"
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

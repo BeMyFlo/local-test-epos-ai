@@ -4,6 +4,27 @@
 // Mockup source lines owned here: 166–175 (.map-frame, .contact-grid,
 // .contact-item family, .contact-item .ct sub-rules, .contact-item .ci).
 // 900px rows owned here (mockup L296): .contact-grid.
-// Stub created at S2a; content lands at S3 with the block.
+// Stub created at S2a; filled at S3/P9 — rules below are verbatim from the
+// mockup (values copied, never reformatted).
 // Rules for [none] are NOT ported (block-map §5 row 5 / §4.1).
+// P9-D9: the `.contact-item .ct a` rules are dead CSS in the mockup too (the
+// cloned markup has no anchors — email/phone are plain text) — ported
+// verbatim, the split map assigns L166–175 wholesale (clone doctrine).
+// No [S3]-added guards (P8-D7 precedent): .ct line divs wrap naturally; any
+// 375px fix is an S6 decision.
 // =============================================================================
+
+.map-frame{width:100%;height:380px;border:0;border-radius:20px;box-shadow:var(--shadow)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:40px}
+.contact-item{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
+.contact-item .ct{line-height:1.75;font-size:.97rem;padding:2px 4px;border-radius:8px;flex:1;min-width:0}
+.contact-item .ct b{display:block;font-family:var(--display);font-weight:700;color:var(--ink);margin-bottom:2px}
+.contact-item .ct div{color:var(--ink-soft)}
+.contact-item .ct a{color:var(--sky-deep);font-weight:600}
+.contact-item .ct a:hover{text-decoration:underline}
+.contact-item .ci{flex:0 0 40px;height:40px;border-radius:10px;background:var(--bg-soft);display:grid;place-items:center;font-size:1.1rem}
+
+// Mockup L296 — this block's row of the 900px tier (split rule, §5).
+@media (max-width:900px){
+  .contact-grid{grid-template-columns:1fr}
+}
