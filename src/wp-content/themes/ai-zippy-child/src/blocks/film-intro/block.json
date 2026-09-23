@@ -1,0 +1,87 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/film-intro",
+	"version": "1.0.0",
+	"title": "Film Intro",
+	"category": "ai-zippy",
+	"icon": "video-camera",
+	"description": "Film page — intro: split with the film production image, three-step list and the film enquiry CTA.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Make A Feature Film?"
+		},
+		"title": {
+			"type": "string",
+			"default": "Your Vision, Cinematic Execution"
+		},
+		"intro": {
+			"type": "string",
+			"default": "From indie shorts to full feature films, we deliver high-caliber cinematic execution at transparent cost. Our crews film on location in <b>New York City</b> and <b>Singapore</b>, backed by a portfolio led by our own production, <i>Mad Vibe City</i>."
+		},
+		"imgId": {
+			"type": "number",
+			"default": 0
+		},
+		"imgUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"imgAlt": {
+			"type": "string",
+			"default": "Film production"
+		},
+		"imgFile": {
+			"type": "string",
+			"default": "film-production.avif"
+		},
+		"steps": {
+			"type": "array",
+			"default": [
+				{
+					"n": "1",
+					"heading": "Consult & Budget",
+					"text": "We scope your story, timeline, and budget — with clear costing before a single frame rolls."
+				},
+				{
+					"n": "2",
+					"heading": "Pre-Production",
+					"text": "Scriptwork, casting, locations, and scheduling across our NYC and SG networks."
+				},
+				{
+					"n": "3",
+					"heading": "Shoot & Post",
+					"text": "Professional cinematography, editing, sound design, and color grading to release-ready quality."
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"n": { "type": "string" },
+					"heading": { "type": "string" },
+					"text": { "type": "string" }
+				}
+			}
+		},
+		"btnText": {
+			"type": "string",
+			"default": "Start Your Film Enquiry"
+		},
+		"btnUrl": {
+			"type": "string",
+			"default": "/film/#filmEnquiry"
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

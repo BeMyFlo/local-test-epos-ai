@@ -1,0 +1,82 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/film-tiers",
+	"version": "1.0.0",
+	"title": "Film Tiers",
+	"category": "ai-zippy",
+	"icon": "money",
+	"description": "Film page — budget tiers, tier note and the feature film enquiry form (anchor id filmEnquiry).",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": false,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Film Budget Tiers"
+		},
+		"title": {
+			"type": "string",
+			"default": "Our Two Standard Feature Film Budgets"
+		},
+		"sub": {
+			"type": "string",
+			"default": "Transparent, all-in pricing so you know exactly what your production covers before we begin."
+		},
+		"tiers": {
+			"type": "array",
+			"default": [
+				{
+					"tag": "Tier 1",
+					"price": "$90,000",
+					"runtime": "🎥 75 Minutes",
+					"text": "Includes full-service production for a 75-minute feature film. Ideal for streamlined, focused feature-length productions.<div><span style=\"font-size: 0.95rem;\"><br></span></div><div><span style=\"font-size: 0.95rem;\">Your film will be fully edited and screened in the cinema as well.</span></div>"
+				},
+				{
+					"tag": "Tier 2",
+					"price": "$290,000",
+					"runtime": "🎥 135 Minutes",
+					"text": "Includes complete end-to-end (A to Z) full-service production for a 135-minute feature film — covering everything from pre-production through final edit, post-production, and cinema screen release."
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"tag": { "type": "string" },
+					"price": { "type": "string" },
+					"runtime": { "type": "string" },
+					"text": { "type": "string" }
+				}
+			}
+		},
+		"note": {
+			"type": "string",
+			"default": "Not sure which tier fits your project? Send us your idea below and we’ll advise on the right scope and budget."
+		},
+		"formHeading": {
+			"type": "string",
+			"default": "Submit A Feature Film Enquiry"
+		},
+		"formSub": {
+			"type": "string",
+			"default": "Tell us about your film and we’ll respond within two business days."
+		},
+		"subjectOptions": {
+			"type": "array",
+			"default": [
+				"75 mins feature film ($90,000)",
+				"135 mins full A-Z feature film & cinema release ($400,000)"
+			],
+			"items": { "type": "string" }
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}
