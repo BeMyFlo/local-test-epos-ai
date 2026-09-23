@@ -3,6 +3,25 @@
 // Mockup source lines owned here: 143–153 (.story, .story-block (+::before),
 // .story-block h3/p/p+p, .sub-cards, .sub-card, .sub-card h4/p).
 // 900px rows owned here (mockup L296): .sub-cards.
-// Stub created at S2a; content lands at S3 with the block.
-// Rules for [none] are NOT ported (block-map §5 row 5 / §4.1).
+// Stub created at S2a; filled at S3 with the block — rules below are verbatim
+// from the mockup (values copied, never reformatted). No [S3]-added guards:
+// the split and the pillar grids already collapse at 900px via _components'
+// own rows, `.split img` is width:100%/object-fit:cover, and story text wraps
+// — there is no overflow vector (P2-D3).
 // =============================================================================
+
+.story{display:grid;gap:24px;max-width:880px}
+.story-block{position:relative;background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px 28px 28px 36px;box-shadow:var(--shadow)}
+.story-block::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:16px 0 0 16px;background:var(--prism)}
+.story-block h3{font-size:1.15rem;margin-bottom:10px}
+.story-block p{color:var(--ink-soft);font-size:.97rem}
+.story-block p+p{margin-top:12px}
+.sub-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.sub-card{background:var(--bg-soft);border-radius:12px;padding:18px 20px}
+.sub-card h4{font-size:.95rem;margin-bottom:6px}
+.sub-card p{font-size:.9rem}
+
+// Mockup L296 — the `.sub-cards` row of the 900px tier (verbatim).
+@media (max-width:900px){
+  .sub-cards{grid-template-columns:1fr}
+}

@@ -34,7 +34,7 @@ Machine-specific notes (carried forward for S3/S6/S7):
 | S1 analyze | PASS | 2026-09-24 | `docs/build/ui-spec.md` + `docs/build/block-map.md` complete (page-plan + behavior map + SCSS split + media inventory); `grep -ci "TBD"` = 0 in both; behavior accounting 19 view.js + 3 native + 10 dropped = 32 = `grep -c addEventListener` on the mockup; page-plan lists the 10 pages found by `grep -o 'data-page="[^"]*"' | wc -l`; WooCommerce decision: OFF (D1, static shop block) |
 | S2a SCSS foundation | PASS | 2026-09-24 | Gates V1–V6 (spec §7.1) all pass: V1 `npm run build:child` exit 0, vite emits `assets/dist/css/child-style.css` 10.86 kB (baseline pre-S2a emitted no CSS file); V2 18/18 token declarations grepped in the built CSS (12 hexes + 2 prism gradients + display/body/radius/shadow; spec said "17/17" but enumerates 18 — actual 18/18); V3 18/18 foundation-rule greps (`.wrap` 64px 24px, `.eyebrow:before` 26px×6px, `.btn-primary`, `999px`, `.card` via `var(--radius)`, `.pmc-header` sticky, `nav.pmc-nav`, `.pmc-nav-toggle`, `.pmc-footer`, `1.4fr 1fr 1fr`, `.modal-overlay`, `margin-block-start:0!important`, `display:contents`, `@media(max-width:900px)`, `max-width:767px`, `prefers-reduced-motion`, `scroll-margin-top`); V4 `:root` of `_tokens.scss` diff-identical to mockup L11–32 after whitespace normalization + 5/5 spot-rules (`.wrap`, `.eyebrow::before`, `.btn-primary`, `footer a` #c6dae2, `.card`) verbatim; V5 15 section stubs / 15 `@use "sections/…"` / 21 `@use` total / `@forward "tokens"` present; V6 no Sass warnings. Live-env items NEEDS-LIVE-ENV (spec §7.2): curl `pmc-header` render check, `get_editor_stylesheets()` (needs S2b wiring), screenshots 1440/768/375 + hamburger G5 test, `docker logs` PHP check |
 | S2 theme foundation | PASS | 2026-09-24 | S2a PASS (SCSS layer — see row above) + S2b PASS on static gates (spec §7.1 V1–V10): build:child exit 0 with CSS unchanged (10.86 kB — zero SCSS edits), php -l clean, theme.json valid (10 customTemplates + 2 templateParts), parts/templates href sets byte-equal to block-map §3, 11 templates present each with header/footer parts + pmc-main + post-content, logo.png extracted (PNG 500×500, 237,340 B), dist JS carries the B14 toggle, zero authoring residue in parts/templates. Live-env items NEEDS-LIVE-ENV (spec §7.2): curl pmc-header render, .active stamp on / and /about/, fonts+preconnect links, get_editor_stylesheets() contains child-style.css, screenshots 1440/768/375 + G5 hamburger functional test, docker logs PHP check |
-| S3 blocks | IN PROGRESS (P1 of N) | 2026-09-24 | P1 home trio built (3/15 blocks): 3× 7-file block folders in `src/blocks`; `php -l` clean ×3; block.json `JSON.parse` ×3; `npm run build:child` exit 0 with no Sass warnings (vite CSS 12.09 kB, was 10.86 kB at S2; wp-scripts discovers 3 entries — home-hero, home-who-we-are, home-featured-works; webpack compiled successfully); built CSS contains the hero/feature-card greps (`.hero-grid`, `1.05fr .95fr`, `aspect-ratio:4/3`, `.feature-card .cap`, `rgba(20,22,30,.85)` → minified `#14161ed9`, `@media(max-width:900px)`, `.hero-grid>*{min-width:0}` @767px [S3] guard); 4 images extracted to `assets/img` (home-hero.avif 158649 B, home-feature-mad-vibe-city.png 346187 B, home-feature-music-beats.avif 166798 B, home-feature-global-logistics.avif 197715 B — signatures AVIF×3 + PNG); zero authoring-residue greps ×3 (src + built copies); 38/38 block.json default strings byte-exact in the mockup; `@use` wiring count 3, `style.scss` untouched; git scope = 3 block folders + 3 partials + 4 images + this file. Live-env items NEEDS-LIVE-ENV (registration via `wp eval` WP_Block_Type_Registry, docker logs PHP check) — commands in "S3 live-env checks" below (task SPEC §5.2) |
+| S3 blocks | IN PROGRESS (P2 of N) | 2026-09-24 | P1 home trio built (3/15 blocks): 3× 7-file block folders in `src/blocks`; `php -l` clean ×3; block.json `JSON.parse` ×3; `npm run build:child` exit 0 with no Sass warnings (vite CSS 12.09 kB, was 10.86 kB at S2; wp-scripts discovers 3 entries — home-hero, home-who-we-are, home-featured-works; webpack compiled successfully); built CSS contains the hero/feature-card greps (`.hero-grid`, `1.05fr .95fr`, `aspect-ratio:4/3`, `.feature-card .cap`, `rgba(20,22,30,.85)` → minified `#14161ed9`, `@media(max-width:900px)`, `.hero-grid>*{min-width:0}` @767px [S3] guard); 4 images extracted to `assets/img` (home-hero.avif 158649 B, home-feature-mad-vibe-city.png 346187 B, home-feature-music-beats.avif 166798 B, home-feature-global-logistics.avif 197715 B — signatures AVIF×3 + PNG); zero authoring-residue greps ×3 (src + built copies); 38/38 block.json default strings byte-exact in the mockup; `@use` wiring count 3, `style.scss` untouched; git scope = 3 block folders + 3 partials + 4 images + this file. P2 about pair built (5/15 blocks): +2× 7-file block folders (`about-story` L381–418, `about-pillars` L419–429); `php -l` clean ×2; block.json `JSON.parse` ×2; `npm run build:child` exit 0 with no Sass warnings (vite CSS 12.84 kB, was 12.09 kB; wp-scripts discovers 5 entries — +about-story, +about-pillars); built CSS carries the story greps (`.story-block:before`, `border-radius:16px 0 0 16px`, `.sub-cards{grid-template-columns:1fr}` inside `@media(max-width:900px)`, `.sub-card{background:var(--bg-soft)`); 30/30 content string defaults byte-exact in the mockup (film paragraph matched incl. its `<i>` tags; `imgFile` counted as infrastructure per P1 rule); zero authoring-residue greps ×2 (src + built `assets/blocks` copies); `about-story.jpg` extracted from mockup L392 (JPEG 4000×6000, 6,214,677 B decoded from 8,286,236 base64 chars); `_about-story.scss` filled (mockup L144–153 verbatim + L296 `.sub-cards` row; no [S3]-added guards, P2-D3); `@use` statement count still 21, `style.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss` untouched; git scope = 2 block folders (14 files) + 1 image + `_about-story.scss` + this file. Live-env items NEEDS-LIVE-ENV (registration via `wp eval` WP_Block_Type_Registry, docker logs PHP check) — commands in "S3 live-env checks" below (task SPEC §9.2) |
 | S4 editor parity | TODO | | editor canvas matches the frontend per block (`Editor OK` column below) |
 | S5 content & media | TODO | | all page-plan pages created, `<img src>` from `/wp-content/uploads/`, front page correct |
 | S6 visual QA | TODO | | no significant desktop diffs; 375px + 768px clean; `docs/build/qa-report.md` |
@@ -204,9 +204,11 @@ Paste the four outputs back → S0 flips to PASS with them as evidence.
 | `ai-zippy/home-hero` | mockup L337–350 | literal clone (D4/D5 cleanup) | `_home-hero.scss` filled (L79–88 + L296 row + [S3] G5 guard) | — (S5) | NEEDS-LIVE-ENV (S4) |
 | `ai-zippy/home-who-we-are` | mockup L352–364 | literal clone (inline styles kept) | `_home-who-we-are.scss` ships empty (component-driven) | — (S5) | NEEDS-LIVE-ENV (S4) |
 | `ai-zippy/home-featured-works` | mockup L366–376 | literal clone | `_home-featured-works.scss` filled (L110–114) | — (S5) | NEEDS-LIVE-ENV (S4) |
+| `ai-zippy/about-story` | mockup L381–418 | literal clone (inline styles kept; `introBlock` P2-D1; kses italics P2-D2) | `_about-story.scss` filled (L144–153 + L296 `.sub-cards` row) | — (S5) | NEEDS-LIVE-ENV (S4) |
+| `ai-zippy/about-pillars` | mockup L419–429 | literal clone (single-line cards) | `_about-pillars.scss` ships empty (component-driven) | — (S5) | NEEDS-LIVE-ENV (S4) |
 
 Rows land at S3 from `docs/build/block-map.md` §2 — 15 blocks, namespace `ai-zippy/` (page-plan in §1).
-3 of 15 built (P1, home page); the remaining 12 land in later S3 task runs.
+5 of 15 built (P1 home trio + P2 about pair); the remaining 10 land in later S3 task runs.
 
 ### S3 live-env checks — run locally by the member (after S0 bootstrap)
 
@@ -215,14 +217,14 @@ set -a; . ./.env; set +a
 npm run build:child   # assets/blocks/ is gitignored — build before testing
 
 # Block registration (wp block list is NOT available in this image — see Environment)
-docker exec ${PROJECT_ID} wp eval 'foreach (["home-hero","home-who-we-are","home-featured-works"] as $b) { $n="ai-zippy/".$b; printf("%-32s %s\n", $n, WP_Block_Type_Registry::get_instance()->is_registered($n) ? "registered" : "MISSING"); }' --allow-root
+docker exec ${PROJECT_ID} wp eval 'foreach (["home-hero","home-who-we-are","home-featured-works","about-story","about-pillars"] as $b) { $n="ai-zippy/".$b; printf("%-32s %s\n", $n, WP_Block_Type_Registry::get_instance()->is_registered($n) ? "registered" : "MISSING"); }' --allow-root
 
 # No PHP fatals (error.log is a /dev/stderr symlink in this image family)
 docker logs ${PROJECT_ID} 2>&1 >/dev/null | tail -50
 ```
 
-Expected: 3× `registered`, error stream free of new PHP Fatal/Warning. (Frontend render +
-editor-canvas checks happen at S4/S5 once pages exist — out of the P1 task's range.)
+Expected: 5× `registered`, error stream free of new PHP Fatal/Warning. (Frontend render +
+editor-canvas checks happen at S4/S5 once pages exist — outside the S3 batches' range.)
 
 ## Open issues
 
@@ -237,7 +239,10 @@ editor-canvas checks happen at S4/S5 once pages exist — out of the P1 task's r
   `ai-zippy/shop-merchandise`. The member may skip S0 runbook Step 4b. Activating it later is a
   scope change (C-flow). ACF stays inactive — nothing in the design requires it.
 - [ ] `about-story.jpg` is 8.3 MB of inline base64 (mockup L392) — uploads as-is per clone
-  doctrine (D9); member may optionally recompress before/after S5.
+  doctrine (D9); member may optionally recompress before/after S5. Extracted at S3/P2 (V7
+  evidence): JPEG 4000×6000, **6,214,677 B** decoded from the 8,286,236-char base64 payload,
+  signature `/9j/` (progressive JFIF) — served from `assets/img/about-story.jpg` at build time
+  only; S5 sideloads it into the Media Library.
 - [ ] Forms (`#filmEnquiryForm`, `#enquiryForm`, custom-order box) replicate the mockup's
   client-side behavior only — success message, no storage/email backend (D7). Wiring real
   handling is a future C-flow.
