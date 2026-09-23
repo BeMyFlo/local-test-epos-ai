@@ -2,7 +2,27 @@
 	"$schema": "https://schemas.wp.org/trunk/theme.json",
 	"version": 3,
 	"settings": {
-		"appearanceTools": true
+		"appearanceTools": true,
+		"layout": {
+			"contentSize": "1180px",
+			"wideSize": "1180px"
+		}
 	},
-	"styles": {}
+	"styles": {},
+	"customTemplates": [
+		{ "name": "page-home", "title": "Home", "postTypes": [ "page" ] },
+		{ "name": "page-about", "title": "About Us", "postTypes": [ "page" ] },
+		{ "name": "page-film", "title": "Make A Feature Film?", "postTypes": [ "page" ] },
+		{ "name": "page-films", "title": "Our Films", "postTypes": [ "page" ] },
+		{ "name": "page-shop", "title": "Shop", "postTypes": [ "page" ] },
+		{ "name": "page-sponsors", "title": "Be Our Sponsors", "postTypes": [ "page" ] },
+		{ "name": "page-upcoming", "title": "Events", "postTypes": [ "page" ] },
+		{ "name": "page-events", "title": "Collaborate For Events", "postTypes": [ "page" ] },
+		{ "name": "page-enquiries", "title": "Enquiries", "postTypes": [ "page" ] },
+		{ "name": "page-contact", "title": "Contact Us", "postTypes": [ "page" ] }
+	],
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	]
 }
