@@ -9,7 +9,74 @@
 // (.events-grid, .event-card family, .event-date, .event-info,
 // .event-meta) minus .vhint 281 and .add-event 291–292.
 // 900px rows owned here (mockup L296): .event-card, .event-body.
-// Stub created at S2a; content lands at S3 with the block.
+// Stub created at S2a; filled at S3 with the block — rules below are
+// verbatim from the mockup (values copied, never reformatted).
 // Rules for [.vhint (L281), .add-event (L291–292)] are NOT ported
-// (block-map §5 row 5 / §4.1).
+// (block-map §5 row 5 / §4.1); .modal-overlay/.modal-overlay.open/.modal/
+// @keyframes pop (L238–241) already live in _components.
+// No [S3]-added guards (P8-D7): .event-body flex children shrink/wrap,
+// meta pills wrap (inline-flex spans can shrink to min-content), and the
+// modal overlay already carries the [S2] until(900px){padding:24px 14px}
+// guard in _components — any 375px fix is an S6 decision.
 // =============================================================================
+
+.ticket-line{display:flex;align-items:baseline;gap:8px;font-size:.92rem;color:var(--ink-soft);margin:2px 0 14px}
+.ticket-line .tprice{font-family:var(--display);font-weight:800;font-size:1.35rem;color:var(--ink)}
+
+/* ---- ticket modal chrome (L242–248, the S2a D8 open-issue port) ---- */
+.modal-head{background:var(--prism);padding:22px 26px;position:relative}
+.modal-head h3{font-size:1.25rem;color:var(--ink);padding-right:34px}
+.modal-head p{font-size:.86rem;color:var(--ink);opacity:.8;margin-top:4px}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;border:none;background:rgba(255,255,255,.65);color:var(--ink);font-size:1.1rem;line-height:1;cursor:pointer;font-weight:700}
+.modal-close:hover{background:#fff}
+.modal-body{padding:26px}
+.modal-body h4{font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:12px}
+
+/* ---- ticket modal internals (L249–274) ---- */
+.qty-stepper{display:flex;align-items:center;gap:0;border:1.5px solid var(--line);border-radius:12px;overflow:hidden;width:fit-content}
+.qty-stepper button{width:44px;height:44px;border:none;background:var(--bg-soft);font-size:1.25rem;font-weight:700;color:var(--ink);cursor:pointer}
+.qty-stepper button:hover:not(:disabled){background:var(--aqua)}
+.qty-stepper button:disabled{opacity:.35;cursor:not-allowed}
+.qty-stepper input{width:64px;height:44px;border:none;border-left:1.5px solid var(--line);border-right:1.5px solid var(--line);text-align:center;font-family:var(--display);font-weight:700;font-size:1.05rem;color:var(--ink);-moz-appearance:textfield}
+.qty-stepper input::-webkit-outer-spin-button,.qty-stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#attendeeList{display:grid;gap:10px;margin:8px 0 4px;max-height:260px;overflow-y:auto;padding-right:2px}
+.attendee-row{display:flex;align-items:center;gap:10px}
+.attendee-row span{flex:0 0 26px;height:26px;border-radius:7px;background:var(--bg-soft);border:1px solid var(--line);font-size:.76rem;font-weight:700;color:var(--ink-soft);display:grid;place-items:center}
+.attendee-row input{flex:1;padding:10px 13px;border:1.5px solid var(--line);border-radius:10px;font-family:var(--body);font-size:.93rem}
+.attendee-row input:focus{outline:none;border-color:var(--sky-deep);box-shadow:0 0 0 3px rgba(178,241,248,.55)}
+.attendee-row input.err{border-color:#d98b8b;background:#fdf4f4}
+.modal-sep{height:1px;background:var(--line);margin:22px 0}
+.summary-row{display:flex;justify-content:space-between;font-size:.93rem;color:var(--ink-soft);margin-bottom:8px}
+.summary-total{display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1.5px dashed var(--line);margin-top:6px}
+.summary-total .lbl{font-family:var(--display);font-weight:700;font-size:1rem;color:var(--ink)}
+.summary-total .amt{font-family:var(--display);font-weight:800;font-size:1.7rem;color:var(--ink)}
+.modal-foot{padding:0 26px 26px}
+.modal-foot .btn{width:100%;text-align:center;font-size:1rem;padding:15px}
+.modal-msg{margin-top:14px;font-size:.85rem;color:var(--ink-soft);text-align:center}
+.checkout-panel{display:none;margin-top:18px;background:var(--bg-soft);border:1.5px solid var(--line);border-radius:14px;padding:18px}
+.checkout-panel h5{font-size:.95rem;margin-bottom:8px}
+.checkout-panel pre{white-space:pre-wrap;font-family:var(--body);font-size:.85rem;color:var(--ink-soft);background:#fff;border:1px solid var(--line);border-radius:10px;padding:12px;margin:10px 0}
+.checkout-panel .row{display:flex;gap:10px;flex-wrap:wrap}
+.checkout-panel .btn{width:auto;flex:1;min-width:150px;padding:11px 16px;font-size:.86rem}
+.err-msg{display:none;background:#fdf4f4;border:1.5px solid #e8b4b4;color:#8a3d3d;padding:11px 15px;border-radius:11px;font-size:.88rem;margin-top:14px}
+
+/* ---- upcoming events (L277–290) ---- */
+.events-grid{display:grid;gap:26px}
+.event-card{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);display:grid;grid-template-columns:1.15fr 1fr}
+.event-media{position:relative;background:var(--bg-soft);min-height:280px}
+.event-media video{width:100%;height:100%;object-fit:cover;display:block;background:var(--bg-soft);cursor:pointer}
+.event-badge{position:absolute;top:14px;left:14px;background:var(--prism);color:var(--ink);font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:999px}
+.event-body{padding:30px 32px;display:flex;gap:22px;align-items:flex-start}
+.event-date{flex:0 0 84px;text-align:center;border-radius:16px;background:var(--prism);padding:14px 8px;color:var(--ink)}
+.event-date .d{display:block;font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1}
+.event-date .m{display:block;font-size:.78rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:4px}
+.event-info h3{font-size:1.3rem;margin-bottom:8px}
+.event-info p{color:var(--ink-soft);font-size:.95rem}
+.event-meta{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 18px;font-size:.87rem;color:var(--ink-soft)}
+.event-meta span{display:inline-flex;align-items:center;gap:6px;background:var(--bg-soft);border:1px solid var(--line);padding:5px 12px;border-radius:999px}
+
+// Mockup L296 — this block's rows of the 900px tier (split rule, §5).
+@media (max-width:900px){
+  .event-card{grid-template-columns:1fr}
+  .event-body{padding:24px}
+}
