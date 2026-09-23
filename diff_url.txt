@@ -1,1 +1,1 @@
-https://github.com/BeMyFlo/local-test-epos-ai/compare/main...agent/188aa704-pricemrcopper-p5-s3-shop-page-block-shop
+https://github.com/BeMyFlo/local-test-epos-ai/compare/main...agent/ae0f940a-pricemrcopper-p6-s3-sponsors-page-block
