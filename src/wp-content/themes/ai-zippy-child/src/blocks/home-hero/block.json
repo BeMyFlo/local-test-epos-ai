@@ -1,0 +1,79 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/home-hero",
+	"version": "1.0.0",
+	"title": "Home Hero",
+	"category": "ai-zippy",
+	"icon": "cover-image",
+	"description": "Homepage hero — gradient band with the site h1, two CTA buttons and a banner image.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Global Trade × Creative Media"
+		},
+		"titlePart1": {
+			"type": "string",
+			"default": "Where World-Class"
+		},
+		"titleAccent1": {
+			"type": "string",
+			"default": "Logistics"
+		},
+		"titlePart2": {
+			"type": "string",
+			"default": "Meets Bold"
+		},
+		"titleAccent2": {
+			"type": "string",
+			"default": "Storytelling"
+		},
+		"lead": {
+			"type": "string",
+			"default": "PricemrCopper Company is a dynamic multi-industry enterprise bridging global trade and creative media — moving goods across continents and moving audiences through film and music."
+		},
+		"primaryBtnText": {
+			"type": "string",
+			"default": "Explore Our Shop"
+		},
+		"primaryBtnUrl": {
+			"type": "string",
+			"default": "/shop/"
+		},
+		"ghostBtnText": {
+			"type": "string",
+			"default": "Make A Film With Us"
+		},
+		"ghostBtnUrl": {
+			"type": "string",
+			"default": "/film/"
+		},
+		"imgId": {
+			"type": "number",
+			"default": 0
+		},
+		"imgUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"imgAlt": {
+			"type": "string",
+			"default": "Main banner"
+		},
+		"imgFile": {
+			"type": "string",
+			"default": "home-hero.avif"
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
