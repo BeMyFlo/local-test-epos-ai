@@ -31,7 +31,7 @@ Machine-specific notes (carried forward for S3/S6/S7):
 | Stage | Status | Date | Evidence |
 |---|---|---|---|
 | S0 env | NEEDS-LIVE-ENV | 2026-09-24 | This worktree has no running WordPress/DB bound to it — the gate runs on the member's machine per the S0 runbook below; flip to PASS with the four Gate S0 outputs |
-| S1 analyze | TODO | | `docs/build/ui-spec.md` + `block-map.md` (incl. page-plan + behavior map), no remaining "TBD" |
+| S1 analyze | PASS | 2026-09-24 | `docs/build/ui-spec.md` + `docs/build/block-map.md` complete (page-plan + behavior map + SCSS split + media inventory); `grep -ci "TBD"` = 0 in both; behavior accounting 19 view.js + 3 native + 10 dropped = 32 = `grep -c addEventListener` on the mockup; page-plan lists the 10 pages found by `grep -o 'data-page="[^"]*"' | wc -l`; WooCommerce decision: OFF (D1, static shop block) |
 | S2 theme foundation | TODO | | `npm run build:child` green, header/footer/templates render, tokens in CSS output, `child.js` behaviors |
 | S3 blocks | TODO | | every block-map block registered (see `wp block list` caveat above), no PHP fatal, `view.js` behaviors |
 | S4 editor parity | TODO | | editor canvas matches the frontend per block (`Editor OK` column below) |
@@ -201,7 +201,7 @@ Paste the four outputs back → S0 flips to PASS with them as evidence.
 | Block | Source section | render.php | SCSS partial | Seeded | Editor OK |
 |---|---|---|---|---|---|
 
-Rows land at S3 from `docs/build/block-map.md`; the block count is unknown until S1.
+Rows land at S3 from `docs/build/block-map.md` §2 — 15 blocks, namespace `ai-zippy/` (page-plan in §1).
 
 ## Open issues
 
@@ -211,7 +211,16 @@ Rows land at S3 from `docs/build/block-map.md`; the block count is unknown until
   never stopped, reset, or written by this pipeline — read-only.
 - [ ] The original repo (especially its `docs/build/*` from the completed build) is prior-art
   reference for later stages.
-- [ ] WooCommerce scope is tentative (the mockup contains a shop); final decision at S1. ACF
-  stays inactive unless S1 requires it.
+- [x] WooCommerce scope — DECIDED AT S1 (block-map D1): stays OFF; the mockup shop is a catalog
+  with transient `Added ×N ✓` labels and no cart/checkout/payment → static block
+  `ai-zippy/shop-merchandise`. The member may skip S0 runbook Step 4b. Activating it later is a
+  scope change (C-flow). ACF stays inactive — nothing in the design requires it.
+- [ ] `about-story.jpg` is 8.3 MB of inline base64 (mockup L392) — uploads as-is per clone
+  doctrine (D9); member may optionally recompress before/after S5.
+- [ ] Forms (`#filmEnquiryForm`, `#enquiryForm`, custom-order box) replicate the mockup's
+  client-side behavior only — success message, no storage/email backend (D7). Wiring real
+  handling is a future C-flow.
+- [ ] 5 placeholder-gradient SVG assets (films 2–5 posters, event teaser poster) ship as real
+  media until the member supplies replacements (D6).
 - [ ] `wp block list` is not a registered wp-cli command in this image (see Environment) — the
   S3 gate must verify registration via `wp eval-file` over `WP_Block_Type_Registry` instead.
