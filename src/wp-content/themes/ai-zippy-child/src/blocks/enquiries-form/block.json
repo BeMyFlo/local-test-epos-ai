@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/enquiries-form",
+	"version": "1.0.0",
+	"title": "Enquiries Form",
+	"category": "ai-zippy",
+	"icon": "email-alt",
+	"description": "Enquiries page — section heading and the general enquiry form (subject select with the feature film optgroup).",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Enquiries"
+		},
+		"title": {
+			"type": "string",
+			"default": "Tell Us What You Need"
+		},
+		"sub": {
+			"type": "string",
+			"default": "Advertising, corporate video, or documentary work — send us the details and we'll respond within two business days."
+		},
+		"subjectOptions": {
+			"type": "array",
+			"default": [
+				"Advertising",
+				"Video For Corporate/Organization",
+				"Documentary Videos"
+			],
+			"items": { "type": "string" }
+		},
+		"filmGroupLabel": {
+			"type": "string",
+			"default": "Feature Film Production"
+		},
+		"filmOptions": {
+			"type": "array",
+			"default": [
+				"75 mins feature film ($90,000)",
+				"135 mins full A-Z feature film & cinema release ($400,000)"
+			],
+			"items": { "type": "string" }
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
+	"render": "file:./render.php"
+}
