@@ -1,0 +1,63 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/about-pillars",
+	"version": "1.0.0",
+	"title": "About Pillars",
+	"category": "ai-zippy",
+	"icon": "columns",
+	"description": "About page — Core Pillars card grid on a soft band.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "About Us"
+		},
+		"title": {
+			"type": "string",
+			"default": "Our Core Pillars"
+		},
+		"cards": {
+			"type": "array",
+			"default": [
+				{
+					"iconVariant": "i1",
+					"emoji": "📦",
+					"heading": "Global Trading",
+					"text": "Strategic sourcing and sales of international goods."
+				},
+				{
+					"iconVariant": "i2",
+					"emoji": "🎥",
+					"heading": "Film Production",
+					"text": "Developing, financing, and producing engaging cinematic content."
+				},
+				{
+					"iconVariant": "i3",
+					"emoji": "🎧",
+					"heading": "Music Business",
+					"text": "Artist management, music production and concerts."
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"iconVariant": { "type": "string" },
+					"emoji": { "type": "string" },
+					"heading": { "type": "string" },
+					"text": { "type": "string" }
+				}
+			}
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}

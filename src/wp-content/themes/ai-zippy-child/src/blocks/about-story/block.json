@@ -1,0 +1,111 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "ai-zippy/about-story",
+	"version": "1.0.0",
+	"title": "About Story",
+	"category": "ai-zippy",
+	"icon": "book",
+	"description": "About page — Our Story: split with story image, intro story block and the story-block list with sub-cards.",
+	"supports": {
+		"html": false,
+		"align": false,
+		"anchor": true,
+		"reusable": true
+	},
+	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "About Us"
+		},
+		"title": {
+			"type": "string",
+			"default": "Our Story"
+		},
+		"imgId": {
+			"type": "number",
+			"default": 0
+		},
+		"imgUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"imgAlt": {
+			"type": "string",
+			"default": "Our story"
+		},
+		"imgFile": {
+			"type": "string",
+			"default": "about-story.jpg"
+		},
+		"introBlock": {
+			"type": "object",
+			"default": {
+				"heading": "Strategic Foundation",
+				"paras": [
+					"PricemrCopper was established in 2020 in Singapore, strategically positioned within one of the world's leading commercial and technological hubs. Founded during a period of rapid global transformation, the company was engineered from inception as a multi-faceted corporate powerhouse.",
+					"Our company holds a diversified portfolio that seamlessly integrates global commerce with creative media production."
+				]
+			},
+			"properties": {
+				"heading": { "type": "string" },
+				"paras": { "type": "array", "items": { "type": "string" } }
+			}
+		},
+		"storyBlocks": {
+			"type": "array",
+			"default": [
+				{
+					"heading": "Global Logistics and Trading",
+					"paras": [
+						"At our operational core is a robust online trading division. We manage and ship high-value goods across oceans with absolute precision. By leveraging advanced digital infrastructure and cross-border logistics, we ensure seamless international trade."
+					]
+				},
+				{
+					"heading": "Media Production and Entertainment",
+					"paras": [
+						"PricemrCopper operates dedicated divisions for music production and commercial filmmaking. We treat creativity with the same rigorous execution as global logistics."
+					],
+					"subCards": [
+						{
+							"heading": "🎵 Music Production",
+							"text": "Our enterprise studios develop, produce, and distribute top music beats, capturing the digital heartbeat of pop culture."
+						},
+						{
+							"heading": "🎬 Film Production",
+							"text": "We frame high-caliber cinematic shots that command audience attention. Our debut feature film, <i>Mad Vibe City</i>, was produced on location in New York and Singapore demonstrating good capacity to execute large-scale, international media projects."
+						}
+					]
+				},
+				{
+					"heading": "Mission and Excellence",
+					"paras": [
+						"PricemrCopper operates under a singular corporate mission. We are driven to move people, spark innovative ideas, and deliver operational excellence worldwide. We continue to scale our operations from Singapore, delivering sustainable growth and premium content to a global market."
+					]
+				}
+			],
+			"items": {
+				"type": "object",
+				"properties": {
+					"heading": { "type": "string" },
+					"paras": { "type": "array", "items": { "type": "string" } },
+					"subCards": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"heading": { "type": "string" },
+								"text": { "type": "string" }
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"textdomain": "ai-zippy-child",
+	"editorScript": "file:./index.js",
+	"editorStyle": "file:./index.css",
+	"style": "file:./style-index.css",
+	"render": "file:./render.php"
+}
