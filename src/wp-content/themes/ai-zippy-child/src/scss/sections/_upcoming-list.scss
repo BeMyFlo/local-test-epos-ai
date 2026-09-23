@@ -1,0 +1,15 @@
+// =============================================================================
+// upcoming-list — SCSS partial for block `ai-zippy/upcoming-list`
+// (block-map §2). The block also renders #ticketModal (mockup markup
+// L1021–1065) — the modal is owned here (D8).
+// Mockup source lines owned here: 236–237 (.ticket-line family), 242–274
+// (modal chrome + internals: .modal-head … .err-msg — the L242–248 chrome
+// is not cited in block-map §5 rows 3/4; it resolves here, same owner as
+// the ticket-modal internals it belongs to, spec §4.7 D8), 276–292
+// (.events-grid, .event-card family, .event-date, .event-info,
+// .event-meta) minus .vhint 281 and .add-event 291–292.
+// 900px rows owned here (mockup L296): .event-card, .event-body.
+// Stub created at S2a; content lands at S3 with the block.
+// Rules for [.vhint (L281), .add-event (L291–292)] are NOT ported
+// (block-map §5 row 5 / §4.1).
+// =============================================================================

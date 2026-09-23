@@ -32,7 +32,8 @@ Machine-specific notes (carried forward for S3/S6/S7):
 |---|---|---|---|
 | S0 env | NEEDS-LIVE-ENV | 2026-09-24 | This worktree has no running WordPress/DB bound to it — the gate runs on the member's machine per the S0 runbook below; flip to PASS with the four Gate S0 outputs |
 | S1 analyze | PASS | 2026-09-24 | `docs/build/ui-spec.md` + `docs/build/block-map.md` complete (page-plan + behavior map + SCSS split + media inventory); `grep -ci "TBD"` = 0 in both; behavior accounting 19 view.js + 3 native + 10 dropped = 32 = `grep -c addEventListener` on the mockup; page-plan lists the 10 pages found by `grep -o 'data-page="[^"]*"' | wc -l`; WooCommerce decision: OFF (D1, static shop block) |
-| S2 theme foundation | TODO | | `npm run build:child` green, header/footer/templates render, tokens in CSS output, `child.js` behaviors |
+| S2a SCSS foundation | PASS | 2026-09-24 | Gates V1–V6 (spec §7.1) all pass: V1 `npm run build:child` exit 0, vite emits `assets/dist/css/child-style.css` 10.86 kB (baseline pre-S2a emitted no CSS file); V2 18/18 token declarations grepped in the built CSS (12 hexes + 2 prism gradients + display/body/radius/shadow; spec said "17/17" but enumerates 18 — actual 18/18); V3 18/18 foundation-rule greps (`.wrap` 64px 24px, `.eyebrow:before` 26px×6px, `.btn-primary`, `999px`, `.card` via `var(--radius)`, `.pmc-header` sticky, `nav.pmc-nav`, `.pmc-nav-toggle`, `.pmc-footer`, `1.4fr 1fr 1fr`, `.modal-overlay`, `margin-block-start:0!important`, `display:contents`, `@media(max-width:900px)`, `max-width:767px`, `prefers-reduced-motion`, `scroll-margin-top`); V4 `:root` of `_tokens.scss` diff-identical to mockup L11–32 after whitespace normalization + 5/5 spot-rules (`.wrap`, `.eyebrow::before`, `.btn-primary`, `footer a` #c6dae2, `.card`) verbatim; V5 15 section stubs / 15 `@use "sections/…"` / 21 `@use` total / `@forward "tokens"` present; V6 no Sass warnings. Live-env items NEEDS-LIVE-ENV (spec §7.2): curl `pmc-header` render check, `get_editor_stylesheets()` (needs S2b wiring), screenshots 1440/768/375 + hamburger G5 test, `docker logs` PHP check |
+| S2 theme foundation | TODO | | S2a PASS (SCSS layer — see row above); S2b (theme.json/parts/templates/functions.php/child.js) TODO; live-env gate items NEEDS-LIVE-ENV |
 | S3 blocks | TODO | | every block-map block registered (see `wp block list` caveat above), no PHP fatal, `view.js` behaviors |
 | S4 editor parity | TODO | | editor canvas matches the frontend per block (`Editor OK` column below) |
 | S5 content & media | TODO | | all page-plan pages created, `<img src>` from `/wp-content/uploads/`, front page correct |
@@ -224,3 +225,11 @@ Rows land at S3 from `docs/build/block-map.md` §2 — 15 blocks, namespace `ai-
   media until the member supplies replacements (D6).
 - [ ] `wp block list` is not a registered wp-cli command in this image (see Environment) — the
   S3 gate must verify registration via `wp eval-file` over `WP_Block_Type_Registry` instead.
+- [ ] block-map §2 says "6 of 15 partials carry unique rules" but its own table marks 8
+  non-empty (home-hero, home-featured-works, about-story, film-tiers, films-list,
+  shop-merchandise, upcoming-list, contact-details) — the "6" is a typo; the table governs
+  (recorded at S2a, spec §4.7).
+- [ ] Mockup L242–248 modal chrome (`.modal-head`/`.modal-close`/`.modal-body`/`.modal-foot`
+  etc.) is not explicitly cited in block-map §5 rows 3/4 (row 3 ends at 241, row 4 resumes at
+  249) — it resolves to `sections/_upcoming-list.scss`, same owner as the ticket-modal
+  internals it belongs to (S2a spec D8); the S3 worker for `upcoming-list` must port it.

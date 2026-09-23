@@ -1,0 +1,165 @@
+// =============================================================================
+// _base.scss — reset, base typography, layout rows, and the mandatory
+// WordPress resets.
+//
+// Cloned VERBATIM from pricemrcopper_final_mockup.html <style>:
+//   L33–38   reset / html / body / headings / img / a
+//   L74–76   .wrap, .wrap.tight, section+section
+//   L105–107 .section-title, .section-sub, .soft
+//   L300–302 @media (prefers-reduced-motion:reduce)
+//
+// Rules marked [S2] are pipeline-mandated foundation additions (zippy-site-
+// pipeline foundation-and-css, zippy-qa-gates G4/G5, block-map B14) that do
+// not exist in the mockup; their values reuse the prior-art build that passed
+// G4/G5 on this same design.
+// =============================================================================
+
+@use "@parent-scss/variables" as *;
+
+/* ---------------------------------------------------------------------------
+   1. Reset + base typography (mockup L33–38, verbatim)
+   --------------------------------------------------------------------------- */
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);color:var(--ink);background:var(--bg);line-height:1.65;font-size:16px}
+h1,h2,h3,h4{font-family:var(--display);line-height:1.2;letter-spacing:-.01em}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* The mockup's authoring layer is NOT cloned (block-map §5 row 5):
+   [contenteditable], .editable-img, .edit-hint, .export-btn, .page SPA CSS. */
+
+/* ---------------------------------------------------------------------------
+   2. [S2] Media viewport guard (G5): embedded media never overflows its
+      column. Block-declared fixed heights (e.g. .map-frame{height:380px},
+      mockup L167) win on specificity and stay owned by their section partial.
+   --------------------------------------------------------------------------- */
+video,iframe,embed,object,canvas,svg{max-width:100%}
+img,video,iframe{height:auto}
+
+/* ---------------------------------------------------------------------------
+   3. [S2] Markup this child theme does not own: the universal reset above
+      would flatten its rhythm, so put the browser defaults back. Kept
+      although WooCommerce is OFF (block-map D1) because the PARENT theme's
+      own templates (search, 404, archive, index, single, page) render these
+      wrappers on non-project routes. `:where()` = zero specificity → every
+      core/parent rule still wins. Nothing here restyles anything.
+   --------------------------------------------------------------------------- */
+:where(.cart-page,.checkout-page,.account-page,.shop-page,.shop-content,.shop-hero,
+       .search-results-page,.single-product,.order-confirmation,
+       .woocommerce,.woocommerce-page,.wc-block-components-main,
+       .wc-block-cart,.wc-block-checkout,.woocommerce-MyAccount-content)
+  :where(p,ul,ol,dl,table,h1,h2,h3,h4,h5,h6,figure,blockquote){
+  margin:revert;
+  padding:revert;
+}
+
+/* ---------------------------------------------------------------------------
+   4. [S2] WordPress core blockGap reset — MANDATORY (G4). Core injects
+      `:root :where(.is-layout-flow) > * { margin-block-start: 1.5rem }` on
+      every layout-flow container; without this reset 1.5rem white gaps
+      appear between the sections, whose own padding defines the rhythm.
+      Both selector families on purpose: the skill names zippy-block-*, this
+      repo's templates render core wp-block-*; unused selectors are inert.
+   --------------------------------------------------------------------------- */
+.wp-site-blocks > *,
+.wp-block-post-content > *,
+.wp-block-post-content .zippy-block-group > *,
+.zippy-block-post-content > *,
+.zippy-block-post-content .zippy-block-group > *,
+main.zippy-block-group > *,
+main.wp-block-group > *{
+  margin-top:0 !important;
+  margin-bottom:0 !important;
+  margin-block-start:0 !important;
+  margin-block-end:0 !important;
+}
+
+/* mockup L76 — `section+section{margin-top:8px}` re-applied with the same
+   !important weight inside the same WP containers so the 8px section rhythm
+   survives the reset above (the bare rule is in §8 below). */
+.wp-block-post-content > section + section,
+.zippy-block-post-content > section + section,
+main.zippy-block-group section + section,
+main.wp-block-group section + section{
+  margin-top:8px !important;
+}
+
+/* ---------------------------------------------------------------------------
+   5. [S2] Editor reset, canvas-only. Left UNPREFIXED on purpose: WordPress
+      adds .editor-styles-wrapper itself when the stylesheet is inlined into
+      the canvas; hand-prefixing here would double-prefix and never match. On
+      the frontend this selector matches nothing — inert. Full-bleed sections
+      must not be boxed by the editor's content width.
+   --------------------------------------------------------------------------- */
+.block-editor-block-list__block.block-editor-block-list__block.wp-block[class*="wp-block-ai-zippy-"],
+.block-editor-block-list__block.block-editor-block-list__block.wp-block[class*="zippy-block-ai-zippy-"]{
+  max-width:none;
+  width:auto;
+}
+
+/* ---------------------------------------------------------------------------
+   6. [S2] The template-part wrapper must not generate a box: the sticky
+      .prism-bar / .pmc-header would be confined to the wrapper's own height
+      and never stick. display:contents removes the wrapper box.
+   --------------------------------------------------------------------------- */
+.wp-site-blocks > .wp-block-template-part{
+  display:contents;
+}
+
+/* ---------------------------------------------------------------------------
+   7. [S2] Sticky offset under the WP admin bar (logged-in editing / QA) and
+      the anchor scroll offset so /film/#filmEnquiry (B16) lands below the
+      sticky prism bar + header. The 782px block stays literal on purpose:
+      the parent until() mixin cannot express `screen and`.
+   --------------------------------------------------------------------------- */
+.admin-bar .prism-bar{top:32px}
+.admin-bar .pmc-header{top:38px}
+@media screen and (max-width:782px){
+  .admin-bar .prism-bar{top:46px}
+  .admin-bar .pmc-header{top:52px}
+}
+[id]{scroll-margin-top:calc(var(--pmc-prism-h) + var(--pmc-header-h) + 8px)}
+
+/* ---------------------------------------------------------------------------
+   8. Layout rows (mockup L74–76 + L105–107, verbatim — block-map §5 assigns
+      .section-title / .section-sub / .soft here)
+   --------------------------------------------------------------------------- */
+.wrap{max-width:1180px;margin:0 auto;padding:64px 24px}
+.wrap.tight{padding-top:48px;padding-bottom:48px}
+section+section{margin-top:8px}
+.section-title{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;margin-bottom:14px}
+.section-sub{color:var(--ink-soft);max-width:64ch;margin-bottom:36px}
+.soft{background:var(--bg-soft)}
+
+/* ---------------------------------------------------------------------------
+   9. [S2] Page shells (contract consumed by the S2b templates). `.pmc-main`
+      is the full-bleed shell of the 10 page-plan templates — no padding, no
+      content width: every block owns its own `.wrap`, exactly like the
+      mockup's <main>. `.pmc-main--constrained` is the neutral shell for
+      routes this design does not cover: container + rhythm for their core
+      blocks so the child theme never fights them.
+   --------------------------------------------------------------------------- */
+.pmc-main{padding:0}
+.pmc-main--constrained{padding:48px 24px 64px}
+.pmc-main--constrained > *{max-width:100%}
+
+/* ---------------------------------------------------------------------------
+   10. [S2] Tier 4 (≤767px) foundation rows (prior-art G5 values)
+   --------------------------------------------------------------------------- */
+@include until(md){
+  .wrap{padding:44px var(--pmc-gutter-sm)}
+  .wrap.tight{padding-top:36px;padding-bottom:36px}
+  section+section{margin-top:4px}
+  .section-title{font-size:clamp(1.45rem,6vw,1.9rem)}
+  .section-sub{margin-bottom:26px}
+  .pmc-main--constrained{padding:36px var(--pmc-gutter-sm) 48px}
+  .wrap>*,.grid-3>*,.grid-2>*,.split>*{min-width:0}
+}
+
+/* ---------------------------------------------------------------------------
+   11. Reduced motion (mockup L300–302, verbatim)
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+}

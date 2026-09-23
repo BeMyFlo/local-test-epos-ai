@@ -1,0 +1,106 @@
+// =============================================================================
+// _header.scss — the header template part (S2b owned, not a block).
+//
+// Cloned VERBATIM from pricemrcopper_final_mockup.html <style>:
+//   L59     header            → scoped to `.pmc-header`
+//   L60     .header-inner
+//   L61–63  .brand / .brand img / .brand-name
+//   L64     nav               → scoped to `nav.pmc-nav`
+//   L65–68  nav a / :hover / .active / .active::after
+//   L298    @media(max-width:900px){ nav{margin-left:0} }   (scoped)
+//
+// Why the element selectors are scoped (spec D2): bare `header`/`nav`/
+// `footer` would also hit the WP template-part wrapper and the parent
+// theme's own markup (parent templates render on search/404/single/archive
+// routes). `.pmc-header` / `nav.pmc-nav` are the S2b markup contract for
+// parts/header.html; the `.active` stamping mechanism (which link gets it
+// per page) lands in functions.php at S2b — S2a ships the CSS rule.
+//
+// [S2] additions (foundation-and-css §2 tier 3, block-map B14, prior-art
+// values): the `.pmc-nav-toggle` 3-bar hamburger, the `.pmc-nav.is-open`
+// dropdown panel, and the `body.pmc-nav-open` scroll lock. The toggle JS is
+// S2b (`src/js/child.js`).
+// =============================================================================
+
+@use "@parent-scss/variables" as *;
+
+/* ============ HEADER (mockup L59, verbatim — scoped) ============ */
+.pmc-header{position:sticky;top:6px;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+
+/* ============ HEADER INNER (mockup L60, verbatim) ============ */
+.header-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:22px;padding:14px 24px;flex-wrap:wrap}
+
+/* ============ BRAND (mockup L61–63, verbatim) ============ */
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:44px;height:44px;border-radius:12px}
+.brand-name{font-family:var(--display);font-weight:800;font-size:1.15rem}
+
+/* ============ NAV (mockup L64–68, verbatim — scoped) ============ */
+nav.pmc-nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.pmc-nav a{font-size:.86rem;font-weight:600;color:var(--ink-soft);padding:8px 12px;border-radius:10px;position:relative}
+.pmc-nav a:hover{background:var(--bg-soft);color:var(--ink)}
+.pmc-nav a.active{color:var(--ink)}
+.pmc-nav a.active::after{content:"";position:absolute;left:12px;right:12px;bottom:2px;height:3px;border-radius:2px;background:var(--prism)}
+/* [S2] keyboard parity with the :hover treatment (a11y, no visual change
+   for mouse users). */
+.pmc-nav a:focus-visible{background:var(--bg-soft);color:var(--ink);outline:2px solid var(--sky-deep);outline-offset:2px}
+
+/* ============ HAMBURGER ([S2] — B14, not in the mockup) ============
+   Hidden at desktop; `.pmc-nav-toggle.is-open` draws the X. Markup classes
+   are the S2b contract: parts/header.html carries the button with
+   aria-expanded / aria-controls + nav.pmc-nav#mainNav. */
+.pmc-nav-toggle{display:none;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:44px;height:44px;padding:0;border:1.5px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;-webkit-appearance:none;appearance:none}
+.pmc-nav-toggle span{display:block;width:20px;height:2px;border-radius:2px;background:var(--ink);transition:transform .2s ease,opacity .2s ease}
+.pmc-nav-toggle.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.pmc-nav-toggle.is-open span:nth-child(2){opacity:0}
+.pmc-nav-toggle.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.pmc-nav-toggle:focus-visible{outline:2px solid var(--sky-deep);outline-offset:2px}
+
+/* Body scroll lock while the mobile panel is open (owned by child.js at S2b). */
+body.pmc-nav-open{overflow:hidden}
+
+/* ============ RESPONSIVE — mockup tier (L298, verbatim — scoped) ============ */
+@media (max-width:900px){
+  nav.pmc-nav{margin-left:0}
+}
+
+/* ============ [S2] Tier 3 (≤900px) — hamburger panel (prior-art values) ============
+   Hide the inline nav, show the hamburger; the nav becomes an absolute
+   dropdown panel anchored to the sticky header. */
+@include until(900px){
+  /* margin-left:auto takes over the nav's desktop auto margin: the nav is
+     out of flow (absolute) here, so the toggle owns the right edge of the
+     header row. */
+  .pmc-nav-toggle{display:flex;margin-left:auto}
+  .pmc-header nav.pmc-nav{
+    display:none;
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    flex-direction:column;
+    gap:2px;
+    padding:12px 18px 18px;
+    background:rgba(255,255,255,.98);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+    box-shadow:0 18px 40px rgba(20,48,61,.14);
+    max-height:var(--pmc-nav-panel-max-h);
+    overflow-y:auto;
+    z-index:55;
+  }
+  .pmc-header nav.pmc-nav.is-open{display:flex}
+  .pmc-nav a{font-size:.95rem;padding:12px 14px;border-radius:12px}
+  .pmc-nav a.active::after{left:14px;right:14px;bottom:4px}
+}
+
+/* ============ [S2] Tier 4 (≤767px) — tighten for a 375px viewport (G5) ============ */
+@include until(md){
+  .header-inner{gap:12px;padding:10px var(--pmc-gutter-sm)}
+  .brand{gap:10px;min-width:0}
+  .brand img{width:38px;height:38px;border-radius:10px;flex:0 0 auto}
+  .brand-name{font-size:1.02rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .pmc-nav-toggle{width:42px;height:42px;flex:0 0 auto}
+  nav.pmc-nav{padding:10px var(--pmc-gutter-sm) 16px}
+}

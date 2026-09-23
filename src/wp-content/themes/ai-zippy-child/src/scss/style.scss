@@ -1,19 +1,40 @@
 // =============================================================================
-// Child theme styles — client-specific overrides.
+// style.scss — the ONLY Vite CSS entry for the child theme
+// (vite.config.child.js → `child-style` → assets/dist/css/child-style.css).
 //
-// Parent tokens (colors, breakpoints, mixins) are available via:
-//   @use "@parent-scss/variables" as *;
+// This file contains @use statements ONLY. Never write CSS rules here.
 //
-// Example:
-//   @use "@parent-scss/variables" as *;
-//   .client-hero { color: $c-accent; @include from(md) { ... } }
+// IMPORT ORDER IS LOAD ORDER — later files win at equal specificity, so:
+//   tokens → base → components → header/footer → sections/*
+//
+// S3 CONTRACT: a block worker adds CSS to `sections/{block-name}.scss` ONLY.
+// All 15 partials already exist and are already imported below — no S3 worker
+// edits this file or any other shared file (block-map §2).
 // =============================================================================
 
-@use "@parent-scss/variables" as *;
+@use "@parent-scss/variables" as *;   // parent tokens/mixins stay available
 
-// Add client-specific styles below.
-// body { /* custom styles */ }
+@forward "tokens";
+@use "tokens";
+@use "base";
+@use "components";
+@use "header";
+@use "footer";
 
-// The mini cart ships a neutral default skin in the parent block's style.scss.
-// Override any `az-mc__*` rule here to reskin it for this client.
-
+// Sections — one @use per block in block-map §2, page-plan order. Shared
+// blocks sit with their first placement.
+@use "sections/home-hero";            // home #1
+@use "sections/home-who-we-are";      // home #2
+@use "sections/home-featured-works";  // home #3
+@use "sections/about-story";          // about #1
+@use "sections/about-pillars";        // about #2
+@use "sections/film-intro";           // film #1
+@use "sections/film-tiers";           // film #2
+@use "sections/films-list";           // films #1
+@use "sections/cta-banner";           // films #2 + events #2 + upcoming #2 (shared)
+@use "sections/shop-merchandise";     // shop #1
+@use "sections/sponsors-intro";       // sponsors #1
+@use "sections/events-process";       // events #1
+@use "sections/upcoming-list";        // upcoming #1
+@use "sections/enquiries-form";       // enquiries #1
+@use "sections/contact-details";      // contact #1
