@@ -1,0 +1,51 @@
+// =============================================================================
+// Footer — Carzone 4-column footer
+//
+// Structure lives in parts/footer.html. The parent already paints footer links
+// white; Carzone adds the column headings, the accent hover and the divider
+// above the copyright bar.
+// =============================================================================
+
+@use "@parent-scss/variables" as *;
+
+.az-footer {
+	// ---- Column headings ----
+	.wp-block-heading {
+		position: relative;
+		padding-bottom: 0.75rem;
+
+		&::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 2rem;
+			height: 2px;
+			border-radius: 2px;
+			background: $c-accent;
+		}
+	}
+
+	// ---- Links ----
+	a {
+		@include transition((color));
+
+		&:hover {
+			color: $c-accent;
+		}
+	}
+
+	// The parent ships its nav rule with !important, so the footer nav needs the
+	// same weight for its hover colour to land.
+	.wp-block-navigation a:hover {
+		color: $c-accent !important;
+	}
+
+	// ---- Divider above the bottom bar ----
+	.wp-block-separator {
+		border-color: $c-white;
+		opacity: 0.2;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+}

@@ -1,19 +1,17 @@
 // =============================================================================
-// Child theme styles — client-specific overrides.
+// Carzone child theme styles.
 //
-// Parent tokens (colors, breakpoints, mixins) are available via:
+// Parent tokens (colors, breakpoints, mixins) are available in every partial via:
 //   @use "@parent-scss/variables" as *;
 //
-// Example:
-//   @use "@parent-scss/variables" as *;
-//   .client-hero { color: $c-accent; @include from(md) { ... } }
+// Partial map:
+//   _header.scss     — header part skin (.az-header__*)
+//   _footer.scss     — footer part skin (.az-footer)
+//   _front-page.scss — home page (templates/front-page.html) tweaks
 // =============================================================================
 
 @use "@parent-scss/variables" as *;
 
-// Add client-specific styles below.
-// body { /* custom styles */ }
-
-// The mini cart ships a neutral default skin in the parent block's style.scss.
-// Override any `az-mc__*` rule here to reskin it for this client.
-
+@use "header";
+@use "footer";
+@use "front-page";

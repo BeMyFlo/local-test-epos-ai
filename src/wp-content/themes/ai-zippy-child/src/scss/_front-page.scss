@@ -1,0 +1,125 @@
+// =============================================================================
+// Home (front page) — Carzone
+//
+// Section markup lives in templates/front-page.html; visual identity of the
+// parent blocks (hero, search, showcase, brand intro) stays in the parent. This
+// file keeps the page's rhythm and covers the states the template ships before
+// content exists (no hero media, no brand-intro image).
+// =============================================================================
+
+@use "@parent-scss/variables" as *;
+
+.az-home {
+	// ---- Rhythm ----
+	// Section padding is set in the template so the editor matches the front
+	// end; the mobile step therefore has to out-specify those inline styles.
+	@include until(md) {
+		.az-home__search,
+		.az-home__featured,
+		.az-home__services,
+		.az-home__why,
+		.az-home__cta {
+			padding-top: 3rem !important;
+			padding-bottom: 3rem !important;
+		}
+	}
+
+	// ---- Card headings ----
+	// Short accent rule under each column heading. Stands in for the icon slot
+	// until real icon art is picked.
+	.az-home__services .wp-block-column .wp-block-heading,
+	.az-home__why .wp-block-column .wp-block-heading {
+		position: relative;
+		padding-bottom: 0.75rem;
+
+		&::after {
+			content: "";
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 2rem;
+			height: 3px;
+			border-radius: 3px;
+			background: $c-accent;
+		}
+	}
+}
+
+// ---- Hero section ----
+// The parent hero still carries its demo palette (greens, hardcoded). Map its
+// accents onto Carzone tokens so the first screen reads on-brand.
+.wp-block-ai-zippy-hero-section {
+	background: linear-gradient(135deg, $c-secondary 0%, $c-white 55%, $c-secondary 100%);
+
+	.hero-section__tagline {
+		color: $c-accent;
+		text-decoration-color: $c-accent;
+	}
+
+	.hero-section__heading {
+		color: $c-primary;
+	}
+
+	.hero-section__btn {
+		color: $c-primary;
+		border-color: $c-border;
+
+		&:hover {
+			border-color: $c-accent;
+		}
+	}
+
+	.hero-section__btn-arrow {
+		background: $c-accent;
+		color: $c-white;
+	}
+
+	.hero-section__btn:hover .hero-section__btn-arrow {
+		background: $c-primary;
+	}
+
+	.hero-section__phone-icon {
+		color: $c-accent;
+	}
+
+	.hero-section__phone-number {
+		color: $c-primary;
+
+		&:hover {
+			color: $c-accent;
+		}
+	}
+
+	// Media is picked at content entry; until then the empty media column would
+	// hold half the hero for nothing, so the content takes the full width.
+	&:not(:has(.hero-section__card-img, .hero-section__play-btn)) {
+		.hero-section__container {
+			grid-template-columns: 1fr;
+		}
+
+		.hero-section__media {
+			display: none;
+		}
+	}
+}
+
+// ---- Brand intro ----
+// The block opens with a full-height image band plus its arch overlay. Until
+// content sets a hero image, the overlay is flattened into a plain tagline
+// instead of floating over blank space.
+.bi:not(:has(.bi__hero-img)) {
+	.bi__hero {
+		min-height: 0;
+	}
+
+	.bi__arch {
+		position: static;
+		transform: none;
+		width: auto;
+		max-width: 720px;
+		padding: 3rem 2rem 0;
+		border-radius: 0;
+		background: none;
+		backdrop-filter: none;
+	}
+}
