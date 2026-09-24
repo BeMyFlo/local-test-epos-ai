@@ -530,3 +530,27 @@ Paste the G6 section back → the Leader flips S7 to PASS. The build is done.
   CSS fix) reuses the `pmc-s4-scratch` draft-page method from "S4 live-env checks" — create
   draft with all 15 blocks, compare canvas vs preview, delete with `--force`. Never leave
   scratch pages published.
+
+## Post-build approved overrides
+
+- 2026-09-24 — **task 62593c7c (approved spec): header background → red.** `_header.scss` only:
+  `.pmc-header` + the ≤900px nav panel `background:#ff0000` (minifier emits `background:red` ×2
+  in the built CSS), header text flipped white — `.pmc-header .brand-name` neutralizes the
+  `.grad-text` clip (`_components.scss:32`); `.pmc-header .pmc-nav a` sits BEFORE the `:hover`
+  rule so the hover/`:focus-visible` pill keeps its dark ink, and the `.pmc-header .pmc-nav
+  a.active` arm wins over the mockup `.active` color by specificity. Evidence: `npm run
+  build:child` exit 0, no Sass warnings; built CSS `background:red` ×2, zero `rgba(255,255,255,.92/.98)`
+  source hits; the new CSS = the live-served P9 baseline + exactly these 4 changes
+  (reverse-transform byte-identical, +188 B). Live note: the running `pricemrcopper_epos`
+  container bind-mounts the persistent main checkout (`/home/tobithongha/src-test-epos-tool`),
+  per the S0 runbook "never a worktree" rule — the live URL serves the red header only after
+  this task's PR merges into that checkout; until then visual verification ran on the real
+  http://localhost:18770 pages with the new CSS route-intercepted (Playwright): 14/14 —
+  header + open panel `rgb(255,0,0)`, brand/links/active white, hover `rgb(20,48,61)` on
+  `rgb(251,250,241)` pill, `.prism-bar` 6px sticky + `border-bottom` 1px unchanged, hamburger
+  opens/closes (`aria-expanded` true→false), no 375px horizontal scroll; screenshots
+  `/tmp/qa-red-header-1440.png`, `/tmp/qa-red-header-375-closed.png`, `/tmp/qa-red-header-375-open.png`.
+  Editor parity: `wp eval 'print_r(get_editor_stylesheets());'` live-returns `child-style.css`
+  (plain `.pmc-header` classes, no canvas reset needed). `docker logs` clean during
+  verification — the 11 `AiZippy\Product\is_product` fatals all pre-date it (06:44 UTC
+  bootstrap window, parent-theme namespace bug, untouched by this CSS-only change).
