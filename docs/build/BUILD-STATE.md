@@ -36,9 +36,9 @@ Machine-specific notes (carried forward for S3/S6/S7):
 | S2 theme foundation | PASS | 2026-09-24 | S2a PASS (SCSS layer — see row above) + S2b PASS on static gates (spec §7.1 V1–V10): build:child exit 0 with CSS unchanged (10.86 kB — zero SCSS edits), php -l clean, theme.json valid (10 customTemplates + 2 templateParts), parts/templates href sets byte-equal to block-map §3, 11 templates present each with header/footer parts + pmc-main + post-content, logo.png extracted (PNG 500×500, 237,340 B), dist JS carries the B14 toggle, zero authoring residue in parts/templates. Live-env items NEEDS-LIVE-ENV (spec §7.2): curl pmc-header render, .active stamp on / and /about/, fonts+preconnect links, get_editor_stylesheets() contains child-style.css, screenshots 1440/768/375 + G5 hamburger functional test, docker logs PHP check |
 | S3 blocks | PASS | 2026-09-24 | P1 home trio built (3/15 blocks): 3× 7-file block folders in `src/blocks`; `php -l` clean ×3; block.json `JSON.parse` ×3; `npm run build:child` exit 0 with no Sass warnings (vite CSS 12.09 kB, was 10.86 kB at S2; wp-scripts discovers 3 entries — home-hero, home-who-we-are, home-featured-works; webpack compiled successfully); built CSS contains the hero/feature-card greps (`.hero-grid`, `1.05fr .95fr`, `aspect-ratio:4/3`, `.feature-card .cap`, `rgba(20,22,30,.85)` → minified `#14161ed9`, `@media(max-width:900px)`, `.hero-grid>*{min-width:0}` @767px [S3] guard); 4 images extracted to `assets/img` (home-hero.avif 158649 B, home-feature-mad-vibe-city.png 346187 B, home-feature-music-beats.avif 166798 B, home-feature-global-logistics.avif 197715 B — signatures AVIF×3 + PNG); zero authoring-residue greps ×3 (src + built copies); 38/38 block.json default strings byte-exact in the mockup; `@use` wiring count 3, `style.scss` untouched; git scope = 3 block folders + 3 partials + 4 images + this file. P2 about pair built (5/15 blocks): +2× 7-file block folders (`about-story` L381–418, `about-pillars` L419–429); `php -l` clean ×2; block.json `JSON.parse` ×2; `npm run build:child` exit 0 with no Sass warnings (vite CSS 12.84 kB, was 12.09 kB; wp-scripts discovers 5 entries — +about-story, +about-pillars); built CSS carries the story greps (`.story-block:before`, `border-radius:16px 0 0 16px`, `.sub-cards{grid-template-columns:1fr}` inside `@media(max-width:900px)`, `.sub-card{background:var(--bg-soft)`); 30/30 content string defaults byte-exact in the mockup (film paragraph matched incl. its `<i>` tags; `imgFile` counted as infrastructure per P1 rule); zero authoring-residue greps ×2 (src + built `assets/blocks` copies); `about-story.jpg` extracted from mockup L392 (JPEG 4000×6000, 6,214,677 B decoded from 8,286,236 base64 chars); `_about-story.scss` filled (mockup L144–153 verbatim + L296 `.sub-cards` row; no [S3]-added guards, P2-D3); `@use` statement count still 21, `style.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss` untouched; git scope = 2 block folders (14 files) + 1 image + `_about-story.scss` + this file. P3 film pair built (7/15 blocks): +2 block folders (`film-intro` L434–449, 7 files; `film-tiers` L452–491, 8 files incl. the B12 `view.js` registered via block.json `"viewScript": "file:./view.js"` — P3-D8, zero shared-file edits; hardcoded `id="filmEnquiry"` on the wrapper with `supports.anchor:false` — P3-D2); `php -l` clean ×2; block.json `JSON.parse` ×2 + viewScript grep; `node --check view.js` exit 0; `npm run build:child` exit 0 with no Sass warnings (vite CSS 14.04 kB, was 12.84 kB; wp-scripts discovers 7 entries — +film-intro, +film-tiers; `assets/blocks/film-tiers/` emits `view.js` + `view.asset.php`); built CSS carries the tier greps (`.tier-grid`, `.tier:before` — the minifier's form of `.tier::before`, `.tier-tag`, `.tier-price`, `.tier-runtime`, `.tier p`, `.tier-note`, `border-radius:20px`, `.tier-grid{grid-template-columns:1fr}` inside `@media(max-width:900px)`); 30/30 defaults byte-exact in the mockup (14 film-intro + 16 film-tiers, entity-decoded compare incl. em-dashes/curly apostrophes/emoji and the `<b>/<i>/<div><span style>` markup; `imgFile`/`imgId`/`imgUrl`/`btnUrl` counted as infrastructure per P1 rule); zero authoring-residue greps ×2 (src + built `assets/blocks` copies); `film-production.avif` extracted from mockup L438 (AVIF, 86,177 B decoded from 114,904 base64 chars, bytes 4–12 = `ftypavif`); `_film-tiers.scss` filled (mockup L186–193 verbatim + L296 `.tier-grid` row; no [S3]-added guards, P3-D7); `@use` statement count still 21 (`^@use` grep — comment lines excluded), `style.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss`/`_film-intro.scss` untouched; git scope = 2 block folders (15 files) + 1 image + `_film-tiers.scss` + this file. P4 films pair built (9/15 blocks): +2 block folders (`films-list` L497–601 + filmModal L1000–1017, 8 files incl. the B10+B11 `view.js` registered via block.json `"viewScript": "file:./view.js"` — modal rendered inside the wrapper, P4-D1/P4-D2; `cta-banner` shared — films instance L603–613, 7 files, no view.js, structural `soft` variant P4-D9); `php -l` clean ×2; block.json `JSON.parse` ×2 + viewScript grep (films-list only among the new pair); `node --check view.js` exit 0; `npm run build:child` exit 0 with no Sass warnings (vite CSS 17.52 kB, was 14.04 kB; wp-scripts discovers 9 entries — +films-list, +cta-banner; `assets/blocks/films-list/` emits `view.js` + `view.asset.php`); built CSS carries the film greps (`.film-list`, `minmax(300px,1fr)`, `.film-card`, `.play-badge` 62px, `.film-tag` `border-radius:999px`, `.film-runtime` — `rgba(20,48,61,.85)` → minified `#14303dd9`, `.film-body`, `.film-meta`, `.watch-btn`, `.no-video-flag` `#8a6417`/`#fdf6e0`, `.vmodal` `#0f2733` `max-width:920px`, `.vmodal-close` 36px, `.film-hero{grid-template-columns:1fr}` inside `@media(max-width:900px)`); 42/42 string defaults byte-exact in the mockup (entity-decoded compare incl. curly apostrophe/em-dash/middots; 16 infrastructure values — `imgFile`/`imgId`/`imgUrl`/`videoUrl`/`btnUrl` — plus the `soft` boolean per P1 rule); zero authoring-residue greps (src + built `assets/blocks` copies); 5 poster images extracted (films-poster-mad-vibe-city.png PNG 482×222 346,187 B from 461,657 base64 chars, `\x89PNG` magic; films-poster-film-2…5.svg 769 B each URL-decoded from `data:image/svg+xml;utf8,`, stops `#F5F3CD`→`#B2F1F8` / `#B2F1F8`→`#85BEDB` / `#FCDB7E`→`#B2F1F8` / `#85BEDB`→`#F5F3CD`); `_films-list.scss` filled (mockup L196–207 + L212–233 verbatim, `.film-tools` L208–211 NOT ported, + L296 `.film-hero` row with the ui-spec §9 note; no [S3]-added guards, P4-D7); `@use` statement count still 21, `style.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss`/`_cta-banner.scss` untouched; git scope = 2 block folders (15 files) + 5 images + `_films-list.scss` + this file. P5 shop block built (10/15 blocks): +1 block folder (`shop-merchandise` mockup L618–826, 8 files incl. the B1–B4 `view.js` registered via block.json `"viewScript": "file:./view.js"` — P3-D8 pattern; ONE block for products + custom-order box per D10; `supports.anchor:true` — no hardcoded id on the wrapper, the inner `#shopGrid`/`#customBox` ids are clone markup, films-list precedent); `php -l` clean; block.json `JSON.parse` + viewScript grep; `node --check view.js` exit 0; `npm run build:child` exit 0 with no Sass warnings (vite CSS 19.48 kB, was 17.52 kB; wp-scripts discovers 10 entries — +shop-merchandise; `assets/blocks/shop-merchandise/` emits `view.js` + `view.asset.php`; built render.php byte-identical copy of src); built CSS carries the shop greps (`.shop-grid`, `minmax(240px,1fr)`, `.product img`, `aspect-ratio:1/1`, `.qty-row`, `.custom-box` + `:before` minifier form, `#customQty`, `.lock-msg` `#fdf6e0`/`#8a6417`, `.unlock-msg` `#eafbfd`/`#14586b`, `.custom-upload.locked` `grayscale(.6)`, `.upload-preview`); 69/69 content defaults + 14 `imgFile` infrastructure values byte-exact vs entity-decoded mockup (142/142 scripted checks — en-dash `S–XXL`/em-dash copy/`&amp;` decoding, alt≡name ×14, `Quantity for {name}` aria-labels ×14, selected marker on option 13 hardcoded at loop index 12, P5-D3); 14 product images extracted to `assets/img` (JPEGs 30,598–276,317 B, `ff d8 ff` decoded signatures + `/9j/` base64 prefixes ×14, ~2.0 MB total); zero authoring-residue greps (src + built `assets/blocks` copies — contenteditable/editable-img/data-label/edit-hint/Click-to-upload/console.log/addFilmBtn all 0); `_shop-merchandise.scss` filled (mockup L117–132 + L136–141 verbatim; banner L116 + `.field` L133–135 not ported per film-tiers precedent/_components; no 900px row — L295–299 has no shop selector; no [S3]-added guards, P5-D6); `@use` statement count still 21, `style.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss` untouched; git scope = 1 block folder (8 files) + 14 images + `_shop-merchandise.scss` + this file. P6 sponsors block built (11/15 blocks): +1 block folder (`sponsors-intro` mockup L831–841, 7 files, no view.js — zero listeners/ids in the section, the CTA is the B15 native link; `supports.anchor:true` — no hardcoded id on the wrapper, shop-merchandise precedent P6-D6); `php -l` clean; block.json `JSON.parse` + no-viewScript grep; `npm run build:child` exit 0 with no Sass warnings (vite CSS 19.48 kB **byte-identical** to P5 — 19,481 B, sha256 `3583d3e8…c271d42` unchanged, zero SCSS edits: the identity itself is the zero-drift gate per P6 spec §5; wp-scripts discovers 11 entries — +sponsors-intro; `assets/blocks/sponsors-intro/` emits `index.js`/`index.css`/`style-index.css` + `index.asset.php` and no `view.js`; built render.php byte-identical copy of src); 17/17 defaults byte-exact vs entity-decoded mockup (16 content + 1 infrastructure `btnUrl`, scripted compare; emoji codepoints 🎞️=`1f39e fe0f` / 🎤=`1f3a4` / 🤝=`1f91d`); authoring-residue greps 0 across src + built copies (`contenteditable` ×10 + `data-goto` stripped — the docblock documents the CTA port without the literal attribute, film-intro precedent); structural greps OK (`grid-3`, `icon <?php` card shape, `btn-row` with inline `margin-top:36px` kept verbatim, `sponsors_intro_url()` + `function_exists` guard P6-D2, `esc_html` ×7 call sites + `esc_url` ×1 + `esc_attr` ×1 — spec §7.7's "×14" was a miscount; the actual structure matches the about-pillars/film-intro precedent exactly); `@use` count still 21, `style.scss`/`_sponsors-intro.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss` untouched; git scope = 1 block folder (7 files) + this file. P7 events block built (12/15 blocks): +1 block folder (`events-process` mockup L846–860, 7 files, no view.js — zero listeners/ids in the section and block-map §2 assigns no behaviors, P7-D1; `supports.anchor:true` — no hardcoded id on the wrapper, sponsors-intro precedent P6-D6; text-column-first split with the img second, the mirror of film-intro — `.split` source order defines the sides, P7-D4; no CTA and no URL helper — the events CTA at L862–870 is the shared cta-banner's events instance landing at S5, P7-D2; esc_html-only render, no kses helper and hence no `function_exists` guard — every L846–860 text field is plain, P7-D3); `php -l` clean; block.json `JSON.parse` + no-viewScript grep; `npm run build:child` exit 0 with no Sass warnings (vite CSS 19.48 kB **byte-identical** to P5/P6 — 19,481 B, sha256 `3583d3e8…c271d42` unchanged, zero SCSS edits: the identity itself is the zero-drift gate, P6 precedent; wp-scripts discovers 12 entries — +events-process; `assets/blocks/events-process/` emits `index.js`/`index.css`/`style-index.css` + `index.asset.php` and no `view.js`; built render.php byte-identical copy of src); 13/13 string defaults byte-exact vs entity-decoded mockup (eyebrow, title — the straight ASCII apostrophe asserted, not the mockup's usual curly `’`, intro, 3×{n,heading,text} with the `&amp;` entities decoded and the step-2 em-dash kept, imgAlt; `imgId`/`imgUrl`/`imgFile` counted as infrastructure per P1 rule — spec §8.5's "11" enumerates the same string set); authoring-residue greps 0 across src + built copies (`contenteditable`/`editable-img`/`data-label`/`edit-hint`/`title="Click to upload`/`data-goto`/`console.log` all 0 — the docblock documents the img-hook strip without the literal attribute, film-intro precedent); structural greps OK (`split` → text `<div>` (section-sub + step-list) → `<img>` last; `esc_html` 7 grep hits = 6 call sites + 1 docblock mention — spec §8.7's "×6" counts call sites, sponsors-intro precedent — plus `esc_url` ×1 + `esc_attr` ×1; `get_block_wrapper_attributes(['class' => 'wrap'])`; both `.split` rules verified in the built CSS — desktop `grid-template-columns:1fr 1fr` + the 900px `1fr` row); `event-production.avif` extracted from mockup L858 (AVIF, 58,930 B decoded from 78,576 base64 chars, bytes 4–12 = `ftypavif`); `@use` statement count still 21, `style.scss`/`_events-process.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss` untouched; git scope = 1 block folder (7 files) + 1 image + this file. P8 upcoming-events block built (13/15 blocks): +1 block folder (`upcoming-list` mockup L875–911 + ticketModal L1021–1065, 8 files incl. the B5–B9 `view.js` registered via block.json `"viewScript": "file:./view.js"` — P3-D8 pattern; the modal renders as the last child inside the wrapper P8-D1, films-list P4-D1 precedent; `data-checkout-url=""` hardcoded verbatim on every card P8-D2; esc_html-only render, no kses helper and hence no `function_exists` guard P8-D3; teaser video keeps `autoplay="" loop="" muted="" playsinline=""` + poster, no `src` P8-D4; `#tmEmail href="#"` kept P8-D5; `id="eventsGrid"` + all modal ids kept verbatim P8-D6); `php -l` clean; block.json `JSON.parse` + viewScript grep; `node --check view.js` exit 0; `npm run build:child` exit 0 with no Sass warnings (vite CSS 19,481 B → 24,611 B, sha256 `6f54eabe…cbcb92bea` — a stub-partial rebuild reproduced the recorded P5–P7 baseline 19,481 B sha256 `3583d3e8…c271d42` byte-for-byte, and the P7→P8 CSS diff adds exactly +5,131 B of upcoming-list-owned selectors with zero removals — only `.ticket-line`/`.tprice`/`.modal-head`/`.modal-close`/`.modal-body`/`.qty-stepper`/`#attendeeList`/`.attendee-row`/`.modal-sep`/`.summary-row`/`.summary-total`/`.modal-foot`/`.modal-msg`/`.checkout-panel`/`.err-msg`/`.events-grid`/`.event-card`/`.event-media`/`.event-badge`/`.event-body`/`.event-date`/`.event-info`/`.event-meta` + the 900px rows, minifier rgba→hex as usual; wp-scripts discovers 13 entries — +upcoming-list; `assets/blocks/upcoming-list/` emits `view.js` + `view.asset.php`; built render.php byte-identical copy of src); built CSS carries the event greps (`.events-grid`, `.event-card` `1.15fr 1fr`, `.event-badge`, `.event-date`, `.ticket-line`, `.tprice`, `.modal-head`, `.qty-stepper`, `.attendee-row`, `.modal-sep`, `.summary-total`, `.modal-foot`, `.modal-msg`, `.checkout-panel`, `.err-msg` `#8a3d3d`, `.event-card{grid-template-columns:1fr}` + `.event-body{padding:24px}` inside the 900px tier; no `.vhint`/`.add-event` — V10); 11/11 string defaults byte-exact vs entity-decoded mockup L876–901 (incl. U+2014/U+2019/📍 U+1F4CD/📅 U+1F4C5; `videoPoster{Id,Url,File}` counted as infrastructure per P1 rule) + the modal markup L1021–1065 byte-equal to the mockup (39 lines after leading-whitespace trim); zero authoring-residue greps (src + built `assets/blocks/upcoming-list/` copies: `contenteditable`/`editable-video`/`vhint`/`addEventBtn`/`edit-hint`/`data-label`/`console.log` all 0 — the docblock documents the strips without the literal attributes, film-intro precedent); structural greps OK (`id="eventsGrid"`, `data-checkout-url`, `id="ticketModal"`, `role="dialog"`, `aria-labelledby="tmTitle"`, the 4 stepper/close aria-labels, `autoplay="" loop="" muted="" playsinline=""` + `poster=`, `id="tmEmail" href="#"`, `esc_html` ×10 call sites + 1 docblock mention, `esc_url` ×1, `get_block_wrapper_attributes(['class' => 'wrap'])`); `event-teaser-poster.svg` extracted from mockup L883 (SVG, 820 B URL-decoded from the `data:image/svg+xml;utf8,` poster payload, starts `<svg xmlns="http://www.w3.org/2000/svg" width="900"`, gradient stops `#B2F1F8`→`#85BEDB`, decorative circles + "EVENT VIDEO" text); `_upcoming-list.scss` filled (mockup L236–237 + L242–248 modal-chrome open-issue port + L249–274 + L277–290 minus `.vhint`/`.add-event` + the 900px owner rows; L238–241 stays in _components; no [S3]-added guards P8-D7); `@use` statement count still 21, `style.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss` untouched; git scope = 1 block folder (8 files) + 1 image + `_upcoming-list.scss` + this file. P9 final pair built (15/15 blocks — S3 static work complete): +2 block folders (`enquiries-form` mockup L928–951, 8 files incl. the B13 `view.js` registered via block.json `"viewScript": "file:./view.js"` — P3-D8 pattern, 5th viewScript block; `contact-details` mockup L956–968, 7 files, no view.js — zero listeners in the section and block-map §2 assigns none, P7-D1 precedent; `supports.anchor:true` on both — no hardcoded wrapper ids, the inner `enquiryForm`/`enq*`/`enquiryOk` ids kept verbatim as clone markup, P6-D6/P4-D10 precedents; esc_html-only renders — no kses helper and hence no `function_exists` guard — optgroup label via `esc_attr`, mapUrl via `esc_url` with the `?:` mockup-URL terminal fallback so the iframe never renders an empty src, P9-D3/P9-D8; form chrome static verbatim — labels/placeholders/`— Select a subject —`/submit label/`.form-ok` incl. ✅ + straight ASCII apostrophes, P9-D4; select split `subjectOptions`×3 + `filmGroupLabel` + `filmOptions`×2 in mockup DOM order, contact `items[4] {icon, heading?, lines[]}` with the `<b>` heading only when present, P9-D5); `php -l` clean ×2; block.json `JSON.parse` ×2 + viewScript grep (present in enquiries-form, absent in contact-details); `node --check view.js` exit 0; `npm run build:child` exit 0 with no Sass warnings (vite CSS 24,611 B → 25,419 B, sha256 `6f54eabe…cbcb92bea` → `165b3158…fb810024`; byte-level CSS diff = exactly +808 B of contact-owned selectors — `.map-frame` `height:380px`, `.contact-grid` `1fr 1.2fr`, `.contact-item` family, `.contact-item .ct` sub-rules incl. the dead `.ct a` pair (P9-D9, clone doctrine), `.contact-item .ci`, + the 900px `.contact-grid{grid-template-columns:1fr}` row — with 0 bytes removed; wp-scripts discovers 15 entries — +enquiries-form, +contact-details; `assets/blocks/enquiries-form/` emits `view.js` + `view.asset.php`; built render.php byte-identical copies of src ×2); 23/23 block.json default strings + all static form/iframe chrome byte-exact vs the entity-decoded, D5-stripped mockup (scripted compare: U+2014 ×1 in sub + ×2 in the empty option, U+2705, U+2026, 📍 U+1F4CD, ✉️ U+2709+U+FE0F VS16 kept, 📞 U+1F4DE, 🕘 U+1F558, U+2013 ×2 in the hours line, straight ASCII apostrophes in `we'll`/`We'll`/`We'd`, `&amp;`→`&` in filmOptions[1] + mapUrl); zero authoring-residue greps ×2 (src + built `assets/blocks` copies — docblocks document the strips without the literal attributes, film-intro precedent); structural greps OK (`id="enquiryForm"`, `id="enquiryOk"`, `<optgroup` ×2 (docblock + markup), `for="enq*"` ×4, `Send Enquiry`, `class="contact-grid"`, `loading="lazy"`, `title="Map"`, `get_block_wrapper_attributes(['class' => 'wrap'])` ×2, `esc_url` ×1 (call site; +1 docblock mention), built CSS carries `.contact-grid`/`1fr 1.2fr`/`height:380px`/`.map-frame`/`.contact-item .ci`/`.contact-item .ct a:hover` + the 900px row); `_contact-details.scss` filled (mockup L166–175 verbatim + L296 `.contact-grid` row; no [S3]-added guards, P8-D7 precedent); `_enquiries-form.scss` untouched — ships empty permanently (component-driven, P7-D7 precedent); `@use` statement count still 21, `style.scss`/`functions.php`/`theme.json`/`_components.scss`/`_base.scss` untouched; git scope = 2 block folders (15 files) + `_contact-details.scss` + this file — no images this batch (the contact map is an `<iframe>`, not an asset). Live-env items NEEDS-LIVE-ENV (registration via `wp eval` WP_Block_Type_Registry over all 15 names, docker logs PHP check) — commands in "S3 live-env checks" below (task SPEC §9.2) |
 | S4 editor parity | PASS (static verification pass) | 2026-09-24 | Static preconditions V1–V9 all green, **zero code changes** (git clean; the only edit is this file; `npm run build:child` re-run rewrote `child-style.css` byte-identically, assets/blocks gitignored): **V1** wiring — `add_theme_support('editor-styles')` functions.php:134 + `add_editor_style($path)` :156 behind a `file_exists` guard; manifest `style.scss` entry keys = `file, isEntry, src` (no `css` key; `file = css/child-style.css` ends `.css`) → elseif branch → `assets/dist/css/child-style.css` (exists on disk, 25,419 B). **V2** no admin enqueue traps — `ai_zippy_child_enqueue_vite()` called only inside `wp_enqueue_scripts` (functions.php:106–111); editor fonts on `enqueue_block_assets` with `is_admin()` guard and `[]` deps (:167–173); `ai_zippy_child_style_deps()` guards `ai-zippy-theme-css-0` with `wp_style_is(...,'registered')` (:281–283). **V3** block contract — `"apiVersion": 3` ×15/15, ServerSideRender in edit.js ×15/15, `return null` ×15/15, bare `useBlockProps()` ×15/15 (0 non-bare), `"viewScript"` on exactly the 5 behavior blocks (film-tiers, films-list, shop-merchandise, upcoming-list, enquiries-form), `php -l` render.php ×15 clean, `node --check` view.js ×5 clean, JSON.parse 16/16 (15 block.json + theme.json). **V4** wrapper hygiene — wrapper-class selectors in `src/scss/` = only the `_base.scss` §5 reset (:95–96: doubled `.block-editor-block-list__block`, both `[class*=wp-block-ai-zippy-]`/`[class*=zippy-block-ai-zippy-]` families, unprefixed by design — the prior-art S4 root cause is absent); `editor-styles-wrapper` in `src/scss/` = 2 comment hits, 0 selectors; 0 direct-child selectors rooted at a wrapper. **V5** built CSS — `npm run build:child` exit 0, no Sass warnings; `child-style.css` 25,419 B sha256 `165b31582c1c04c73d987fbc4d491100dea508b1fdbc83e571b14e91fb810024` **byte-identical to the P9 baseline** (the identity is the zero-drift gate, P6 precedent); built file carries the canvas reset minified (`.block-editor-block-list__block.block-editor-block-list__block.wp-block[class*=wp-block-ai-zippy-],…[class*=zippy-block-ai-zippy-]{max-width:none;width:auto}`), blockGap reset `margin-block-start:0!important`, the 8px `section+section{margin-top:8px!important}` re-application, `:root{` ×2. **V6** viewport/fixed audit — exactly the 2 accepted occurrences: `.modal-overlay` (`position:fixed` + `display:none` default, `_components.scss:77` — modal chrome, hidden in canvas exactly like the un-interacted frontend) and `--pmc-nav-panel-max-h:calc(100vh - 90px)` (`_tokens.scss:50` — header part, not part of the post-editor canvas); no `100dvh`. **V7** no-JS default states = canvas states — built CSS hides all interactive-only chrome by CSS alone: `.modal-overlay{…display:none`, `.form-ok{display:none…}`, `.err-msg{display:none…}` (= `#tmErr`), `.checkout-panel{display:none…}` (= `#tmPanel`), inline `style="display:none"` on `#customPreview`/`#unlockMsg`/`#fmVideo` (render.php clone markup), `.custom-upload.locked{opacity:.45;pointer-events:none;filter:grayscale(.6)}` ships locked; `is-loaded|skeleton|shimmer` in view.js = 0 hits → no `editor.scss` doubled-class neutralization required (blocks.md §4). **V8** canvas media resolvability — recursive walk of all block.json attribute defaults (incl. nested `cards`/`products`/`films` arrays): 27/27 media filenames exist in `assets/img` (28 files; the extra is header-part `logo.png`) → canvas SSR images resolve, 0 canvas 404s (theme-asset URLs until S5 — identical on both sides of the compare, must be `/wp-content/uploads/` by the S5 gate G3). **V9** syntax battery — `php -l` functions.php clean + render.php ×15 clean, `node --check` ×5, JSON.parse ×16; block-folder `style.scss`/`editor.scss` comment-stubs only (0 non-comment lines in src and built copies); theme.json layout `contentSize`/`wideSize` = 1180px (the cap the §5 reset beats) + 10 customTemplates + 2 templateParts. Live canvas parity NEEDS-LIVE-ENV — commands in "S4 live-env checks" below |
-| S5 content & media | TODO | | all page-plan pages created, `<img src>` from `/wp-content/uploads/`, front page correct |
-| S6 visual QA | TODO | | no significant desktop diffs; 375px + 768px clean; `docs/build/qa-report.md` |
-| S7 functional QA | TODO | | every behavior-map row + shop/form flows PASS with evidence |
+| S5 content & media | NEEDS-LIVE-ENV | 2026-09-24 | seeding scripts authored + static battery green (V1–V8, task SPEC §7); the gate itself runs on the member's machine per the S5–S7 runbook below |
+| S6 visual QA | NEEDS-LIVE-ENV | 2026-09-24 | seeding scripts authored + static battery green (V1–V8, task SPEC §7); the gate itself runs on the member's machine per the S5–S7 runbook below |
+| S7 functional QA | NEEDS-LIVE-ENV | 2026-09-24 | seeding scripts authored + static battery green (V1–V8, task SPEC §7); the gate itself runs on the member's machine per the S5–S7 runbook below |
 
 ### S0 runbook — run locally by the member
 
@@ -296,6 +296,167 @@ no new PHP Fatal/Warning (error.log is a /dev/stderr symlink in this image famil
 **Cleanup + paste-back:** `docker exec ${PROJECT_ID} wp post delete {ID} --force --allow-root`;
 paste the five gate outputs back → the Leader flips the 15 `Editor OK` cells to `yes` and
 closes the S4 live remainder.
+
+### S5–S7 runbook — run locally by the member (after the S0 + S3-live + S4-live checks)
+
+Preconditions: Gate S0 outputs pasted (container up, theme active); the S3 live-env check
+printed 15× `registered`; the S4 live-env gates done. Then:
+
+    set -a; . ./.env; set +a
+    npm run build:child        # assets/blocks/ is gitignored — build before testing
+
+#### S5 Step 1 — uploads permission (S0 Step 5, again — do not skip)
+
+    docker compose exec -T -u root wordpress sh -c \
+      'chown -R www-data:www-data /var/www/html/wp-content/uploads && chmod 775 /var/www/html/wp-content/uploads'
+
+#### S5 Step 2 — sideload the 28 media assets
+
+    docker compose cp scripts/upload-images.php wordpress:/tmp/upload-images.php
+    docker compose exec -T wordpress php -d memory_limit=1024M /tmp/upload-images.php
+
+Expected: 28× `uploaded` (re-run: 28× `skip`), `failed=0`, `map entries=28`, exit 0.
+Any `FAILED` line → paste it back verbatim; do not improvise.
+
+#### S5 Step 3 — seed the 10 pages
+
+    docker compose cp scripts/seed-pages.php wordpress:/tmp/seed-pages.php
+    docker compose exec -T wordpress php /tmp/seed-pages.php
+
+Expected: 10× `created …` (re-run: `updated …`) + `front page -> {ID}`. WARNING: re-running
+overwrites post_content for these 10 slugs — do not re-run after editing pages in wp-admin.
+
+#### S5 Step 4 — Gate S5 (paste all outputs back)
+
+a) Page list (expect 10 rows, publish, slugs home/about/film/films/shop/sponsors/upcoming/events/enquiries/contact):
+
+    docker exec ${PROJECT_ID} wp post list --post_type=page --fields=ID,post_name,post_status --allow-root
+
+b) Front page (expect `page`, then the home page ID from Step 3):
+
+    docker exec ${PROJECT_ID} wp option get show_on_front --allow-root
+    docker exec ${PROJECT_ID} wp option get page_on_front --allow-root
+
+c) Slugs resolve (expect 200 on every line; "" is the front page):
+
+    for s in "" about film films shop sponsors upcoming events enquiries contact; do
+      printf '%-14s %s\n' "/$s" "$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:${PORT}/$s")"
+    done
+
+d) Media-served check — `.avif` ADDED to the skill's grep (the original G3 pattern misses this
+   repo's AVIF assets and would pass vacuously). Every hit must contain `/wp-content/uploads/`:
+
+    for s in "" about film films shop sponsors upcoming events enquiries contact; do
+      echo "== /$s"
+      curl -s "http://localhost:${PORT}/$s" | grep -o 'src="[^"]*\.\(jpg\|jpeg\|png\|webp\|svg\|avif\)"' | sort -u
+    done
+
+   Negative check — expect 0 on every page (this also covers the header logo, which resolves
+   through the same media map via [pmc_logo_url]):
+
+    for s in "" about film films shop sponsors upcoming events enquiries contact; do
+      printf '/%-12s themes-hits=%s\n' "$s" "$(curl -s "http://localhost:${PORT}/$s" | grep -c 'src="[^"]*themes/')"
+    done
+
+e) Internal link crawl (expect 200 on every internal href; `#filmEnquiry` is a fragment on
+   /film/ and must also be 200; mailto:/tel:/maps links are external and skipped):
+
+    for s in "" about film films shop sponsors upcoming events enquiries contact; do
+      curl -s "http://localhost:${PORT}/$s"
+    done | grep -o 'href="/[^"]*"' | sort -u | while read -r h; do
+      url="${h#href=\"}"; url="${url%\"}"
+      printf '%-30s %s\n' "$url" "$(curl -s -o /dev/null -w "%{http_code}" "http://localhost:${PORT}${url}")"
+    done
+
+Paste a)–e) back → the Leader flips S5 to PASS and marks the Blocks-table Seeded column.
+
+#### S6 — visual QA loop (desktop G4 + responsive G5)
+
+Reference of truth: `pricemrcopper_final_mockup.html` opened in a browser at 1440px width.
+The HOME screen is `.page active` on load (mockup L336); reach the other 9 screens by clicking
+the nav items (SPA `showPage`). The mockup has no <900px design beyond grid collapse — judge
+768px/375px against the G5 checklist, not against the mockup.
+
+Captures (site): 10 pages × 1440/768/375. If `chrome-headless-shell` is on PATH:
+
+    command -v chrome-headless-shell || echo "use a browser session instead"
+    for W in 1440 768 375; do
+      for s in "" about film films shop sponsors upcoming events enquiries contact; do
+        name="${s:-home}"
+        chrome-headless-shell --headless --disable-gpu --hide-scrollbars \
+          --window-size=${W},8000 --screenshot=/tmp/s6-${name}-${W}.png \
+          --virtual-time-budget=15000 "http://localhost:${PORT}/${s}"
+      done
+    done
+
+Otherwise drive a browser session and take full-page screenshots (30 captures total).
+Captures (mockup reference): 10 screenshots, one per nav screen, at 1440px.
+
+Compare per page, in this order: presence and order of sections → box geometry → grid/columns
+→ colors → image crop/ratio → text content → CTA text and href → interactive elements.
+Font family / glyph width / letter-spacing are OUT of scope (qa-gates: 10–30% glyph-width
+differences at matching pitch are not defects).
+
+Fix loop: any diff → fix in `src/scss/sections/_{block}.scss` (CSS) or
+`src/blocks/{block}/render.php` (markup) → `npm run build:child` → re-capture. Max 10
+iterations total, max 3 per specific bug. Never conclude from code alone.
+
+Responsive (mandatory G5), per page at 375px and 768px:
+- no horizontal scroll — devtools console: `document.documentElement.scrollWidth <= document.documentElement.clientWidth`
+- no text overflowing/overlapping into the next section
+- grids collapsed to 1 column (900px tier), images not squashed, footer columns stacked
+- hamburger visible and FUNCTIONAL: click → nav panel visible + `aria-expanded="true"`;
+  click again → closes (B14). Screenshot the open state at both widths.
+
+Write `docs/build/qa-report.md` (format: zippy-qa-gates skill — a G4 section and a G5 section,
+screenshot paths, fixed-diffs table with file(s) changed, remaining accepted diffs). Paste back
+the two section summaries → the Leader flips S6 to PASS.
+
+#### S7 — functional QA (behavior map B1–B17, block-map §4)
+
+Run against the live site in a browser. For every row: perform the trigger, assert the effect,
+screenshot. Evidence lands in `qa-report.md` under a G6 section.
+
+1. Link crawl re-run (the S5-e command) → every internal href still 200.
+2. Console: open all 10 pages → zero JS errors (record any).
+3. PHP log (error.log is a /dev/stderr symlink in this image family — plain tail blocks):
+
+       docker logs ${PROJECT_ID} 2>&1 >/dev/null | tail -100
+
+   No new PHP Fatal/Warning generated during the run.
+4. Behavior rows:
+   - B1 shop: click an `.order-btn` → label becomes `Added ×{qty} ✓`, reverts to `Order` after 1800 ms.
+   - B2 shop: type 50 in `#customQty` → `#customUpload` unlocks (`.locked` off), `#lockMsg` ↔
+     `#unlockMsg` swap; drop below 50 → re-locks.
+   - B3 shop: pick a file in `#customImgInput` → `#customPreview` shows it.
+   - B4 shop: click `#customSubmit` → `#customOk` shown 4000 ms.
+   - B5 upcoming: click `.buy-ticket` → `#ticketModal` opens; title/date from the card, price
+     from `.tprice`, qty 1, attendee rows rebuilt, first attendee input focused, body scroll locked.
+   - B6 upcoming: `#tmMinus`/`#tmPlus`/`#tmQty` → qty clamped 1–20, attendee rows rebuilt,
+     totals update, ± disabled at bounds.
+   - B7 upcoming: `#tmCheckout` with a blank attendee name → `.err` inputs + `#tmErr`; complete
+     → `#tmPanel` order summary (`PMC-{ts}` ref) + `#tmEmail` becomes
+     `mailto:hello@pricemrcopper.com` with prefilled subject/body; panel scrolls into view.
+   - B8 upcoming: `#tmCopy` → clipboard copy of `#tmOrderText` + `Copied ✓` for 1800 ms.
+   - B9 upcoming: close via ✕ / backdrop / Esc → modal closes, scroll restored, attendee list cleared.
+   - B10 films: click `.film-poster` / `.watch-btn` → `#filmModal` opens with the card's
+     title/meta/desc; every shipped film has empty `data-video` → `#fmEmpty` "No video added yet".
+   - B11 films: close ✕ / backdrop / Esc → modal closes (video paused + reset).
+   - B12 film page: submit `#filmEnquiryForm` → `#filmEnquiryOk` shown 4000 ms, fields cleared.
+   - B13 enquiries page: submit `#enquiryForm` → `#enquiryOk` shown 4000 ms, fields cleared.
+   - B14 header: hamburger (already verified at S6 — re-assert once).
+   - B15 native: spot-check all nav + footer + CTA links land on the right pages.
+   - B16 film page: "Start Your Film Enquiry" → smooth-scrolls to `#filmEnquiry`.
+   - B17 upcoming: teaser `<video>` autoplays (muted, loop, playsinline) with the SVG poster.
+5. Watch items the member decides/records at S7 (already Open issues — record, do not code now):
+   P4-D5 films 2–3 empty meta pills; P4-D6 `#fmEmpty` copy mentions the dropped authoring
+   tools; P5 keyboard user can Tab+Enter into `#customSubmit` while the panel is visually
+   locked (add the disabled state or accept); P8-D2 `data-checkout-url` empty → checkout ends
+   in the order-summary panel + mailto (expected, not a defect).
+6. Forms are client-side only (D7) — "where the submission lands" is N/A by design; never
+   disable nonce/validation to make a form pass, never add a backend here (C-flow).
+
+Paste the G6 section back → the Leader flips S7 to PASS. The build is done.
 
 ## Open issues
 
