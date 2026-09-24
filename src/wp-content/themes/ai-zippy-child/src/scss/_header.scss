@@ -20,12 +20,15 @@
 // values): the `.pmc-nav-toggle` 3-bar hamburger, the `.pmc-nav.is-open`
 // dropdown panel, and the `body.pmc-nav-open` scroll lock. The toggle JS is
 // S2b (`src/js/child.js`).
+//
+// [task 62593c7c] Approved override: the header background is red (#ff0000)
+// with white header text — a deliberate deviation from the mockup.
 // =============================================================================
 
 @use "@parent-scss/variables" as *;
 
 /* ============ HEADER (mockup L59, verbatim — scoped) ============ */
-.pmc-header{position:sticky;top:6px;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.pmc-header{position:sticky;top:6px;z-index:50;background:#ff0000;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 
 /* ============ HEADER INNER (mockup L60, verbatim) ============ */
 .header-inner{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:22px;padding:14px 24px;flex-wrap:wrap}
@@ -34,10 +37,18 @@
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{width:44px;height:44px;border-radius:12px}
 .brand-name{font-family:var(--display);font-weight:800;font-size:1.15rem}
+/* [62593c7c] red-header override: solid white brand text (undoes the
+   .grad-text clip from _components.scss L32). */
+.pmc-header .brand-name{color:#fff;background:none;-webkit-background-clip:initial;background-clip:initial;-webkit-text-fill-color:#fff}
 
 /* ============ NAV (mockup L64–68, verbatim — scoped) ============ */
 nav.pmc-nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
 .pmc-nav a{font-size:.86rem;font-weight:600;color:var(--ink-soft);padding:8px 12px;border-radius:10px;position:relative}
+/* [62593c7c] red-header override: white nav text on red. Must precede the
+   :hover/.active/:focus-visible rules so they keep their light pill + dark
+   ink; the .active arm outranks the mockup .active color by specificity. */
+.pmc-header .pmc-nav a,
+.pmc-header .pmc-nav a.active{color:#fff}
 .pmc-nav a:hover{background:var(--bg-soft);color:var(--ink)}
 .pmc-nav a.active{color:var(--ink)}
 .pmc-nav a.active::after{content:"";position:absolute;left:12px;right:12px;bottom:2px;height:3px;border-radius:2px;background:var(--prism)}
@@ -81,7 +92,7 @@ body.pmc-nav-open{overflow:hidden}
     flex-direction:column;
     gap:2px;
     padding:12px 18px 18px;
-    background:rgba(255,255,255,.98);
+    background:#ff0000;
     backdrop-filter:blur(10px);
     -webkit-backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
