@@ -554,3 +554,31 @@ Paste the G6 section back → the Leader flips S7 to PASS. The build is done.
   (plain `.pmc-header` classes, no canvas reset needed). `docker logs` clean during
   verification — the 11 `AiZippy\Product\is_product` fatals all pre-date it (06:44 UTC
   bootstrap window, parent-theme namespace bug, untouched by this CSS-only change).
+
+- 2026-09-25 — **task 899d519c (approved spec): header background → white, superseding 62593c7c (red).**
+  `_header.scss` only: `.pmc-header` + the ≤900px nav panel `background:#ff0000` → `background:#fff`
+  (built CSS keeps `#fff` ×2, esbuild's shortest form), and the red-era white-text overrides DELETED
+  (not recolored): `.pmc-header .brand-name{color:#fff…}` — the `.grad-text` clip
+  (`_components.scss:32`) paints the brand again — and `.pmc-header .pmc-nav a / a.active{color:#fff}`
+  — nav text is back to the mockup `var(--ink-soft)` / `.active` `var(--ink)` with the untouched
+  hover/`:focus-visible` pill. Evidence: `npm run build:child` exit 0, no Sass warnings; built-CSS
+  asserts — `.pmc-header{position:sticky;top:6px;z-index:50;background:#fff;` and panel
+  `padding:12px 18px 18px;background:#fff;` present; zero `background:red`, `ff0000`,
+  `rgba(255,255,255,.9`, `.pmc-header .brand-name{color:#fff`, `.pmc-header .pmc-nav a` hits;
+  `grep -rn ff0000` over `src/…/scss/` → 0 hits. Live note: as with 62593c7c, the running
+  `pricemrcopper_epos` container bind-mounts the persistent main checkout
+  (`/home/tobithongha/src-test-epos-tool`), per the S0 runbook "never a worktree" rule — the live
+  URL serves the white header only after this task's PR merges into that checkout; until then
+  visual verification ran on the real http://localhost:18770 pages with the worktree CSS
+  route-intercepted (Playwright 1.63.0): 22/22 — header + open panel `rgb(255,255,255)`, sticky
+  `top:6px`, `border-bottom` 1px, `.prism-bar` 6px sticky `top:0` unchanged; brand gradient restored
+  (`color` transparent, `background-clip:text`, prism `linear-gradient`); plain link `rgb(91,114,128)`,
+  `.active` `rgb(20,48,61)`, hover pill `rgb(251,250,241)` + `rgb(20,48,61)`; 375px hamburger
+  opens/closes (`aria-expanded` true→false, panel display flex→none), no horizontal scroll;
+  screenshots `/tmp/qa-white-header-1440.png`, `/tmp/qa-white-header-1440-hover.png`,
+  `/tmp/qa-white-header-375-closed.png`, `/tmp/qa-white-header-375-open.png` — read back: white
+  header, gradient brand, beige hover/active pill, white open panel. Editor parity:
+  `wp eval 'print_r(get_editor_stylesheets());'` live-returns `child-style.css`. `docker logs` clean
+  during verification — 0 new PHP fatals/warnings/notices (the `AiZippy\Product\is_product` fatals
+  all pre-date it, 06:44 UTC bootstrap window, parent-theme namespace bug, untouched by this
+  CSS-only change).
