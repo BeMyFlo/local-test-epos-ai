@@ -12,6 +12,7 @@ class BookingsDb
     public const TABLE       = 'aa_bookings';
     public const DB_VERSION  = '1';
     public const OPT_VERSION = 'aa_bookings_db_version';
+    public const TTL_HOOK    = 'aa_booking_ttl_sweep';
 
     public const STATUSES = ['new', 'confirmed', 'paid', 'cancelled'];
 
@@ -19,6 +20,10 @@ class BookingsDb
     {
         add_action('after_switch_theme', [self::class, 'ensureTable']);
         add_action('init',               [self::class, 'maybeUpgrade']);
+        add_filter('cron_schedules',     [self::class, 'cronSchedules']);
+        add_action('after_switch_theme', [self::class, 'scheduleTtlCron']);
+        add_action('switch_theme',       [self::class, 'unscheduleTtlCron']);
+        add_action(self::TTL_HOOK,       [self::class, 'runTtlSweep']);
     }
 
     public static function getTableName(): string
@@ -72,6 +77,50 @@ class BookingsDb
         dbDelta($sql);
 
         update_option(self::OPT_VERSION, self::DB_VERSION, true);
+    }
+
+    /**
+     * The 5-minute interval for the TTL sweep — WP core's shortest built-in
+     * schedule is hourly, so the interval has to be registered here.
+     */
+    public static function cronSchedules(array $schedules): array
+    {
+        if (!isset($schedules['every_5_minutes'])) {
+            $schedules['every_5_minutes'] = [
+                'interval' => 300,
+                'display'  => 'Every 5 Minutes',
+            ];
+        }
+        return $schedules;
+    }
+
+    /** Idempotent: only schedules if not already scheduled. */
+    public static function scheduleTtlCron(): void
+    {
+        if (!wp_next_scheduled(self::TTL_HOOK)) {
+            wp_schedule_event(time() + 300, 'every_5_minutes', self::TTL_HOOK);
+        }
+    }
+
+    /** Run on theme deactivation — keep the cron clean. */
+    public static function unscheduleTtlCron(): void
+    {
+        $next = wp_next_scheduled(self::TTL_HOOK);
+        if ($next) {
+            wp_unschedule_event($next, self::TTL_HOOK);
+        }
+    }
+
+    /** Cron body: sweep every studio, each with its own TTL settings. */
+    public static function runTtlSweep(): void
+    {
+        if (!class_exists(BookingStudios::class)) {
+            return;
+        }
+        self::cancelExpired(array_map(
+            static fn(array $studio): string => (string) $studio['slug'],
+            BookingStudios::all()
+        ));
     }
 
     public static function insert(array $data): int
@@ -257,6 +306,55 @@ class BookingsDb
             $out[$row['t']] = (int) $row['c'];
         }
         return $out;
+    }
+
+    /**
+     * Cancel bookings whose TTL has lapsed, studio by studio with each
+     * studio's own settings: `new` expires ttl_new_hours after created_at,
+     * `confirmed` ttl_confirmed_minutes after confirmed_at. Cancelling is
+     * itself the release — every slot count excludes status='cancelled' — so
+     * remaining places recompute immediately. Returns the rows cancelled.
+     */
+    public static function cancelExpired(array $studio_slugs): int
+    {
+        global $wpdb;
+
+        $slugs = array_values(array_unique(array_filter(array_map('strval', $studio_slugs))));
+        if ($slugs === []) {
+            return 0;
+        }
+
+        $table = self::getTableName();
+        $now   = current_time('mysql');
+        $total = 0;
+
+        // Rows are stamped with current_time('mysql'), so cutoffs use the same
+        // PHP clock instead of MySQL NOW() — a WP/MySQL timezone mismatch can
+        // never misjudge an expiry.
+        foreach ($slugs as $slug) {
+            foreach (['new' => 'created_at', 'confirmed' => 'confirmed_at'] as $status => $column) {
+                $ttl = BookingAvailability::ttlFor($slug, $status);
+                if ($ttl === null) {
+                    continue;
+                }
+                $cutoff = date('Y-m-d H:i:s', strtotime($now) - $ttl);
+                $result = $wpdb->query($wpdb->prepare(
+                    "UPDATE {$table}
+                     SET status = 'cancelled', cancelled_at = %s
+                     WHERE studio_id = %s AND status = %s
+                       AND {$column} IS NOT NULL AND {$column} < %s",
+                    $now,
+                    $slug,
+                    $status,
+                    $cutoff
+                ));
+                if ($result !== false) {
+                    $total += (int) $result;
+                }
+            }
+        }
+
+        return $total;
     }
 
     public static function updateStatus(string $studio_id, int $id, string $status): bool

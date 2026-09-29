@@ -56,6 +56,11 @@ $programme_ok   = in_array($selected_programme, $programmes, true);
 // places per slot, never a price.
 $month_data = null;
 if ($studio_entry !== null && $programme_ok && class_exists(BookingAvailability::class) && class_exists(BookingsDb::class)) {
+    // On-render expiry: release this studio's just-expired holds before the
+    // grid below counts places — between 5-minute cron ticks a lapsed hold
+    // must not render as taken.
+    BookingsDb::cancelExpired([$studio_id]);
+
     $settings         = BookingAvailability::get($studio_id);
     $bounds           = BookingAvailability::datePickerBounds($studio_id);
     $default_capacity = max(0, (int) $settings['default_capacity']);
