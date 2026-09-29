@@ -62,6 +62,7 @@ class BookingAvailability
             'ttl_new_hours'    => 24, // hours a `new` booking holds its slot
             'ttl_confirmed_minutes' => 60, // minutes a `confirmed` booking holds its slot
             'class_overrides'  => [], // [programme => ['dates' => […], 'weekdays' => […]]]
+            'notification_email' => '', // staff inbox; falls back to the site admin email
         ];
     }
 
@@ -434,6 +435,10 @@ class BookingAvailability
         $blackout = array_keys($blackout);
         sort($blackout);
 
+        // Keys owned by the "Cài đặt" tab are not part of this payload — keep
+        // the stored values instead of resetting them to hard defaults.
+        $current = self::get($studio_id);
+
         $settings = [
             'time_slots'       => $slots ?: self::defaults()['time_slots'],
             'closed_weekdays'  => $weekdays,
@@ -442,11 +447,29 @@ class BookingAvailability
             'max_advance_days' => max(1, (int) ($raw['max_advance_days'] ?? 90)),
             'weekday_overrides' => $weekday_overrides,
             'date_overrides'   => $overrides,
-            'default_capacity' => max(0, (int) ($raw['default_capacity'] ?? 4)),
-            'ttl_new_hours'    => max(1, (int) ($raw['ttl_new_hours'] ?? 24)),
-            'ttl_confirmed_minutes' => max(1, (int) ($raw['ttl_confirmed_minutes'] ?? 60)),
+            'default_capacity' => max(0, (int) ($raw['default_capacity'] ?? $current['default_capacity'])),
+            'ttl_new_hours'    => max(1, (int) ($raw['ttl_new_hours'] ?? $current['ttl_new_hours'])),
+            'ttl_confirmed_minutes' => max(1, (int) ($raw['ttl_confirmed_minutes'] ?? $current['ttl_confirmed_minutes'])),
             'class_overrides'  => $class_overrides,
+            'notification_email' => sanitize_email($raw['notification_email'] ?? $current['notification_email']),
         ];
+
+        update_option(self::optionName($studio_id), $settings, false);
+        return $settings;
+    }
+
+    /**
+     * Merge the four "Cài đặt" tab fields onto the stored settings and persist.
+     * The schedule (slots, overrides, blackout, window) is left untouched.
+     */
+    public static function saveSettings(string $studio_id, array $raw): array
+    {
+        $settings = self::get($studio_id);
+
+        $settings['ttl_new_hours']         = max(1, (int) ($raw['ttl_new_hours'] ?? $settings['ttl_new_hours']));
+        $settings['ttl_confirmed_minutes'] = max(1, (int) ($raw['ttl_confirmed_minutes'] ?? $settings['ttl_confirmed_minutes']));
+        $settings['default_capacity']      = max(0, (int) ($raw['default_capacity'] ?? $settings['default_capacity']));
+        $settings['notification_email']    = sanitize_email($raw['notification_email'] ?? $settings['notification_email']);
 
         update_option(self::optionName($studio_id), $settings, false);
         return $settings;
