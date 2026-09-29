@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "ai-zippy/booking-calendar",
+  "version": "1.0.0",
+  "title": "Booking Calendar",
+  "category": "achiever-shared",
+  "icon": "calendar-alt",
+  "description": "Oclass-style public booking calendar: pick a studio and programme, then enroll into a live slot.",
+  "supports": { "html": false, "anchor": true, "align": ["wide", "full"] },
+  "attributes": {
+    "heading": { "type": "string", "default": "BOOK YOUR CLASS" },
+    "subheading": { "type": "string", "default": "Pick a studio and programme to see live availability" },
+    "studioLabel": { "type": "string", "default": "Select Studio" },
+    "programmeLabel": { "type": "string", "default": "Select Programme" },
+    "enrollText": { "type": "string", "default": "ENROLL NOW" },
+    "fullText": { "type": "string", "default": "FULL" },
+    "remainingText": { "type": "string", "default": "%d places left" },
+    "unlimitedText": { "type": "string", "default": "Open" },
+    "submitText": { "type": "string", "default": "SEND ENQUIRY" },
+    "successMessage": { "type": "string", "default": "Thanks! We'll get back to you shortly." },
+    "labels": {
+      "type": "object",
+      "default": {
+        "name": "Name",
+        "phone": "Phone Number",
+        "email": "Email",
+        "childAge": "Child's Age",
+        "preferredContact": "Preferred Mode of Contact",
+        "message": "Message",
+        "date": "Date",
+        "time": "Time",
+        "selectedSlot": "Your Selection"
+      }
+    },
+    "preferredContactOptions": { "type": "array", "default": ["WhatsApp", "Email", "Phone"] },
+    "selectedStudio": { "type": "string", "default": "" },
+    "selectedProgramme": { "type": "string", "default": "" }
+  },
+  "textdomain": "ai-zippy",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "render": "file:./render.php",
+  "viewScript": "file:./view.js"
+}
