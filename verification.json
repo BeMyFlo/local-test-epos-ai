@@ -1,0 +1,30 @@
+[
+  {
+    "description": "PHP syntax lint on BookingsDb.php, BookingStudios.php and functions.php",
+    "command": "php -l src/wp-content/themes/ai-zippy-child/inc/booking/BookingsDb.php && php -l src/wp-content/themes/ai-zippy-child/inc/booking/BookingStudios.php && php -l src/wp-content/themes/ai-zippy-child/functions.php",
+    "exit_code": 0,
+    "passed": true,
+    "output_summary": "No syntax errors detected in all three files (PHP 8.3.6)."
+  },
+  {
+    "description": "Registry harness: BookingStudios reads the real block JSON files — 3 studios in block order with correct slugs, byte-identical addresses/phones, both name variants resolve per studio, unknown name returns '', programmes() matches the 6-element course-enquiry-form list",
+    "command": "php /tmp/booking_checks/booking_studios_check.php",
+    "exit_code": 0,
+    "passed": true,
+    "output_summary": "16/16 assertions passed against the real studios-directory and course-enquiry-form block.json."
+  },
+  {
+    "description": "DB harness with stubbed $wpdb/dbDelta: DDL contains wp_aa_bookings with all required columns, studio-scoped keys, two-space PRIMARY KEY, no IF NOT EXISTS and no dropped reference columns; version gate; insert forces status/created_at and nulls malformed slot_date; every read/update/delete query is scoped by studio_id; updateFields whitelist incl. cancelled_at; short-circuits on empty args",
+    "command": "php /tmp/booking_checks/bookings_db_check.php",
+    "exit_code": 0,
+    "passed": true,
+    "output_summary": "60/60 assertions passed, including per-query studio_id isolation proof."
+  },
+  {
+    "description": "Wiring check: the two inc/booking requires sit immediately after the inc/form-handler.php require in functions.php",
+    "command": "grep -n \"form-handler\\|inc/booking\" src/wp-content/themes/ai-zippy-child/functions.php",
+    "exit_code": 0,
+    "passed": true,
+    "output_summary": "form-handler require at line 1327; BookingsDb (with ::register()) at 1332, BookingStudios at 1338."
+  }
+]
