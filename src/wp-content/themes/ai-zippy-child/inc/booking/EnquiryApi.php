@@ -338,6 +338,11 @@ class EnquiryApi
             ], 400);
         }
 
+        // On-render expiry: release this studio's just-expired holds before
+        // the remaining-places math — between 5-minute cron ticks a lapsed
+        // hold must not show as taken.
+        BookingsDb::cancelExpired([$studio_id]);
+
         $programme = sanitize_text_field((string) $request->get_param('programme'));
 
         $date = sanitize_text_field((string) $request->get_param('date'));
