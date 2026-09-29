@@ -1,30 +1,58 @@
 [
   {
-    "description": "PHP syntax lint on BookingsDb.php, BookingStudios.php and functions.php",
-    "command": "php -l src/wp-content/themes/ai-zippy-child/inc/booking/BookingsDb.php && php -l src/wp-content/themes/ai-zippy-child/inc/booking/BookingStudios.php && php -l src/wp-content/themes/ai-zippy-child/functions.php",
+    "description": "PHP syntax check on the booking-calendar render.php",
+    "command": "php -l src/wp-content/themes/ai-zippy-child/src/blocks/booking-calendar/render.php",
     "exit_code": 0,
     "passed": true,
-    "output_summary": "No syntax errors detected in all three files (PHP 8.3.6)."
+    "output_summary": "No syntax errors detected"
   },
   {
-    "description": "Registry harness: BookingStudios reads the real block JSON files — 3 studios in block order with correct slugs, byte-identical addresses/phones, both name variants resolve per studio, unknown name returns '', programmes() matches the 6-element course-enquiry-form list",
-    "command": "php /tmp/booking_checks/booking_studios_check.php",
+    "description": "PHP syntax check on the edited seed-pages.php (booking page entry)",
+    "command": "php -l scripts/seed-pages.php",
     "exit_code": 0,
     "passed": true,
-    "output_summary": "16/16 assertions passed against the real studios-directory and course-enquiry-form block.json."
+    "output_summary": "No syntax errors detected"
   },
   {
-    "description": "DB harness with stubbed $wpdb/dbDelta: DDL contains wp_aa_bookings with all required columns, studio-scoped keys, two-space PRIMARY KEY, no IF NOT EXISTS and no dropped reference columns; version gate; insert forces status/created_at and nulls malformed slot_date; every read/update/delete query is scoped by studio_id; updateFields whitelist incl. cancelled_at; short-circuits on empty args",
-    "command": "php /tmp/booking_checks/bookings_db_check.php",
+    "description": "block.json is valid JSON (source)",
+    "command": "node -e \"JSON.parse(require('fs').readFileSync('src/wp-content/themes/ai-zippy-child/src/blocks/booking-calendar/block.json'));console.log('ok')\"",
     "exit_code": 0,
     "passed": true,
-    "output_summary": "60/60 assertions passed, including per-query studio_id isolation proof."
+    "output_summary": "Parses as valid JSON"
   },
   {
-    "description": "Wiring check: the two inc/booking requires sit immediately after the inc/form-handler.php require in functions.php",
-    "command": "grep -n \"form-handler\\|inc/booking\" src/wp-content/themes/ai-zippy-child/functions.php",
+    "description": "Production build compiles the block and emits built assets (view.js, render.php, style-index.css, block.json) into assets/blocks/booking-calendar/ for auto-registration by functions.php",
+    "command": "npm run build:child && ls src/wp-content/themes/ai-zippy-child/assets/blocks/booking-calendar/",
     "exit_code": 0,
     "passed": true,
-    "output_summary": "form-handler require at line 1327; BookingsDb (with ::register()) at 1332, BookingStudios at 1338."
+    "output_summary": "webpack compiled successfully; booking-calendar assets present in assets/blocks/"
+  },
+  {
+    "description": "PHP harness renders render.php with stubbed WP + Booking* classes: 3 studio options, 6 programmes, SSR month grid with remaining-places math (cap 3 minus 2 booked = 1 left), unlimited slot -> null, FULL/disabled slot, blackout day closed, pre-bounds day inert, zero price strings anywhere",
+    "command": "php -d error_reporting=E_ALL /tmp/bc-harness.php",
+    "exit_code": 0,
+    "passed": true,
+    "output_summary": "18/18 assertions passed (studios, programmes, slots, FULL, closed/out days, no prices)"
+  },
+  {
+    "description": "Config JSON blob parses and wp_json_encode hex-escaping blocks </script> breakout (incl. hostile payload)",
+    "command": "php -d error_reporting=E_ALL /tmp/bc-harness.php",
+    "exit_code": 0,
+    "passed": true,
+    "output_summary": "Blob parses; </script> never appears unescaped in the blob"
+  },
+  {
+    "description": "view.js smoke: vanilla JS only (no jQuery usage), GET /booking/availability with studio/programme/month (+date on day expansion), full slot disabled, %d remaining text, successMessage, per-instance init guard",
+    "command": "node --input-type=module -e \"...static checks on view.js...\"",
+    "exit_code": 0,
+    "passed": true,
+    "output_summary": "9/9 static checks passed"
+  },
+  {
+    "description": "Optional live check in achiever_art Docker container: page seed and REST round-trip",
+    "command": "docker inspect achiever_art --format '{{range .Mounts}}{{.Source}}{{\"\\n\"}}{{end}}'",
+    "exit_code": 0,
+    "passed": false,
+    "output_summary": "Container mounts ~/achiever-art (main repo checkout), not this worktree, and its theme copy predates the booking feature entirely — live verification would require mutating a shared checkout outside this worktree, so it was skipped as optional per the spec; all logic covered by the PHP harness instead"
   }
 ]

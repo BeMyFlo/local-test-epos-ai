@@ -45,6 +45,13 @@ $pages = [
         'content' => '<!-- wp:ai-zippy/course-intro /-->
 <!-- wp:ai-zippy/course-enquiry-form /-->',
     ],
+    [
+        'title' => 'Book a Class',
+        'slug' => 'booking',
+        'template' => 'page-booking',
+        'designed' => true,
+        'content' => '<!-- wp:ai-zippy/booking-calendar /-->',
+    ],
     ['title' => 'About Us', 'slug' => 'about-us', 'template' => 'page-about', 'designed' => false],
     ['title' => 'Single-Session Art Classes', 'slug' => 'single-session-art-classes', 'template' => 'page-single-session', 'designed' => false],
     ['title' => 'Express Art Classes', 'slug' => 'express-art-classes', 'template' => 'page-express-art', 'designed' => false],

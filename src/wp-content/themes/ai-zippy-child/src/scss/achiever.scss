@@ -1883,6 +1883,372 @@ p {
 }
 
 // =============================================================================
+// Booking Calendar (public oclass-style booking flow)
+// =============================================================================
+
+.achiever-booking-calendar {
+  padding: 60px 20px;
+  background: $achiever-blush;
+
+  @include from(lg) {
+    padding: 80px 0;
+  }
+
+  &__inner {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+
+  &__heading {
+    text-align: center;
+    color: $achiever-navy;
+    margin-bottom: 8px;
+  }
+
+  &__subheading {
+    text-align: center;
+    color: $achiever-muted;
+    margin-bottom: 40px;
+  }
+
+  &__selects {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    @include from(md) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $achiever-navy;
+    margin-bottom: 8px;
+  }
+
+  &__select {
+    width: 100%;
+    padding: 14px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9375rem;
+    border: 2px solid #e5e5e5;
+    border-radius: $achiever-radius-sm;
+    background: $achiever-white;
+    color: $achiever-navy;
+    outline: none;
+    transition: border-color $achiever-transition;
+
+    &:focus {
+      border-color: $achiever-pink;
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+  }
+
+  &__hint {
+    text-align: center;
+    color: $achiever-muted;
+    padding: 40px 0;
+  }
+
+  &__calendar {
+    background: $achiever-white;
+    border-radius: $achiever-radius-lg;
+    padding: 24px 16px;
+    box-shadow: $achiever-shadow;
+
+    @include from(md) {
+      padding: 32px 24px;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  &__nav-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+    line-height: 1;
+    color: $achiever-navy;
+    background: $achiever-white;
+    border: 2px solid #e5e5e5;
+    border-radius: $achiever-radius-round;
+    cursor: pointer;
+    transition: border-color $achiever-transition, background-color $achiever-transition;
+
+    &:hover:not(:disabled) {
+      border-color: $achiever-pink;
+      background: $achiever-grey;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+
+  &__month-label {
+    font-weight: 700;
+    color: $achiever-navy;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+  }
+
+  &__weekday {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: $achiever-muted;
+    padding: 8px 0;
+  }
+
+  &__day {
+    min-height: 64px;
+    padding: 8px 4px;
+    text-align: center;
+    background: $achiever-white;
+    border: 1px solid #e5e5e5;
+    border-radius: $achiever-radius-sm;
+    font: inherit;
+    cursor: pointer;
+    transition: border-color $achiever-transition, background-color $achiever-transition;
+
+    &:hover {
+      border-color: $achiever-pink;
+    }
+
+    &--pad {
+      visibility: hidden;
+    }
+
+    &--closed,
+    &--out {
+      background: $achiever-grey;
+      opacity: 0.7;
+      cursor: default;
+
+      &:hover {
+        border-color: #e5e5e5;
+      }
+    }
+
+    &--full {
+      background: $achiever-grey;
+      opacity: 0.8;
+    }
+
+    &--expanded {
+      border-color: $achiever-pink;
+      background: $achiever-blush;
+    }
+  }
+
+  &__day-num {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: $achiever-navy;
+  }
+
+  &__day-meta {
+    display: block;
+    font-size: 0.625rem;
+    color: $achiever-muted;
+    margin-top: 2px;
+  }
+
+  &__slots {
+    margin-top: 16px;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 16px;
+  }
+
+  &__slots-date {
+    font-weight: 700;
+    color: $achiever-navy;
+    margin-bottom: 12px;
+  }
+
+  &__slots-empty {
+    text-align: center;
+    color: $achiever-muted;
+    padding: 12px 0;
+  }
+
+  &__slot {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: $achiever-radius-sm;
+    margin-bottom: 8px;
+
+    @include until(md) {
+      flex-wrap: wrap;
+    }
+
+    &--full {
+      opacity: 0.6;
+    }
+
+    &--selected {
+      border-color: $achiever-pink;
+    }
+  }
+
+  &__slot-label {
+    flex: 1;
+    font-weight: 600;
+    color: $achiever-navy;
+  }
+
+  &__remaining {
+    font-size: 0.8125rem;
+    color: $achiever-muted;
+    white-space: nowrap;
+  }
+
+  // A full slot renders a muted disabled pill instead of the Enroll action.
+  &__enroll {
+    padding: 10px 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: $achiever-muted;
+    background: $achiever-grey;
+    border: none;
+    border-radius: 50px;
+    cursor: not-allowed;
+  }
+
+  &__panel {
+    background: $achiever-white;
+    border-radius: $achiever-radius-lg;
+    padding: 24px 16px;
+    box-shadow: $achiever-shadow;
+    margin-top: 24px;
+
+    @include from(md) {
+      padding: 40px 32px;
+    }
+  }
+
+  &__panel-title {
+    color: $achiever-navy;
+    margin-bottom: 20px;
+  }
+
+  &__summary {
+    display: grid;
+    gap: 8px;
+    margin: 0 0 24px;
+    padding: 16px;
+    background: $achiever-grey;
+    border-radius: $achiever-radius-sm;
+  }
+
+  &__summary-row {
+    display: flex;
+    gap: 12px;
+
+    dt {
+      font-weight: 600;
+      color: $achiever-muted;
+      min-width: 90px;
+    }
+
+    dd {
+      margin: 0;
+      font-weight: 600;
+      color: $achiever-navy;
+    }
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+
+    @include from(md) {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__panel input,
+  &__panel select,
+  &__panel textarea {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 14px 18px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.9375rem;
+    border: 2px solid #e5e5e5;
+    border-radius: $achiever-radius-sm;
+    background: $achiever-white;
+    color: $achiever-navy;
+    outline: none;
+    transition: border-color $achiever-transition;
+
+    &:focus {
+      border-color: $achiever-pink;
+    }
+
+    &::placeholder {
+      color: #ccc;
+    }
+  }
+
+  &__panel textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  &__submit-wrap {
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  &__status {
+    text-align: center;
+    margin: 16px 0 0;
+    font-size: 0.875rem;
+    color: #c62828;
+    min-height: 1.2em;
+  }
+
+  &__success {
+    text-align: center;
+    font-weight: 600;
+    color: #2e7d32;
+    padding: 16px 0;
+    margin: 0;
+  }
+}
+
+// =============================================================================
 // Footer
 // =============================================================================
 
@@ -2232,7 +2598,8 @@ main.achiever-page,
 .achiever-page--events,
 .achiever-page--contact,
 .achiever-page--studios,
-.achiever-page--shop {
+.achiever-page--shop,
+.achiever-page--booking {
   width: 100% !important;
   max-width: 100% !important;
 }
