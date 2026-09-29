@@ -1358,6 +1358,24 @@ if (file_exists($bookings_admin)) {
     \AiZippyChild\BookingsAdmin::register();
 }
 
+// WooCommerce bridge: only required and registered when WooCommerce is active.
+// Order creation, the order -> booking status sync and the payment-link email
+// all depend on WC APIs, so nothing is loaded on a WC-less install (the REST
+// confirm/resend handlers degrade gracefully in that case).
+if (class_exists('WooCommerce')) {
+    $booking_orders = get_stylesheet_directory() . '/inc/booking/BookingOrders.php';
+    if (file_exists($booking_orders)) {
+        require_once $booking_orders;
+        \AiZippyChild\BookingOrders::register();
+    }
+
+    $booking_mailer = get_stylesheet_directory() . '/inc/booking/BookingMailer.php';
+    if (file_exists($booking_mailer)) {
+        require_once $booking_mailer;
+        \AiZippyChild\BookingMailer::register();
+    }
+}
+
 /**
  * Normalise literal "\n" escape sequences back into real newlines.
  *
