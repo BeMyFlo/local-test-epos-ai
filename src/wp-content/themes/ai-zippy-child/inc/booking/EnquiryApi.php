@@ -527,10 +527,11 @@ class EnquiryApi
             return self::error('Please enter a valid amount.');
         }
 
-        // Degrade gracefully until the WooCommerce bridge (subtask 6) lands:
-        // no fatal, no DB writes, an explicit message for the admin UI.
-        if (!class_exists(__NAMESPACE__ . '\\BookingOrders') || !class_exists(__NAMESPACE__ . '\\BookingMailer')) {
-            return self::error('WooCommerce booking orders are not available yet, so the payment link cannot be created.');
+        // The WooCommerce bridge is only loaded when WooCommerce is active —
+        // degrade gracefully on a WC-less install: no fatal, no DB writes, an
+        // explicit message for the admin UI.
+        if (!class_exists('WooCommerce') || !class_exists(__NAMESPACE__ . '\\BookingOrders') || !class_exists(__NAMESPACE__ . '\\BookingMailer')) {
+            return self::error('WooCommerce is not active, so the payment link cannot be created.');
         }
 
         $order = BookingOrders::createOrderForBooking($booking, $amount, $note);
@@ -579,8 +580,8 @@ class EnquiryApi
             return self::error('Linked order no longer exists.', 404);
         }
 
-        if (!class_exists(__NAMESPACE__ . '\\BookingMailer')) {
-            return self::error('WooCommerce booking orders are not available yet, so the payment link cannot be resent.');
+        if (!class_exists('WooCommerce') || !class_exists(__NAMESPACE__ . '\\BookingOrders') || !class_exists(__NAMESPACE__ . '\\BookingMailer')) {
+            return self::error('WooCommerce is not active, so the payment link cannot be resent.');
         }
 
         $mail_sent = BookingMailer::sendPaymentLink($id, (int) $booking['wc_order_id']);
