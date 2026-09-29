@@ -22,6 +22,9 @@ class BookingsDb
         add_action('init',               [self::class, 'maybeUpgrade']);
         add_filter('cron_schedules',     [self::class, 'cronSchedules']);
         add_action('after_switch_theme', [self::class, 'scheduleTtlCron']);
+        // Sites where the theme was already active never re-fire after_switch_theme,
+        // so the idempotent schedule also runs on init to keep the sweep alive.
+        add_action('init',               [self::class, 'scheduleTtlCron']);
         add_action('switch_theme',       [self::class, 'unscheduleTtlCron']);
         add_action(self::TTL_HOOK,       [self::class, 'runTtlSweep']);
     }
