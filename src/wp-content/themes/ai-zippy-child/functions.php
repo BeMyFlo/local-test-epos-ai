@@ -1340,6 +1340,12 @@ if (file_exists($booking_studios)) {
     require_once $booking_studios;
 }
 
+$booking_availability = get_stylesheet_directory() . '/inc/booking/BookingAvailability.php';
+if (file_exists($booking_availability)) {
+    require_once $booking_availability;
+    \AiZippyChild\BookingAvailability::register();
+}
+
 /**
  * Normalise literal "\n" escape sequences back into real newlines.
  *
