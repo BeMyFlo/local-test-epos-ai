@@ -1329,6 +1329,17 @@ if (file_exists($form_handler)) {
     require_once $form_handler;
 }
 
+$booking_db = get_stylesheet_directory() . '/inc/booking/BookingsDb.php';
+if (file_exists($booking_db)) {
+    require_once $booking_db;
+    \AiZippyChild\BookingsDb::register();
+}
+
+$booking_studios = get_stylesheet_directory() . '/inc/booking/BookingStudios.php';
+if (file_exists($booking_studios)) {
+    require_once $booking_studios;
+}
+
 /**
  * Normalise literal "\n" escape sequences back into real newlines.
  *
