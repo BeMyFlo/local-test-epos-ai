@@ -290,6 +290,18 @@ class BookingAvailability
         return null;
     }
 
+    /** Effective capacity for the labelled slot on a date (0 = unlimited). */
+    public static function capacityForSlot(string $studio_id, string $ymd, string $programme, string $label): int
+    {
+        $default_capacity = max(0, (int) self::get($studio_id)['default_capacity']);
+        foreach (self::getSlotsForDate($studio_id, $ymd, $programme) as $slot) {
+            if ($slot['label'] === $label) {
+                return self::slotCapacity($slot, $default_capacity);
+            }
+        }
+        return 0;
+    }
+
     /**
      * Re-validate a submission. Returns an error message, or null when valid.
      * Preferred date/time are both optional on the form, so empty values pass.

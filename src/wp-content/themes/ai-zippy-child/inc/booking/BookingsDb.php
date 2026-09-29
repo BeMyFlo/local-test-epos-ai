@@ -78,26 +78,74 @@ class BookingsDb
     {
         global $wpdb;
 
+        $row = self::sanitizeRow($data);
+
         $inserted = $wpdb->insert(
             self::getTableName(),
-            [
-                'studio_id'         => sanitize_text_field($data['studio_id'] ?? ''),
-                'name'              => sanitize_text_field($data['name'] ?? ''),
-                'email'             => sanitize_email($data['email'] ?? ''),
-                'phone'             => sanitize_text_field($data['phone'] ?? ''),
-                'child_age'         => sanitize_text_field($data['child_age'] ?? ''),
-                'preferred_contact' => sanitize_text_field($data['preferred_contact'] ?? ''),
-                'programme'         => sanitize_text_field($data['programme'] ?? ''),
-                'slot_date'         => self::normalizeSlotDate($data['slot_date'] ?? ''),
-                'slot_time'         => sanitize_text_field($data['slot_time'] ?? ''),
-                'details'           => sanitize_textarea_field($data['details'] ?? ''),
-                'status'            => 'new',
-                'created_at'        => current_time('mysql'),
-            ],
+            $row,
             ['%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s']
         );
 
         return $inserted ? (int) $wpdb->insert_id : 0;
+    }
+
+    /**
+     * Insert a booking while atomically holding its slot: a single guarded
+     * INSERT ... SELECT that only lands a row when the live count of
+     * non-cancelled bookings for the slot is still under capacity.
+     * Returns the new booking id, or 0 when the guard rejected the insert
+     * (slot filled concurrently) or on a DB error.
+     */
+    public static function insertWithSlotHold(array $data, int $capacity): int
+    {
+        global $wpdb;
+
+        $row = self::sanitizeRow($data);
+
+        // No slot to hold (unlimited capacity, or no date/time given).
+        if ($capacity <= 0 || $row['slot_date'] === null || $row['slot_time'] === '') {
+            return self::insert($data);
+        }
+
+        $table = self::getTableName();
+        $sql = "INSERT INTO {$table}
+                (studio_id, name, email, phone, child_age, preferred_contact, programme, slot_date, slot_time, details, status, created_at)
+                SELECT %s,%s,%s,%s,%s,%s,%s,%s,%s,%s,'new',%s
+                FROM (SELECT COUNT(*) AS held FROM {$table}
+                      WHERE studio_id=%s AND slot_date=%s AND slot_time=%s AND status <> 'cancelled') AS t
+                WHERE t.held < %d";
+
+        $result = $wpdb->query($wpdb->prepare($sql,
+            $row['studio_id'], $row['name'], $row['email'], $row['phone'],
+            $row['child_age'], $row['preferred_contact'], $row['programme'],
+            $row['slot_date'], $row['slot_time'], $row['details'], $row['created_at'],
+            $row['studio_id'], $row['slot_date'], $row['slot_time'],
+            $capacity
+        ));
+
+        if ($result === false) {
+            error_log('[Achiever Art] Slot-hold insert failed: ' . $wpdb->last_error);
+            return 0;
+        }
+        return (int) $wpdb->rows_affected === 1 ? (int) $wpdb->insert_id : 0;
+    }
+
+    private static function sanitizeRow(array $data): array
+    {
+        return [
+            'studio_id'         => sanitize_text_field($data['studio_id'] ?? ''),
+            'name'              => sanitize_text_field($data['name'] ?? ''),
+            'email'             => sanitize_email($data['email'] ?? ''),
+            'phone'             => sanitize_text_field($data['phone'] ?? ''),
+            'child_age'         => sanitize_text_field($data['child_age'] ?? ''),
+            'preferred_contact' => sanitize_text_field($data['preferred_contact'] ?? ''),
+            'programme'         => sanitize_text_field($data['programme'] ?? ''),
+            'slot_date'         => self::normalizeSlotDate($data['slot_date'] ?? ''),
+            'slot_time'         => sanitize_text_field($data['slot_time'] ?? ''),
+            'details'           => sanitize_textarea_field($data['details'] ?? ''),
+            'status'            => 'new',
+            'created_at'        => current_time('mysql'),
+        ];
     }
 
     private static function normalizeSlotDate($value): ?string
