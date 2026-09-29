@@ -1352,6 +1352,12 @@ if (file_exists($enquiry_api)) {
     \AiZippyChild\EnquiryApi::register();
 }
 
+$bookings_admin = get_stylesheet_directory() . '/inc/booking/BookingsAdmin.php';
+if (file_exists($bookings_admin)) {
+    require_once $bookings_admin;
+    \AiZippyChild\BookingsAdmin::register();
+}
+
 /**
  * Normalise literal "\n" escape sequences back into real newlines.
  *
