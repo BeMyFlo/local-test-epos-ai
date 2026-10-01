@@ -582,3 +582,41 @@ Paste the G6 section back → the Leader flips S7 to PASS. The build is done.
   during verification — 0 new PHP fatals/warnings/notices (the `AiZippy\Product\is_product` fatals
   all pre-date it, 06:44 UTC bootstrap window, parent-theme namespace bug, untouched by this
   CSS-only change).
+
+- 2026-10-01 — **task e2f5fdba (approved spec): header background → blue #0000ff, superseding
+  899d519c (white).** `_header.scss` only: `.pmc-header` + the ≤900px nav panel
+  `background:#fff` → `background:#0000ff` (this esbuild's shortest form is the hex shorthand
+  `background:#00f` ×2 in the built CSS — not the `red`-style keyword the 62593c7c build
+  emitted), and the white-text overrides re-added (same shape the red task used, deleted by the
+  white task): `.pmc-header .brand-name` neutralizes the `.grad-text` clip
+  (`_components.scss:32`), and `.pmc-header .pmc-nav a` / `a.active` sits BEFORE the `:hover`
+  rule so the hover/`:focus-visible` pill keeps its dark ink and the `.active` arm outranks the
+  mockup `.active` color by specificity. Evidence: `npm install` (node_modules missing in this
+  fresh worktree, 1714 pkgs) then `npm run build:child` exit 0, no Sass warnings; built CSS
+  25,609 B (live white: 25,409 B, +200 B); built-CSS asserts — `background:#00f` ×2 (header +
+  panel), `.pmc-header .brand-name{color:#fff;…}` and `.pmc-header .pmc-nav
+  a,.pmc-header .pmc-nav a.active{color:#fff}` present, toggle's own `background:#fff` kept by
+  design (18 vs 20 total `background:#fff` = exactly the 2 swapped rules), zero `ff0000` /
+  `background:red` hits in the SCSS; drift gate — reverse-transform of the new built CSS (delete
+  the 2 added white-text rules, `background:#00f` → `#fff` ×2) is byte-identical to the
+  live-served 25,409 B white CSS, proving the change is exactly these 4 edits and nothing else.
+  Live note: as with 62593c7c/899d519c, the running `pricemrcopper_epos` container bind-mounts
+  the persistent main checkout (`/home/tobithongha/src-test-epos-tool`), per the S0 runbook
+  "never a worktree" rule — the live URL serves the blue header natively only after this task's
+  PR merges into that checkout AND the member runs `npm run build:child` there (the built CSS is
+  gitignored); until then visual verification ran on the real http://localhost:18770 pages with
+  the worktree CSS route-intercepted (Playwright 1.63.0, chromium 1243, PLAYWRIGHT_BROWSERS_PATH
+  pinned): 18/18 — header + open panel `rgb(0,0,255)`, sticky `top:6px`, `border-bottom` 1px,
+  brand solid white (gradient clip reset: `background:none`, `-webkit-text-fill-color` white),
+  plain + `.active` nav links white, hover pill `rgb(251,250,241)` with `rgb(20,48,61)` ink,
+  `.prism-bar` 6px sticky unchanged, 375px hamburger opens/closes (`aria-expanded`
+  false→true→false, panel flex→none, body scroll lock), no 375px horizontal scroll, zero console
+  errors; screenshots `/tmp/qa-blue-header-1440.png`, `/tmp/qa-blue-header-375-closed.png`,
+  `/tmp/qa-blue-header-375-open.png` — read back: blue header, white brand/nav text, beige hover
+  pill, blue open mobile panel with white links and prism underline. Editor parity:
+  `wp eval 'print_r(get_editor_stylesheets());'` live-returns `child-style.css` (the same file
+  this change rebuilds). `docker logs` clean during verification — 0 new PHP
+  fatals/warnings/notices (the 11 `AiZippy\Product\is_product` fatals all pre-date it, 24-Sep
+  06:44 UTC bootstrap window, parent-theme namespace bug, untouched by this CSS-only change).
+  Member post-merge step: pull the merged PR into the persistent main checkout and run
+  `npm run build:child` there.
